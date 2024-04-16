@@ -11,6 +11,8 @@ public class ArrayAndLoops : MonoBehaviour
         {
             objectsArray[i].GetComponent<Renderer>().material.color = coloursArray[i];
         }
+        
+        WhileCycle();
     }
 
     private void Update()
@@ -29,6 +31,16 @@ public class ArrayAndLoops : MonoBehaviour
         while (Input.GetKey(KeyCode.LeftShift))
         {
             Debug.Log(i++);
+        }
+    }
+
+    private void WhileCycle()
+    {
+        int i = 0;
+        while (i < 10)
+        {
+            Debug.Log(i);
+            i++;
         }
     }
 
