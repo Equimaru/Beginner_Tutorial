@@ -42,3 +42,12 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Background
+    uniqueID: 2159452251
+    locked: 0
+  - name: Target
+    uniqueID: 1323591623
+    locked: 0
+  - name: You Win
+    uniqueID: 381264833
+    locked: 0
