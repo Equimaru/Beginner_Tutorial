@@ -48,6 +48,9 @@ TagManager:
   - name: Target
     uniqueID: 1323591623
     locked: 0
+  - name: Ammo
+    uniqueID: 814116591
+    locked: 0
   - name: You Win
     uniqueID: 381264833
     locked: 0
