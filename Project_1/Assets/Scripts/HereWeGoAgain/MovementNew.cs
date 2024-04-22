@@ -10,11 +10,16 @@ public class MovementNew : MonoBehaviour
     private InputActions _inputActions;
     [SerializeField] private SpriteRenderer spriteRenderer;
     public TextMeshProUGUI scoreText;
+    public Animator carAnimator;
 
     public float speed = 5f;
-    private Vector2 _inputVector;
+    private float _inputAxis;
+
+    private bool _isWalking;
 
     private int _score = 0;
+    private static readonly int IsWalking = Animator.StringToHash("IsWalking");
+
     private void Awake()
     {
         _rb = GetComponent<Rigidbody2D>();
@@ -32,27 +37,35 @@ public class MovementNew : MonoBehaviour
 
     private void FixedUpdate()
     {
-        _rb.velocity = (Vector2.right * _inputVector.x).normalized * speed;
+        _rb.velocity = Vector2.right * _inputAxis * speed;
     }
     
     private void Update()
     {
-        _inputVector = GetInputVectorNormalized();
+        _inputAxis = GetAxisInputValueNormalized();
 
-        if (_inputVector.x > 0)
+        if (_inputAxis > 0)
         {
             spriteRenderer.flipX = false;
+            _isWalking = true;
         }
-        else if (_inputVector.x < 0)
+        else if (_inputAxis < 0)
         {
             spriteRenderer.flipX = true;
+            _isWalking = true;
         }
+        else
+        {
+            _isWalking = false;
+        }
+        
+        carAnimator.SetBool(IsWalking, _isWalking);
     }
     
-    private Vector2 GetInputVectorNormalized()
+    private float GetAxisInputValueNormalized()
     {
-        Vector2 inputVector = _inputActions.Player.Movement.ReadValue<Vector2>();
-        return inputVector = inputVector.normalized;
+        float value = _inputActions.Player.Movement.ReadValue<float>();
+        return value;
     }
 
     private void OnCollisionEnter2D(Collision2D collision)

@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7294268427102249128}
   - component: {fileID: 1318583482403252517}
   - component: {fileID: 76793071279272350}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Drone
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -92,7 +92,7 @@ GameObject:
   - component: {fileID: 4701358134847099795}
   - component: {fileID: 1034336268742908983}
   - component: {fileID: 7878023316830874894}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Idle_0
   m_TagString: Untagged
   m_Icon: {fileID: 0}

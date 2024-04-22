@@ -15,14 +15,4 @@ public class Target : MonoBehaviour
         Destroy(gameObject, 2f);
     }
 
-    void Update()
-    {
-        
-    }
-
-    private void OnMouseDown()
-    {
-        _gameManager.IncrementScore();
-        Destroy(gameObject);
-    }
 }

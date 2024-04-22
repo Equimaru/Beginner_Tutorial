@@ -25,7 +25,7 @@ public class CameraColorChanger : MonoBehaviour
 
     private void ChangeColor()
     {
-        int rnd = Random.Range(0, colorArray.Length - 1);
+        int rnd = Random.Range(0, colorArray.Length);
         if (Camera.main != null)
         {
             Camera.main.backgroundColor = colorArray[rnd];
