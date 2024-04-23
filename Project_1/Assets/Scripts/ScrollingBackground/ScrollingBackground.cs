@@ -4,15 +4,25 @@ using UnityEngine;
 
 public class ScrollingBackground : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+
+    private Material _material;
+    private Vector2 _offset;
+
+    public float xVelocity;
+    public float yVelocity;
+
+    private void Awake()
     {
-        
+        _material = GetComponent<Renderer>().material; //Try <Material>
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Start()
     {
-        
+        _offset = new Vector2(xVelocity, yVelocity);
+    }
+    // Update is called once per frame
+    private void Update()
+    {
+        _material.mainTextureOffset += _offset * Time.deltaTime;
     }
 }

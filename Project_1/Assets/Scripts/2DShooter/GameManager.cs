@@ -153,11 +153,11 @@ public class GameManager : MonoBehaviour
 
     private IEnumerator waitForReload()
     {
+        yield return new WaitForSeconds(1);
         _audioSource.clip = reload;
         _audioSource.Play();
-        yield return new WaitForSeconds(1);
         AmmunitionInitialization();
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(2);
         ammoInMag = 5;
     }
 }
