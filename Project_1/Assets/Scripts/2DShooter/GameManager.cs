@@ -33,14 +33,14 @@ public class GameManager : MonoBehaviour
 
     private InputActions _gameInput;
 
-    private int ammoInMag;
+    private int _ammoInMag;
     private int _score = 0;
     private bool _win = false;
     public LayerMask droneLayer;
 
     private void Start()
     {
-        ammoInMag = 5;
+        _ammoInMag = 5;
         AmmunitionInitialization();
 
         _gameInput = new InputActions();
@@ -92,7 +92,7 @@ public class GameManager : MonoBehaviour
 
     private void CheckForHit()
     {
-        if (ammoInMag == 0) return;
+        if (_ammoInMag == 0) return;
 
         RaycastHit2D hit = Physics2D.Raycast(_cam.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 10)), Vector2.zero, droneLayer);
 
@@ -125,28 +125,28 @@ public class GameManager : MonoBehaviour
 
     private void AmmunitionManagement()
     {
-        switch (ammoInMag)
+        switch (_ammoInMag)
         {
             case 1:
                 cartrige_1.SetActive(false);
-                ammoInMag = 0;
+                _ammoInMag = 0;
                 StartCoroutine(waitForReload());
                 break;
             case 2:
                 cartrige_2.SetActive(false);
-                ammoInMag = 1;
+                _ammoInMag = 1;
                 break;
             case 3:
                 cartrige_3.SetActive(false);
-                ammoInMag = 2;
+                _ammoInMag = 2;
                 break;
             case 4:
                 cartrige_4.SetActive(false);
-                ammoInMag = 3;
+                _ammoInMag = 3;
                 break;
             case 5:
                 cartrige_5.SetActive(false);
-                ammoInMag = 4;
+                _ammoInMag = 4;
                 break;
         }
     }
@@ -158,6 +158,6 @@ public class GameManager : MonoBehaviour
         _audioSource.Play();
         AmmunitionInitialization();
         yield return new WaitForSeconds(2);
-        ammoInMag = 5;
+        _ammoInMag = 5;
     }
 }

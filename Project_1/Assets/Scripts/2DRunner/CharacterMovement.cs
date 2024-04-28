@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class CharacterMovement : MonoBehaviour
@@ -12,6 +13,7 @@ public class CharacterMovement : MonoBehaviour
 
     private bool _jump;
     private bool _isGrounded;
+    private bool _gameOver = false;
     private static readonly int Jump1 = Animator.StringToHash("Jump");
     private static readonly int IsGrounded = Animator.StringToHash("IsGrounded");
 
@@ -32,7 +34,7 @@ public class CharacterMovement : MonoBehaviour
     {
         _isGrounded = Physics2D.Raycast(transform.position, Vector2.down, groundCheckDistance, ground);
 
-        if (GetJumpInput() && _isGrounded)
+        if (GetJumpInput() && _isGrounded && !_gameOver)
         {
             Jump();
         }
@@ -57,11 +59,14 @@ public class CharacterMovement : MonoBehaviour
         return jump;
     }
 
-    /*private void OnCollisionEnter2D(Collision2D col)
+    private void OnTriggerEnter2D(Collider2D col)
     {
-        if (col.gameObject.CompareTag("Ground"))
+        if (col.gameObject.CompareTag("Obstacle"))
         {
-            animator.SetBool(IsGrounded, true);
+            Destroy(col.gameObject);
+            animator.Play("Death");
+            _gameOver = true;
+            RunnerGameManager.Instance.GameOver();
         }
-    }*/
+    }
 }
