@@ -13,6 +13,10 @@ public class RunnerGameManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI scoreText;
     private int _score = 0;
 
+    [SerializeField] private TextMeshProUGUI playerScoreInGameOver;
+    [SerializeField] private TextMeshProUGUI maxScoreInGameOver;
+
+    
     private Button _menuButton;
     private void Awake()
     {
@@ -26,6 +30,7 @@ public class RunnerGameManager : MonoBehaviour
     {
         ObstacleSpawner.Instance.gameOver = true;
         StopScrolling();
+        ScoreBoard();
         gameOverPanel.SetActive(true);
     }
     
@@ -53,5 +58,29 @@ public class RunnerGameManager : MonoBehaviour
     {
         _score++;
         scoreText.text = _score.ToString();
+    }
+
+    private void ScoreBoard()
+    {
+        if (PlayerPrefs.HasKey("maxScore"))
+        {
+            int maxScore = PlayerPrefs.GetInt("maxScore");
+            if (maxScore < _score)
+            {
+                PlayerPrefs.SetInt("maxScore", _score);
+            }
+        }
+        else
+        {
+            PlayerPrefs.SetInt("maxScore", _score);
+        }
+
+        maxScoreInGameOver.text = $"Max score: {PlayerPrefs.GetInt("maxScore")}";
+        playerScoreInGameOver.text = $"Your score: {_score}";
+    }
+
+    public int GetScore()
+    {
+        return _score;
     }
 }

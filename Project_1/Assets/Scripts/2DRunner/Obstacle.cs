@@ -16,6 +16,11 @@ public class Obstacle : MonoBehaviour
         _rb = GetComponent<Rigidbody2D>();
     }
 
+    private void Start()
+    {
+        _rb.velocity = Vector2.left * movementSpeed;
+    }
+
     private void Update()
     {
         if (transform.position.x < _scorePosition && !_scored)
@@ -28,10 +33,5 @@ public class Obstacle : MonoBehaviour
         {
             Destroy(gameObject);
         }
-    }
-
-    private void FixedUpdate()
-    {
-        _rb.velocity = Vector2.left * movementSpeed;
     }
 }
