@@ -11,7 +11,6 @@ public class Target : MonoBehaviour
     private void Start()
     {
         _gameManager = GameObject.FindObjectOfType<GameManager>();
-        //_gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
         Destroy(gameObject, 2f);
     }
 

@@ -2,18 +2,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Bird : MonoBehaviour
+public class BackgroundFlyable : MonoBehaviour
 {
     public float velocity;
     public float startXPosition,
         endXPosition;
-    // Start is called before the first frame update
+
+    private Transform _objPos;
+    
     void Start()
     {
-        transform.position = new Vector3(startXPosition, transform.position.y, transform.position.z);
+        _objPos = GetComponent<Transform>();
+        _objPos.position = new Vector3(startXPosition, transform.position.y, _objPos.position.z);
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (transform.position.x < endXPosition)
@@ -22,7 +24,7 @@ public class Bird : MonoBehaviour
         }
         else
         {
-            transform.position = new Vector3 (startXPosition, transform.position.y, transform.position.z);
+            _objPos.position = new Vector3 (startXPosition, transform.position.y, _objPos.position.z);
         }
     }
 }
