@@ -88,6 +88,7 @@ public class GameManager : MonoBehaviour
 
         _win = true;
         winTitle.SetActive(true);
+        CursorManager.Instance.SetDefaultCursor();
     }
 
     private void CheckForHit()

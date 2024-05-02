@@ -16,6 +16,7 @@ public class RunnerGameManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI playerScoreInGameOver;
     [SerializeField] private TextMeshProUGUI maxScoreInGameOver;
 
+    private CameraControl _cameraControl;
     
     private Button _menuButton;
     private void Awake()
@@ -26,11 +27,18 @@ public class RunnerGameManager : MonoBehaviour
         }
     }
 
+    private void Start()
+    {
+        _cameraControl = Camera.main.GetComponent<CameraControl>();
+    }
+
     public void GameOver()
     {
+        Time.timeScale = 1f;
         ObstacleSpawner.Instance.gameOver = true;
         StopScrolling();
         ScoreBoard();
+        _cameraControl.DoCameraShake();
         gameOverPanel.SetActive(true);
     }
     
@@ -57,6 +65,8 @@ public class RunnerGameManager : MonoBehaviour
     public void IncrementScore()
     {
         _score++;
+        DifficultyLevelController.Instance.score = _score;
+        DifficultyLevelController.Instance.IncreaseGameSpeed();
         scoreText.text = _score.ToString();
     }
 
