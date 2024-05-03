@@ -191,6 +191,53 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &93949095
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 93949097}
+  - component: {fileID: 93949096}
+  m_Layer: 0
+  m_Name: ScoreSystem
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &93949096
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 93949095}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 20f84e066e81b8044a7149a7fc06489d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  scoreText: {fileID: 106203986}
+  score: 0
+  scoreToWin: 30
+--- !u!4 &93949097
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 93949095}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.5503418, y: -0.0027076043, z: -0.4506423}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &106203984
 GameObject:
   m_ObjectHideFlags: 0
@@ -356,10 +403,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   winTitle: {fileID: 2080658810}
-  scoreText: {fileID: 106203986}
-  droneLayer:
-    serializedVersion: 2
-    m_Bits: 64
+  spawnCooldown: 1
+  timeToDispawnTarget: 2
+  ammoInMag: 6
+  ammunitionSystem: {fileID: 747364597}
+  weaponSystem: {fileID: 652339209}
+  spawnSystem: {fileID: 2032492131}
+  scoreSystem: {fileID: 93949096}
+  audioManager: {fileID: 1287913879}
+  cursorManager: {fileID: 1001770384}
 --- !u!4 &385008530
 Transform:
   m_ObjectHideFlags: 0
@@ -505,7 +557,7 @@ GameObject:
   - component: {fileID: 652339210}
   - component: {fileID: 652339209}
   m_Layer: 0
-  m_Name: InputSystem
+  m_Name: WeaponSystem
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -523,6 +575,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 792d5e988b0b382459b18c390c91bffc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  droneLayer:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!4 &652339210
 Transform:
   m_ObjectHideFlags: 0
@@ -1563,7 +1618,7 @@ GameObject:
   - component: {fileID: 2032492132}
   - component: {fileID: 2032492131}
   m_Layer: 0
-  m_Name: TargetSpawner
+  m_Name: SpawnSystem
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1900,3 +1955,4 @@ SceneRoots:
   - {fileID: 1287913880}
   - {fileID: 652339210}
   - {fileID: 2032492132}
+  - {fileID: 93949097}

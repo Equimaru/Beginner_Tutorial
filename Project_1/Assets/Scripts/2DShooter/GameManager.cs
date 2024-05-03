@@ -1,26 +1,29 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using TMPro;
-using Unity.Mathematics;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
-using Random = UnityEngine.Random;
 
 public class GameManager : MonoBehaviour
 {
-
     public static GameManager Instance;
+    
+    private InputActions _gameInput;
     
     public GameObject winTitle;
 
-    [SerializeField] private TextMeshProUGUI scoreText;
-    private Camera _cam;
-
-    private bool _win = false;
+    [Header("Config")] 
+    [SerializeField] private float spawnCooldown;
+    [SerializeField] private float timeToDispawnTarget;
+    [SerializeField] private int ammoInMag;
     
-    private int _score = 0;
-    public LayerMask droneLayer;
+    [Header("Systems")] 
+    [SerializeField] private AmmunitionSystem ammunitionSystem;
+    [SerializeField] private WeaponSystem weaponSystem;
+    [SerializeField] private SpawnSystem spawnSystem;
+    [SerializeField] private ScoreSystem scoreSystem;
+    
+    [Header("Managers")] 
+    [SerializeField] private AudioManager audioManager;
+    [SerializeField] private CursorManager cursorManager;
+    
+    
 
     private void Start()
     {
@@ -29,47 +32,39 @@ public class GameManager : MonoBehaviour
             Instance = this;
         }
         
-        _cam = Camera.main;
+        _gameInput = new InputActions();
+        _gameInput?.Player.Enable();
         
-        TargetSpawner.Instance.StartSpawn();
+        InitAllSystems();
+        
+        cursorManager.SetGameCursor();
+        spawnSystem.StartSpawn();
     }
 
-    public void GameOver()
+    private void InitAllSystems()
     {
-        TargetSpawner.Instance.StopSpawn();
+        weaponSystem.Init(_gameInput);
+        spawnSystem.Init(spawnCooldown, timeToDispawnTarget);
+        ammunitionSystem.MagazineInitialization(ammoInMag);
+    }
+    
+    public void EndGame()
+    {
+        spawnSystem.StopSpawn();
         winTitle.SetActive(true);
-        CursorManager.Instance.SetDefaultCursor();
+        cursorManager.SetDefaultCursor();
     }
 
-    private void IncrementScore()
+    public void ProcessShotAttempt(bool hit)
     {
-        _score++;
-        Debug.Log(_score);
-
-        scoreText.text = _score.ToString();
-
-        if (_score < 10) return;
-
-        _win = true;
-        GameOver();
-    }
-
-    public void CheckForHit()
-    {
-        if (_win) return;
-        
-        RaycastHit2D hit = Physics2D.Raycast(_cam.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 10)), Vector2.zero, droneLayer);
-
-        if (hit.collider != null)
+        if (hit)
         {
-            IncrementScore();
-            AudioManager.Instance.PlayHitSound();
-            GameObject drone = hit.collider.gameObject;
-            Destroy(drone);
+            audioManager.PlayHitSound();
+            scoreSystem.IncrementScore();
         }
         else
         {
-            AudioManager.Instance.PlayMissSound();
+            audioManager.PlayMissSound();
         }
     }
 }

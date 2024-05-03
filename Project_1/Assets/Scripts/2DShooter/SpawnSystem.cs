@@ -2,23 +2,21 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TargetSpawner : MonoBehaviour
+public class SpawnSystem : MonoBehaviour
 {
-    public static TargetSpawner Instance;
-    
     public GameObject target;
 
-    private float _timeBtwSpawn = 2f;
+    private float _spawnCooldown;
+    private float _timeToDispawn;
+    
 
-    private void Start()
+    public void Init(float spawnCooldown, float timeToDispawn)
     {
-        if (Instance == null)
-        {
-            Instance = this;
-        }
+        _spawnCooldown = spawnCooldown;
+        _timeToDispawn = timeToDispawn;
     }
     
-    public void Spawn()
+    private void Spawn()
     {
         float randomX = Random.Range(-8f, 8f);
         float randomY = Random.Range(-4f, 4f);
@@ -26,6 +24,11 @@ public class TargetSpawner : MonoBehaviour
         Vector3 randomPosition = new Vector3(randomX, randomY, 0);
 
         Instantiate(target, randomPosition, Quaternion.identity);
+    }
+
+    public void StartDispawnProcedure(GameObject obj) //Make coroutine in Target instead
+    {
+        Destroy(obj, _timeToDispawn);
     }
 
     public void StartSpawn()
@@ -38,12 +41,12 @@ public class TargetSpawner : MonoBehaviour
         StopCoroutine(SpawnLoop());
     }
     
-    private IEnumerator SpawnLoop()
+    public IEnumerator SpawnLoop()
     {
-        while (true)
+        while (Application.isPlaying)
         {
             Spawn();
-            yield return new WaitForSeconds(_timeBtwSpawn);
+            yield return new WaitForSeconds(_spawnCooldown);
         }
     }
 }
