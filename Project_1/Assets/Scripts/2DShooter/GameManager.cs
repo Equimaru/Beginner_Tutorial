@@ -22,6 +22,7 @@ public class GameManager : MonoBehaviour
     [Header("Managers")] 
     [SerializeField] private AudioManager audioManager;
     [SerializeField] private CursorManager cursorManager;
+    [SerializeField] private UIManager uIManager;
     
     
 
@@ -57,6 +58,7 @@ public class GameManager : MonoBehaviour
 
     public void ProcessShotAttempt(bool hit)
     {
+        ammunitionSystem.ShotAttempt();
         if (hit)
         {
             audioManager.PlayHitSound();

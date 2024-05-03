@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class WeaponSystem : MonoBehaviour
 {
@@ -17,10 +18,15 @@ public class WeaponSystem : MonoBehaviour
     public void Init(InputActions gameInput)
     {
         _gameInput = gameInput;
-        _gameInput.Player.Weapon.performed += _ => CheckForHit(); //Get rid of anonymous event
+        _gameInput.Player.Weapon.performed += CheckForHit;
     }
-    
-    private void CheckForHit()
+
+    private void OnDisable()
+    {
+        _gameInput.Player.Weapon.performed -= CheckForHit;
+    }
+
+    private void CheckForHit(InputAction.CallbackContext callbackContext)
     {
         RaycastHit2D hit = Physics2D.Raycast(_cam.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 10)), Vector2.zero, droneLayer);
 
@@ -32,7 +38,7 @@ public class WeaponSystem : MonoBehaviour
         }
         else
         {
-            GameManager.Instance.ProcessShotAttempt(true);
+            GameManager.Instance.ProcessShotAttempt(false);
         }
     }
 }
