@@ -5,13 +5,13 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance;
     
     private InputActions _gameInput;
-    
-    public GameObject winTitle;
 
     [Header("Config")] 
+    [SerializeField] private int scoreToWin;
     [SerializeField] private float spawnCooldown;
-    [SerializeField] private float timeToDispawnTarget;
+    [SerializeField] private float dispawnTime;
     [SerializeField] private int ammoInMag;
+    [SerializeField] private float reloadTime;
     
     [Header("Systems")] 
     [SerializeField] private AmmunitionSystem ammunitionSystem;
@@ -37,6 +37,7 @@ public class GameManager : MonoBehaviour
         _gameInput?.Player.Enable();
         
         InitAllSystems();
+        SignUpForActions();
         
         cursorManager.SetGameCursor();
         spawnSystem.StartSpawn();
@@ -44,29 +45,63 @@ public class GameManager : MonoBehaviour
 
     private void InitAllSystems()
     {
+        scoreSystem.Init(scoreToWin);
         weaponSystem.Init(_gameInput);
-        spawnSystem.Init(spawnCooldown, timeToDispawnTarget);
-        ammunitionSystem.MagazineInitialization(ammoInMag);
-    }
-    
-    public void EndGame()
-    {
-        spawnSystem.StopSpawn();
-        winTitle.SetActive(true);
-        cursorManager.SetDefaultCursor();
+        spawnSystem.Init(spawnCooldown, dispawnTime);
+        ammunitionSystem.Init(ammoInMag, reloadTime);
     }
 
-    public void ProcessShotAttempt(bool hit)
+    private void SignUpForActions()
     {
-        ammunitionSystem.ShotAttempt();
-        if (hit)
-        {
-            audioManager.PlayHitSound();
-            scoreSystem.IncrementScore();
-        }
-        else
-        {
-            audioManager.PlayMissSound();
-        }
+        ScoreSystem.OnFinishScoreReached += OnFinishScoreReached;
+        WeaponSystem.OnShotHit += OnShotHit;
+        WeaponSystem.OnShotMiss += OnShotMiss;
+        AmmunitionSystem.OnReloadStarted += OnReloadStarted;
+        AmmunitionSystem.OnReloadEnded += OnReloadEnded;
+        SpawnSystem.OnSpawn += OnSpawn;
+        SpawnSystem.OnDispawn += OnDispawn;
+    }
+
+    private void OnFinishScoreReached()
+    {
+        spawnSystem.StopSpawn();
+        uIManager.ShowWinTitle();
+        cursorManager.SetDefaultCursor();
+        
+        weaponSystem.gameObject.SetActive(false);
+        ammunitionSystem.gameObject.SetActive(false);
+    }
+
+    private void OnShotHit()
+    {
+        audioManager.PlayHitSound();
+        scoreSystem.IncrementScore();
+    }
+
+    private void OnShotMiss()
+    {
+        audioManager.PlayMissSound();
+    }
+
+    private void OnReloadStarted()
+    {
+        weaponSystem.gameObject.SetActive(false);
+        audioManager.PlayReloadSound();
+    }
+
+    private void OnReloadEnded()
+    {
+        weaponSystem.gameObject.SetActive(true);
+        weaponSystem.Init(_gameInput);
+    }
+
+    private void OnSpawn()
+    {
+        Debug.Log("I'm here!");
+    }
+
+    private void OnDispawn()
+    {
+        Debug.Log("My grandma can do better than you!");
     }
 }

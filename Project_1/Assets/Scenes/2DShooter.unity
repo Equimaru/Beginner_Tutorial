@@ -221,8 +221,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   scoreText: {fileID: 106203986}
-  score: 0
-  scoreToWin: 30
 --- !u!4 &93949097
 Transform:
   m_ObjectHideFlags: 0
@@ -402,17 +400,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c0733151649c6764297242f8689b0f91, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  winTitle: {fileID: 2080658810}
+  scoreToWin: 15
   spawnCooldown: 1
-  timeToDispawnTarget: 2
-  ammoInMag: 6
+  dispawnTime: 2
+  ammoInMag: 10
+  reloadTime: 1.2
   ammunitionSystem: {fileID: 747364597}
   weaponSystem: {fileID: 652339209}
   spawnSystem: {fileID: 2032492131}
   scoreSystem: {fileID: 93949096}
   audioManager: {fileID: 1287913879}
   cursorManager: {fileID: 1001770384}
-  uIManager: {fileID: 0}
+  uIManager: {fileID: 704475453}
 --- !u!4 &385008530
 Transform:
   m_ObjectHideFlags: 0
@@ -576,9 +575,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 792d5e988b0b382459b18c390c91bffc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ammunitionSystem: {fileID: 747364597}
   droneLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 64
 --- !u!4 &652339210
 Transform:
   m_ObjectHideFlags: 0
@@ -644,6 +644,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac948f7dbfda9224c8c7171ec51231a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  winTitle: {fileID: 2080658810}
 --- !u!1 &747364595
 GameObject:
   m_ObjectHideFlags: 0
@@ -692,8 +693,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 46ab8f17eee002c4e859c12515d2b122, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cartrige: {fileID: 8476953551095043313, guid: 3e6ac1c809f2a484ebbb461a64f27bd3, type: 3}
-  distBtwCartriges: 35
+  cartridge: {fileID: 8476953551095043313, guid: 3e6ac1c809f2a484ebbb461a64f27bd3, type: 3}
+  distBtwCartridges: 35
 --- !u!1 &878710888
 GameObject:
   m_ObjectHideFlags: 0

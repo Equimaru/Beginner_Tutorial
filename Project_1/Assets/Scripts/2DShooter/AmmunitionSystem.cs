@@ -1,39 +1,64 @@
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class AmmunitionSystem : MonoBehaviour
 {
-    [SerializeField] private GameObject cartrige;
-
+    public static Action OnReloadStarted;
+    public static Action OnReloadEnded;
+    
+    [SerializeField] private GameObject cartridge;
+    [SerializeField] private float distBtwCartridges;
+    
     private List<GameObject> _mag;
-    [SerializeField] private float distBtwCartriges;
+    private float _reloadTime;
+    private int _ammoInMag;
 
+    public void Init(int ammoInMag, float reloadTime)
+    {
+        _ammoInMag = ammoInMag;
+        _reloadTime = reloadTime;
+        Reload();
+    }
 
-    public void MagazineInitialization(int ammoInMagazine)
+    private void Reload()
     {
         _mag = new List<GameObject>();
-        Vector3 cartrigePos = transform.position;
+        Vector3 cartridgePos = transform.position;
 
-        for (int i = 0; i < ammoInMagazine; i++)
+        for (int i = 0; i < _ammoInMag; i++)
         {
-            GameObject newCartrige = Instantiate(cartrige, cartrigePos, Quaternion.identity);
-            newCartrige.transform.SetParent(GameObject.FindGameObjectWithTag("AmmoSys").transform, false);
-            cartrigePos.x += distBtwCartriges;
-            _mag.Add(newCartrige);
+            GameObject newCartridge = Instantiate(cartridge, cartridgePos, Quaternion.identity);
+            newCartridge.transform.SetParent(GameObject.FindGameObjectWithTag("AmmoSys").transform, false);
+            cartridgePos.x += distBtwCartridges;
+            _mag.Add(newCartridge);
         }
     }
 
-    public void ShotAttempt()
+    public bool CheckForAmmo()
     {
-        int indexOfLastCartrige = _mag.Count - 1;
-        if (indexOfLastCartrige >= 0)
+        int indexOfLastCartridge = _mag.Count - 1;
+        if (indexOfLastCartridge > 0)
         {
-            Destroy(_mag[indexOfLastCartrige]);
-            _mag.RemoveAt(indexOfLastCartrige);
+            Destroy(_mag[indexOfLastCartridge]);
+            _mag.RemoveAt(indexOfLastCartridge);
+            return true;
         }
-        else
+        else if (indexOfLastCartridge == 0)
         {
-            Debug.Log("No ammo left!");
+            Destroy(_mag[indexOfLastCartridge]);
+            _mag.RemoveAt(indexOfLastCartridge);
+            OnReloadStarted?.Invoke();
+            StartCoroutine(StartReload());
         }
+        return false;
+    }
+
+    IEnumerator StartReload()
+    {
+        Reload();
+        yield return new WaitForSeconds(_reloadTime);
+        OnReloadEnded?.Invoke();
     }
 }

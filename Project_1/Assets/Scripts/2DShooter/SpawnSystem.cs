@@ -1,14 +1,20 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class SpawnSystem : MonoBehaviour
 {
+    public static Action OnSpawn;
+    public static Action OnDispawn;
+    
     public GameObject target;
 
     private float _spawnCooldown;
     private float _timeToDispawn;
-    
+
+    private Coroutine spawnCoroutine = null;
 
     public void Init(float spawnCooldown, float timeToDispawn)
     {
@@ -24,29 +30,40 @@ public class SpawnSystem : MonoBehaviour
         Vector3 randomPosition = new Vector3(randomX, randomY, 0);
 
         Instantiate(target, randomPosition, Quaternion.identity);
-    }
-
-    public void StartDispawnProcedure(GameObject obj) //Make coroutine in Target instead
-    {
-        Destroy(obj, _timeToDispawn);
+        OnSpawn?.Invoke();
     }
 
     public void StartSpawn()
     {
-        StartCoroutine(SpawnLoop());
+        spawnCoroutine = StartCoroutine(SpawnLoop());
     }
     
     public void StopSpawn()
     {
-        StopCoroutine(SpawnLoop());
+        StopCoroutine(spawnCoroutine);
+    }
+
+    public void StartDispawnProcedure(GameObject obj)
+    {
+        StartCoroutine(DispawnAfterTime(obj));
     }
     
-    public IEnumerator SpawnLoop()
+    private IEnumerator SpawnLoop()
     {
         while (Application.isPlaying)
         {
             Spawn();
             yield return new WaitForSeconds(_spawnCooldown);
+        }
+    }
+
+    private IEnumerator DispawnAfterTime(GameObject obj)
+    {
+        yield return new WaitForSeconds(_timeToDispawn);
+        if (obj != null)
+        {
+            Destroy(obj);
+            OnDispawn?.Invoke();
         }
     }
 }

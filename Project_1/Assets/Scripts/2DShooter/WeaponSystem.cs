@@ -1,8 +1,14 @@
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class WeaponSystem : MonoBehaviour
 {
+    public static Action OnShotHit;
+    public static Action OnShotMiss;
+
+    [SerializeField] private AmmunitionSystem ammunitionSystem;
+    
     public LayerMask droneLayer;
     
     private Camera _cam;
@@ -28,17 +34,19 @@ public class WeaponSystem : MonoBehaviour
 
     private void CheckForHit(InputAction.CallbackContext callbackContext)
     {
+        if (!ammunitionSystem.CheckForAmmo()) return;
+        
         RaycastHit2D hit = Physics2D.Raycast(_cam.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 10)), Vector2.zero, droneLayer);
 
         if (hit.collider != null)
         {
-            GameManager.Instance.ProcessShotAttempt(true);
+            OnShotHit?.Invoke();
             GameObject drone = hit.collider.gameObject;
             Destroy(drone);
         }
         else
         {
-            GameManager.Instance.ProcessShotAttempt(false);
+            OnShotMiss?.Invoke();
         }
     }
 }
