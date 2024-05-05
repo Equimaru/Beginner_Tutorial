@@ -4,9 +4,6 @@ using Random = UnityEngine.Random;
 
 public class ObstacleSpawner : MonoBehaviour
 {
-
-    public static ObstacleSpawner Instance;
-    
     [SerializeField] private GameObject[] obstacle;
 
     public bool gameOver = false;
@@ -14,17 +11,15 @@ public class ObstacleSpawner : MonoBehaviour
     private float _minSpawnTime = 1f,
         _maxSpawnTime = 2f;
 
-    private void Awake()
-    {
-        if (Instance == null)
-        {
-            Instance = this;
-        }
-    }
-    
+    public float ObstacleSpeedOnSpawn { get; private set; }
+
     private void Start()
     {
+        ObstacleSpeedOnSpawn = 12f;
+        
         StartCoroutine(Spawn());
+
+        DifficultyLevelController.OnDifficultyIncrease += IncreaseObstacleSpeedOnSpawn;
     }
 
     IEnumerator Spawn()
@@ -46,5 +41,10 @@ public class ObstacleSpawner : MonoBehaviour
     {
         int random = Random.Range(0, obstacle.Length);
         Instantiate(obstacle[random], transform.position, Quaternion.identity);
+    }
+
+    private void IncreaseObstacleSpeedOnSpawn()
+    {
+        ObstacleSpeedOnSpawn *= 1.05f;
     }
 }

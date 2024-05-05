@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class TextureScrolling : MonoBehaviour
@@ -15,14 +13,22 @@ public class TextureScrolling : MonoBehaviour
         _material = GetComponent<Renderer>().material;
 
         _offset = new Vector2(scrollingSpeed, 0);
+
+        DifficultyLevelController.OnDifficultyIncrease += IncreaseScrollSpeed;
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (isScrolling)
         {
             _material.mainTextureOffset += _offset * Time.deltaTime;
         }
+    }
+
+    private void IncreaseScrollSpeed()
+    {
+        scrollingSpeed *= 1.05f;
+
+        _offset = new Vector2(scrollingSpeed, 0);
     }
 }

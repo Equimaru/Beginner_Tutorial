@@ -8,6 +8,9 @@ public class RunnerGameManager : MonoBehaviour
 {
     public static RunnerGameManager Instance;
 
+    [SerializeField] private ObstacleSpawner obstacleSpawner;
+    [SerializeField] private DifficultyLevelController difficultyLevelController;
+
     [SerializeField] private GameObject gameOverPanel;
 
     [SerializeField] private TextMeshProUGUI scoreText;
@@ -29,13 +32,13 @@ public class RunnerGameManager : MonoBehaviour
 
     private void Start()
     {
-        _cameraControl = Camera.main.GetComponent<CameraControl>();
+        if (Camera.main != null) _cameraControl = Camera.main.GetComponent<CameraControl>();
     }
 
     public void EndPlayPhase()
     {
         Time.timeScale = 1f;
-        ObstacleSpawner.Instance.gameOver = true;
+        obstacleSpawner.gameOver = true;
         StopScrolling();
         ShowScoreBoard();
         _cameraControl.DoCameraShake();
@@ -65,8 +68,8 @@ public class RunnerGameManager : MonoBehaviour
     public void IncrementScore()
     {
         _score++;
-        DifficultyLevelController.Instance.score = _score;
-        DifficultyLevelController.Instance.IncreaseGameSpeed();
+        difficultyLevelController.score = _score;
+        difficultyLevelController.IncreaseGameSpeed();
         scoreText.text = _score.ToString();
     }
 

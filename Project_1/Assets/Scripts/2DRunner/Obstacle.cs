@@ -1,10 +1,13 @@
+using System;
 using UnityEngine;
 
 public class Obstacle : MonoBehaviour
 {
     private Rigidbody2D _rb;
+
+    private ObstacleSpawner _obstacleSpawner;
     
-    [SerializeField] private float movementSpeed;
+    private float _movementSpeed;
 
     private float _destroyPosition = -15f;
     private float _scorePosition = -7.7f;
@@ -18,7 +21,12 @@ public class Obstacle : MonoBehaviour
 
     private void Start()
     {
-        _rb.velocity = Vector2.left * movementSpeed;
+        _obstacleSpawner = GameObject.Find("ObstacleSpawner").GetComponent<ObstacleSpawner>();
+        
+        _movementSpeed = _obstacleSpawner.ObstacleSpeedOnSpawn;
+        _rb.velocity = Vector2.left * _movementSpeed;
+
+        DifficultyLevelController.OnDifficultyIncrease += IncreaseObstacleSpeed;
     }
 
     private void Update()
@@ -33,5 +41,17 @@ public class Obstacle : MonoBehaviour
         {
             Destroy(gameObject);
         }
+    }
+
+    private void OnDestroy()
+    {
+        DifficultyLevelController.OnDifficultyIncrease -= IncreaseObstacleSpeed;
+    }
+
+    private void IncreaseObstacleSpeed()
+    {
+        _movementSpeed *= 1.05f;
+        
+        _rb.velocity = Vector2.left * _movementSpeed;
     }
 }
