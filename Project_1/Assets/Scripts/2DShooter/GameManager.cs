@@ -53,13 +53,13 @@ public class GameManager : MonoBehaviour
 
     private void SignUpForActions()
     {
-        ScoreSystem.OnFinishScoreReached += OnFinishScoreReached;
-        WeaponSystem.OnShotHit += OnShotHit;
-        WeaponSystem.OnShotMiss += OnShotMiss;
-        AmmunitionSystem.OnReloadStarted += OnReloadStarted;
-        AmmunitionSystem.OnReloadEnded += OnReloadEnded;
-        SpawnSystem.OnSpawn += OnSpawn;
-        SpawnSystem.OnDispawn += OnDispawn;
+        scoreSystem.OnFinishScoreReached += OnFinishScoreReached;
+        weaponSystem.OnShotHit += OnShotHit;
+        weaponSystem.OnShotMiss += OnShotMiss;
+        ammunitionSystem.OnReloadStarted += OnReloadStarted;
+        ammunitionSystem.OnReloadEnded += OnReloadEnded;
+        spawnSystem.OnSpawn += OnSpawn;
+        spawnSystem.OnDispawn += OnDispawn;
     }
 
     private void OnFinishScoreReached()

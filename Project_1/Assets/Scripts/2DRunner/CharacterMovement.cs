@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class CharacterMovement : MonoBehaviour
 {
@@ -27,38 +28,21 @@ public class CharacterMovement : MonoBehaviour
     void Start()
     {
         _inputActions.Player.Enable();
+        _inputActions.Player.Jump.performed += Jump;
     }
 
 
-    void Update() //Why not Fixed?
-    {
-        _isGrounded = Physics2D.Raycast(transform.position, Vector2.down, groundCheckDistance, ground);
 
-        if (GetJumpInput() && _isGrounded && !_gameOver)
+    private void Jump(InputAction.CallbackContext callbackContext)
+    {
+        if (_isGrounded && !_gameOver)
         {
-            Jump();
-        }
-        
-        animator.SetBool(IsGrounded, _isGrounded);
-    }
+            _rb.velocity = Vector2.up * jumpForce;
 
-    private void Jump()
-    {
-        //_isGrounded = false;
-        
-        _rb.velocity = Vector2.up * jumpForce;
-        
-        animator.SetTrigger(Jump1);
+            animator.SetTrigger(Jump1);
+        }
     }
     
-    private bool GetJumpInput()
-    {
-        _inputActions.Player.Jump.performed += _ => _jump = true;
-        bool jump = _jump;
-        _jump = false;
-        return jump;
-    }
-
     private void OnTriggerEnter2D(Collider2D col)
     {
         if (col.gameObject.CompareTag("Obstacle"))
@@ -66,7 +50,21 @@ public class CharacterMovement : MonoBehaviour
             Destroy(col.gameObject);
             animator.Play("Death");
             _gameOver = true;
-            RunnerGameManager.Instance.GameOver();
+            RunnerGameManager.Instance.EndPlayPhase();
         }
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        _isGrounded = true;
+        
+        animator.SetBool(IsGrounded, _isGrounded);
+    }
+
+    private void OnCollisionExit2D(Collision2D other)
+    {
+        _isGrounded = false;
+        
+        animator.SetBool(IsGrounded, _isGrounded);
     }
 }

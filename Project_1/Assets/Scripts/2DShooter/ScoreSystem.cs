@@ -8,7 +8,7 @@ public class ScoreSystem : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI scoreText;
 
-    public static Action OnFinishScoreReached;
+    public Action OnFinishScoreReached;
     
     private int _score;
     private int _scoreToWin;

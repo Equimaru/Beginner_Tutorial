@@ -4,8 +4,8 @@ using UnityEngine.InputSystem;
 
 public class WeaponSystem : MonoBehaviour
 {
-    public static Action OnShotHit;
-    public static Action OnShotMiss;
+    public Action OnShotHit;
+    public Action OnShotMiss;
 
     [SerializeField] private AmmunitionSystem ammunitionSystem;
     

@@ -6,8 +6,8 @@ using Random = UnityEngine.Random;
 
 public class SpawnSystem : MonoBehaviour
 {
-    public static Action OnSpawn;
-    public static Action OnDispawn;
+    public Action OnSpawn;
+    public Action OnDispawn;
     
     public GameObject target;
 

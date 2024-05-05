@@ -5,8 +5,8 @@ using UnityEngine;
 
 public class AmmunitionSystem : MonoBehaviour
 {
-    public static Action OnReloadStarted;
-    public static Action OnReloadEnded;
+    public Action OnReloadStarted;
+    public Action OnReloadEnded;
     
     [SerializeField] private GameObject cartridge;
     [SerializeField] private float distBtwCartridges;

@@ -18,7 +18,7 @@ public class RunnerGameManager : MonoBehaviour
 
     private CameraControl _cameraControl;
     
-    private Button _menuButton;
+    private ButtonScalingUI _menuButtonScalingUI;
     private void Awake()
     {
         if (Instance == null)
@@ -32,12 +32,12 @@ public class RunnerGameManager : MonoBehaviour
         _cameraControl = Camera.main.GetComponent<CameraControl>();
     }
 
-    public void GameOver()
+    public void EndPlayPhase()
     {
         Time.timeScale = 1f;
         ObstacleSpawner.Instance.gameOver = true;
         StopScrolling();
-        ScoreBoard();
+        ShowScoreBoard();
         _cameraControl.DoCameraShake();
         gameOverPanel.SetActive(true);
     }
@@ -57,7 +57,7 @@ public class RunnerGameManager : MonoBehaviour
         SceneManager.LoadScene("2DRunner");
     }
 
-    public void Menu()
+    public void OpenMenu()
     {
         SceneManager.LoadScene("2DRunnerMenu");
     }
@@ -70,7 +70,7 @@ public class RunnerGameManager : MonoBehaviour
         scoreText.text = _score.ToString();
     }
 
-    private void ScoreBoard()
+    private void ShowScoreBoard()
     {
         if (PlayerPrefs.HasKey("maxScore"))
         {
