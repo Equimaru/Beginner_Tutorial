@@ -15,5 +15,5 @@ MonoBehaviour:
   scoreToWin: 15
   scoreLossOnMiss: 1
   scoreLossOnDispawn: 0
-  spawnCooldown: 1
+  spawnCooldown: 1.5
   dispawnTime: 2

@@ -35,14 +35,19 @@ public class WeaponSystem : MonoBehaviour
     private void CheckForHit(InputAction.CallbackContext callbackContext)
     {
         if (!ammunitionSystem.CheckForAmmo()) return;
-        
-        RaycastHit2D hit = Physics2D.Raycast(_cam.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 10)), Vector2.zero, droneLayer);
 
-        if (hit.collider != null)
+        RaycastHit2D[] hits =
+            Physics2D.RaycastAll(_cam.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 10)),
+                Vector2.zero, droneLayer);
+
+        if (hits.Length != 0)
         {
-            OnShotHit?.Invoke();
-            GameObject drone = hit.collider.gameObject;
-            Destroy(drone);
+            foreach (RaycastHit2D hit in hits)
+            {
+                OnShotHit?.Invoke();
+                GameObject drone = hit.collider.gameObject;
+                Destroy(drone);
+            }
         }
         else
         {

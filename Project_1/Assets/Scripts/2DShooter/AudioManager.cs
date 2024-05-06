@@ -2,38 +2,56 @@ using UnityEngine;
 
 public class AudioManager : MonoBehaviour
 {
-    public static AudioManager Instance;
+    [Header("Audio Sources")]
+    [SerializeField] private AudioSource musicAudioSource;
+    [SerializeField] private AudioSource weaponSystemAudioSource;
+    [SerializeField] private AudioSource ammunitionSystemAudioSource;
+    [SerializeField] private AudioSource spawnSystemAudioSource;
+    [SerializeField] private AudioSource dispawnSystemAudioSource;
+
+    [Header("Audio Clips")]
+    [SerializeField] private AudioClip backgroundMusic;
     
-    private AudioSource _audioSource;
     [SerializeField] private AudioClip hitSound;
     [SerializeField] private AudioClip missSound;
     [SerializeField] private AudioClip reloadSound;
+    [SerializeField] private AudioClip spawnSound;
+    [SerializeField] private AudioClip dispawnSound;
+
 
     private void Start()
     {
-        if (Instance == null)
-        {
-            Instance = this;
-        }
-        
-        _audioSource = GetComponent<AudioSource>();
+        musicAudioSource.clip = backgroundMusic;
+        musicAudioSource.Play();
     }
-
+    
     public void PlayHitSound()
     {
-        _audioSource.clip = hitSound;
-        _audioSource.Play();
+        weaponSystemAudioSource.clip = hitSound;
+        weaponSystemAudioSource.Play();
     }
 
     public void PlayMissSound()
     {
-        _audioSource.clip = missSound;
-        _audioSource.Play();
+        weaponSystemAudioSource.clip = missSound;
+        weaponSystemAudioSource.Play();
     }
 
     public void PlayReloadSound()
     {
-        _audioSource.clip = reloadSound;
-        _audioSource.Play();
+        ammunitionSystemAudioSource.clip = reloadSound;
+        ammunitionSystemAudioSource.Play();
+    }
+
+    public void PlaySpawnSound()
+    {
+        spawnSystemAudioSource.clip = spawnSound;
+        spawnSystemAudioSource.Play();
+    }
+    
+    public void PlayDispawnSound()
+    {
+        dispawnSystemAudioSource.clip = dispawnSound;
+        dispawnSystemAudioSource.Play();
     }
 }

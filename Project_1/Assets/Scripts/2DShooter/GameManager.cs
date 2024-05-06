@@ -15,12 +15,12 @@ public class GameManager : MonoBehaviour
     
     
     
-    [Header("Game difficulty current preset")] 
+    [Header("Current Settings Preset")] 
     [SerializeField] private SetGameDifficulty setGameDifficulty;
     [Tooltip("Fill to use game presets, otherwise custom config will be applied")]
-    [SerializeField] private bool useGDPresets;
+    [SerializeField] private bool usePreset;
     
-    [Header("Config")] 
+    [Header("Custom Config")] 
     [SerializeField] private int scoreToWin;
     [SerializeField] private int scoreLossOnMiss;
     [SerializeField] private int scoreLossOnDispawn;
@@ -40,7 +40,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private CursorManager cursorManager;
     [SerializeField] private UIManager uIManager;
 
-    [Header("Settings presets")] 
+    [Header("Settings Presets")] 
     [SerializeField] private DifficultySettings easy;
     [SerializeField] private DifficultySettings normal;
     [SerializeField] private DifficultySettings hard;
@@ -49,7 +49,7 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
-        if (useGDPresets)
+        if (usePreset)
         {
             LoadGameDifficultySettings();
             InitGameDifficultySettings();
@@ -141,24 +141,23 @@ public class GameManager : MonoBehaviour
 
     private void OnReloadStarted()
     {
-        weaponSystem.gameObject.SetActive(false);
-        audioManager.PlayReloadSound();
+        
     }
 
     private void OnReloadEnded()
     {
-        weaponSystem.gameObject.SetActive(true);
+        audioManager.PlayReloadSound();
         weaponSystem.Init(_gameInput);
     }
 
     private void OnSpawn()
     {
-        Debug.Log("I'm here!");
+        audioManager.PlaySpawnSound();
     }
 
     private void OnDispawn()
     {
+        audioManager.PlayDispawnSound();
         scoreSystem.DicreaseScore(scoreLossOnDispawn);
-        Debug.Log("My grandma can do better than you!");
     }
 }

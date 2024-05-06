@@ -14,6 +14,7 @@ public class AmmunitionSystem : MonoBehaviour
     private List<GameObject> _mag;
     private float _reloadTime;
     private int _ammoInMag;
+    public bool isReloading;
 
     public void Init(int ammoInMag, float reloadTime)
     {
@@ -38,27 +39,30 @@ public class AmmunitionSystem : MonoBehaviour
 
     public bool CheckForAmmo()
     {
+        bool isCheckPositive = (_mag.Count > 0);
         int indexOfLastCartridge = _mag.Count - 1;
-        if (indexOfLastCartridge > 0)
+
+        if (isCheckPositive)
         {
             Destroy(_mag[indexOfLastCartridge]);
             _mag.RemoveAt(indexOfLastCartridge);
-            return true;
         }
-        else if (indexOfLastCartridge == 0)
+
+        if (_mag.Count == 0 && !isReloading)
         {
-            Destroy(_mag[indexOfLastCartridge]);
-            _mag.RemoveAt(indexOfLastCartridge);
+            isReloading = true;
             OnReloadStarted?.Invoke();
             StartCoroutine(StartReload());
         }
-        return false;
+
+        return (isCheckPositive);
     }
 
     IEnumerator StartReload()
     {
-        Reload();
         yield return new WaitForSeconds(_reloadTime);
+        isReloading = false;
+        Reload();
         OnReloadEnded?.Invoke();
     }
 }
