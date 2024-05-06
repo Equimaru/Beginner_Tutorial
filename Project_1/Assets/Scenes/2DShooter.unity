@@ -529,7 +529,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   setGameDifficulty: 2
-  usePreset: 0
+  usePreset: 1
   scoreToWin: 15
   scoreLossOnMiss: 0
   scoreLossOnDispawn: 0

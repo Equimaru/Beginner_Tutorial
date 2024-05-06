@@ -11,10 +11,13 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/2DShooter.unity
     guid: 7b1491daf9364fe4b8fdae812aaaad5b
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/2DRunnerMenu.unity
     guid: 9436e9db917eeb74d91e589dd46534c1
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/2DRunner.unity
     guid: 2e33578152739d54b8ca122fa3aa7030
+  - enabled: 1
+    path: Assets/Scenes/AndroidGame.unity
+    guid: 71d949a158353d24b9e66f3a4fc4d5e2
   m_configObjects: {}
