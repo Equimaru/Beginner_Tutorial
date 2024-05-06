@@ -6,8 +6,24 @@ public class GameManager : MonoBehaviour
     
     private InputActions _gameInput;
 
+    private enum SetGameDifficulty
+    {
+        Easy,
+        Normal,
+        Hard
+    }
+    
+    
+    
+    [Header("Game difficulty current preset")] 
+    [SerializeField] private SetGameDifficulty setGameDifficulty;
+    [Tooltip("Fill to use game presets, otherwise custom config will be applied")]
+    [SerializeField] private bool useGDPresets;
+    
     [Header("Config")] 
     [SerializeField] private int scoreToWin;
+    [SerializeField] private int scoreLossOnMiss;
+    [SerializeField] private int scoreLossOnDispawn;
     [SerializeField] private float spawnCooldown;
     [SerializeField] private float dispawnTime;
     [SerializeField] private int ammoInMag;
@@ -23,8 +39,22 @@ public class GameManager : MonoBehaviour
     [SerializeField] private AudioManager audioManager;
     [SerializeField] private CursorManager cursorManager;
     [SerializeField] private UIManager uIManager;
+
+    [Header("Settings presets")] 
+    [SerializeField] private DifficultySettings easy;
+    [SerializeField] private DifficultySettings normal;
+    [SerializeField] private DifficultySettings hard;
     
-    
+    private DifficultySettings _currentSettings;
+
+    private void Awake()
+    {
+        if (useGDPresets)
+        {
+            LoadGameDifficultySettings();
+            InitGameDifficultySettings();
+        }
+    }
 
     private void Start()
     {
@@ -43,6 +73,31 @@ public class GameManager : MonoBehaviour
         spawnSystem.StartSpawn();
     }
 
+    private void LoadGameDifficultySettings()
+    {
+        if (setGameDifficulty == SetGameDifficulty.Easy)
+        {
+            _currentSettings = easy;
+        }
+        else if (setGameDifficulty == SetGameDifficulty.Normal)
+        {
+            _currentSettings = normal;
+        }
+        else
+        {
+            _currentSettings = hard;
+        }
+    }
+    
+    private void InitGameDifficultySettings()
+    {
+        scoreToWin = _currentSettings.ScoreToWin;
+        scoreLossOnMiss = _currentSettings.ScoreLossOnMiss;
+        scoreLossOnDispawn = _currentSettings.ScoreLossOnDispawm;
+        spawnCooldown = _currentSettings.SpawnCooldown;
+        dispawnTime = _currentSettings.DispawnTime;
+    }
+    
     private void InitAllSystems()
     {
         scoreSystem.Init(scoreToWin);
@@ -80,6 +135,7 @@ public class GameManager : MonoBehaviour
 
     private void OnShotMiss()
     {
+        scoreSystem.DicreaseScore(scoreLossOnMiss);
         audioManager.PlayMissSound();
     }
 
@@ -102,6 +158,7 @@ public class GameManager : MonoBehaviour
 
     private void OnDispawn()
     {
+        scoreSystem.DicreaseScore(scoreLossOnDispawn);
         Debug.Log("My grandma can do better than you!");
     }
 }

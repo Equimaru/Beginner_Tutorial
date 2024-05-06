@@ -400,10 +400,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c0733151649c6764297242f8689b0f91, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  setGameDifficulty: 2
+  useGDPresets: 1
   scoreToWin: 15
+  scoreLossOnMiss: 0
+  scoreLossOnDispawn: 0
   spawnCooldown: 1
   dispawnTime: 2
-  ammoInMag: 10
+  ammoInMag: 5
   reloadTime: 1.2
   ammunitionSystem: {fileID: 747364597}
   weaponSystem: {fileID: 652339209}
@@ -412,6 +416,9 @@ MonoBehaviour:
   audioManager: {fileID: 1287913879}
   cursorManager: {fileID: 1001770384}
   uIManager: {fileID: 704475453}
+  easy: {fileID: 11400000, guid: af75173deadceb24eaa2d5a0621d21f0, type: 2}
+  normal: {fileID: 11400000, guid: 25c309558893d1c46b19059d6990b262, type: 2}
+  hard: {fileID: 11400000, guid: 3a3b137c14ab89c47bea12da2f6019a3, type: 2}
 --- !u!4 &385008530
 Transform:
   m_ObjectHideFlags: 0

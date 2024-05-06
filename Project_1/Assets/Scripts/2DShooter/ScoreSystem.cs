@@ -1,6 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
@@ -10,8 +8,8 @@ public class ScoreSystem : MonoBehaviour
 
     public Action OnFinishScoreReached;
     
-    private int _score;
-    private int _scoreToWin;
+    private int _score,
+        _scoreToWin;
 
     public void Init(int scoreToWin)
     {
@@ -26,5 +24,11 @@ public class ScoreSystem : MonoBehaviour
         if (_score < _scoreToWin) return;
         
         OnFinishScoreReached?.Invoke();
+    }
+
+    public void DicreaseScore(int scoreLoss)
+    {
+        _score -= scoreLoss;
+        scoreText.text = _score.ToString();
     }
 }
