@@ -27,7 +27,7 @@ public class WeaponSystem : MonoBehaviour
         _gameInput.Player.Weapon.performed += CheckForHit;
     }
 
-    private void OnDisable()
+    private void OnDisable() // Get rid of
     {
         _gameInput.Player.Weapon.performed -= CheckForHit;
     }

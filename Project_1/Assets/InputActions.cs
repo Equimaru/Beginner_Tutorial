@@ -53,6 +53,24 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""touchPress"",
+                    ""type"": ""Button"",
+                    ""id"": ""7b8867b5-1202-46fb-810f-f9140d242f54"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""touchPressPosition"",
+                    ""type"": ""Value"",
+                    ""id"": ""8e485ba9-4ca4-4942-a0d5-6d12d13541a7"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -165,6 +183,28 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""action"": ""Jump"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""9c74c238-0a51-4cc0-8249-372650f4639a"",
+                    ""path"": ""<Touchscreen>/Press"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""touchPress"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e863a935-5ee9-4a14-a2a4-d6235a37f12b"",
+                    ""path"": ""<Touchscreen>/primaryTouch/startPosition"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""touchPressPosition"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -176,6 +216,8 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         m_Player_Movement = m_Player.FindAction("Movement", throwIfNotFound: true);
         m_Player_Weapon = m_Player.FindAction("Weapon", throwIfNotFound: true);
         m_Player_Jump = m_Player.FindAction("Jump", throwIfNotFound: true);
+        m_Player_touchPress = m_Player.FindAction("touchPress", throwIfNotFound: true);
+        m_Player_touchPressPosition = m_Player.FindAction("touchPressPosition", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -240,6 +282,8 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Movement;
     private readonly InputAction m_Player_Weapon;
     private readonly InputAction m_Player_Jump;
+    private readonly InputAction m_Player_touchPress;
+    private readonly InputAction m_Player_touchPressPosition;
     public struct PlayerActions
     {
         private @InputActions m_Wrapper;
@@ -247,6 +291,8 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         public InputAction @Movement => m_Wrapper.m_Player_Movement;
         public InputAction @Weapon => m_Wrapper.m_Player_Weapon;
         public InputAction @Jump => m_Wrapper.m_Player_Jump;
+        public InputAction @touchPress => m_Wrapper.m_Player_touchPress;
+        public InputAction @touchPressPosition => m_Wrapper.m_Player_touchPressPosition;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -265,6 +311,12 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
             @Jump.started += instance.OnJump;
             @Jump.performed += instance.OnJump;
             @Jump.canceled += instance.OnJump;
+            @touchPress.started += instance.OnTouchPress;
+            @touchPress.performed += instance.OnTouchPress;
+            @touchPress.canceled += instance.OnTouchPress;
+            @touchPressPosition.started += instance.OnTouchPressPosition;
+            @touchPressPosition.performed += instance.OnTouchPressPosition;
+            @touchPressPosition.canceled += instance.OnTouchPressPosition;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -278,6 +330,12 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
             @Jump.started -= instance.OnJump;
             @Jump.performed -= instance.OnJump;
             @Jump.canceled -= instance.OnJump;
+            @touchPress.started -= instance.OnTouchPress;
+            @touchPress.performed -= instance.OnTouchPress;
+            @touchPress.canceled -= instance.OnTouchPress;
+            @touchPressPosition.started -= instance.OnTouchPressPosition;
+            @touchPressPosition.performed -= instance.OnTouchPressPosition;
+            @touchPressPosition.canceled -= instance.OnTouchPressPosition;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -300,5 +358,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         void OnMovement(InputAction.CallbackContext context);
         void OnWeapon(InputAction.CallbackContext context);
         void OnJump(InputAction.CallbackContext context);
+        void OnTouchPress(InputAction.CallbackContext context);
+        void OnTouchPressPosition(InputAction.CallbackContext context);
     }
 }
