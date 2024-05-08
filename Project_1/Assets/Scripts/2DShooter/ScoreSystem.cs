@@ -29,6 +29,7 @@ public class ScoreSystem : MonoBehaviour
     public void DicreaseScore(int scoreLoss)
     {
         _score -= scoreLoss;
+        _score = Math.Max(0, _score);
         scoreText.text = _score.ToString();
     }
 }

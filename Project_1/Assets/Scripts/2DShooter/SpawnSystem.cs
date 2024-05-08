@@ -24,11 +24,20 @@ public class SpawnSystem : MonoBehaviour
     private void Spawn()
     {
         float randomX = Random.Range(-8f, 8f);
-        float randomY = Random.Range(-4f, 4f);
+        float randomY;
+        if (randomX > -1.4f && randomX < 1.4f)
+        {
+            randomY = Random.Range(-4f, 2.4f);
+        }
+        else
+        {
+            randomY = Random.Range(-4f, 4f);
+        }
 
         Vector3 randomPosition = new Vector3(randomX, randomY, 0);
 
-        Instantiate(target, randomPosition, Quaternion.identity);
+        GameObject _target = Instantiate(target, randomPosition, Quaternion.identity);
+        StartCoroutine(DispawnAfterTime(_target));
         OnSpawn?.Invoke();
     }
 
@@ -42,11 +51,6 @@ public class SpawnSystem : MonoBehaviour
         StopCoroutine(spawnCoroutine);
     }
 
-    public void StartDispawnProcedure(GameObject obj)
-    {
-        StartCoroutine(DispawnAfterTime(obj));
-    }
-    
     private IEnumerator SpawnLoop()
     {
         while (Application.isPlaying)

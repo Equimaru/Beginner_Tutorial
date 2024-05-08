@@ -39,7 +39,7 @@ public class WeaponSystem : MonoBehaviour
 
         RaycastHit2D[] hits =
             Physics2D.RaycastAll(_cam.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 10)),
-                Vector2.zero, droneLayer);
+                Vector2.zero, 10f, droneLayer);
 
         if (hits.Length != 0)
         {

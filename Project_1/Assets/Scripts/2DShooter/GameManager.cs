@@ -9,7 +9,7 @@ public class GameManager : MonoBehaviour
     private InputActions _gameInput;
     
     [Header("Current Settings Preset")]
-    [Dropdown("_Difficulties")]
+    [Dropdown("Difficulties")]
     public string Difficulty;
 
     private DifficultySettings SelectedSettings
@@ -19,7 +19,9 @@ public class GameManager : MonoBehaviour
             return Settings.Where(x => x.Difficulty == Difficulty).FirstOrDefault();
         }
     }
-    
+
+    private DifficultySettings _currentSettings;
+
     [Tooltip("Fill to use game presets, otherwise custom config will be applied")]
     [SerializeField] private bool usePreset;
     
@@ -45,15 +47,13 @@ public class GameManager : MonoBehaviour
 
     [Header("Settings Presets")]
     [SerializeField] private List<DifficultySettings> Settings;
-    private string[] _Difficulties
+    private string[] Difficulties
     {
         get
         {
             return Settings.Select(x => x.Difficulty).ToArray();
         }
     }
-
-    private DifficultySettings _currentSettings;
 
     private void Awake()
     {
