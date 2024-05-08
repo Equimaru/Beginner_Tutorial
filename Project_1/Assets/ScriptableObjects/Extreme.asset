@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 62de746e564fd7f4da3b7f3160ff5d98, type: 3}
-  m_Name: Easy
+  m_Name: Extreme
   m_EditorClassIdentifier: 
-  difficulty: Easy
-  scoreToWin: 10
-  scoreLossOnMiss: 0
-  scoreLossOnDispawn: 0
-  spawnCooldown: 2.5
-  dispawnTime: 3
+  difficulty: Extreme
+  scoreToWin: 1000
+  scoreLossOnMiss: 10
+  scoreLossOnDispawn: 20
+  spawnCooldown: 0.5
+  dispawnTime: 1

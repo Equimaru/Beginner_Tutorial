@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62de746e564fd7f4da3b7f3160ff5d98, type: 3}
   m_Name: Normal
   m_EditorClassIdentifier: 
+  difficulty: Normal
   scoreToWin: 15
   scoreLossOnMiss: 1
   scoreLossOnDispawn: 0

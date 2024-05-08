@@ -1,22 +1,25 @@
+using System;
+using System.Collections.Generic;
+using UnityEditor.Presets;
 using UnityEngine;
+using System.Linq;
 
 public class GameManager : MonoBehaviour
 {
-    public static GameManager Instance;
-    
     private InputActions _gameInput;
+    
+    [Header("Current Settings Preset")]
+    [Dropdown("_Difficulties")]
+    public string Difficulty;
 
-    private enum SetGameDifficulty
+    private DifficultySettings SelectedSettings
     {
-        Easy,
-        Normal,
-        Hard
+        get
+        {
+            return Settings.Where(x => x.Difficulty == Difficulty).FirstOrDefault();
+        }
     }
     
-    
-    
-    [Header("Current Settings Preset")] 
-    [SerializeField] private SetGameDifficulty setGameDifficulty;
     [Tooltip("Fill to use game presets, otherwise custom config will be applied")]
     [SerializeField] private bool usePreset;
     
@@ -40,11 +43,16 @@ public class GameManager : MonoBehaviour
     [SerializeField] private CursorManager cursorManager;
     [SerializeField] private UIManager uIManager;
 
-    [Header("Settings Presets")] 
-    [SerializeField] private DifficultySettings easy;
-    [SerializeField] private DifficultySettings normal;
-    [SerializeField] private DifficultySettings hard;
-    
+    [Header("Settings Presets")]
+    [SerializeField] private List<DifficultySettings> Settings;
+    private string[] _Difficulties
+    {
+        get
+        {
+            return Settings.Select(x => x.Difficulty).ToArray();
+        }
+    }
+
     private DifficultySettings _currentSettings;
 
     private void Awake()
@@ -58,11 +66,6 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        if (Instance == null)
-        {
-            Instance = this;
-        }
-        
         _gameInput = new InputActions();
         _gameInput?.Player.Enable();
         
@@ -75,18 +78,7 @@ public class GameManager : MonoBehaviour
 
     private void LoadGameDifficultySettings()
     {
-        if (setGameDifficulty == SetGameDifficulty.Easy)
-        {
-            _currentSettings = easy;
-        }
-        else if (setGameDifficulty == SetGameDifficulty.Normal)
-        {
-            _currentSettings = normal;
-        }
-        else
-        {
-            _currentSettings = hard;
-        }
+        _currentSettings = SelectedSettings;
     }
     
     private void InitGameDifficultySettings()
@@ -101,7 +93,7 @@ public class GameManager : MonoBehaviour
     private void InitAllSystems()
     {
         scoreSystem.Init(scoreToWin);
-        weaponSystem.Init(_gameInput);
+        weaponSystem.Init(_gameInput, ammunitionSystem);
         spawnSystem.Init(spawnCooldown, dispawnTime);
         ammunitionSystem.Init(ammoInMag, reloadTime);
     }
@@ -147,7 +139,6 @@ public class GameManager : MonoBehaviour
     private void OnReloadEnded()
     {
         audioManager.PlayReloadSound();
-        weaponSystem.Init(_gameInput);
     }
 
     private void OnSpawn()

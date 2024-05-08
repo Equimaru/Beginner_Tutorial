@@ -7,7 +7,7 @@ public class WeaponSystem : MonoBehaviour
     public Action OnShotHit;
     public Action OnShotMiss;
 
-    [SerializeField] private AmmunitionSystem ammunitionSystem;
+    private AmmunitionSystem ammunitionSystem;
     
     public LayerMask droneLayer;
     
@@ -21,8 +21,9 @@ public class WeaponSystem : MonoBehaviour
         _cam = Camera.main;
     }
 
-    public void Init(InputActions gameInput)
+    public void Init(InputActions gameInput, AmmunitionSystem ammoSystem)
     {
+        ammunitionSystem = ammoSystem;
         _gameInput = gameInput;
         _gameInput.Player.Weapon.performed += CheckForHit;
     }
