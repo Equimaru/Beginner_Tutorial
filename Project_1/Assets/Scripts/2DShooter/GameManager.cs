@@ -10,13 +10,13 @@ public class GameManager : MonoBehaviour
     
     [Header("Current Settings Preset")]
     [Dropdown("Difficulties")]
-    public string Difficulty;
+    public string Difficulty; //In PascalCase or proper visualization in Inspector
 
     private DifficultySettings SelectedSettings
     {
         get
         {
-            return Settings.Where(x => x.Difficulty == Difficulty).FirstOrDefault();
+            return Settings.FirstOrDefault(x => x.Difficulty == Difficulty);
         }
     }
 
@@ -46,7 +46,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private UIManager uIManager;
 
     [Header("Settings Presets")]
-    [SerializeField] private List<DifficultySettings> Settings;
+    [SerializeField] private List<DifficultySettings> Settings; //In PascalCase or proper visualization in Inspector
     private string[] Difficulties
     {
         get

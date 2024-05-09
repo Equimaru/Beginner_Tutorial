@@ -528,7 +528,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c0733151649c6764297242f8689b0f91, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Difficulty: Extreme
+  Difficulty: Hard
   usePreset: 1
   scoreToWin: 15
   scoreLossOnMiss: 0
