@@ -6,28 +6,32 @@ using Random = UnityEngine.Random;
 public class SpawnSystem : MonoBehaviour
 {
     public Action OnSpawn;
-    public Action OnDispawn;
+    public Action OnDeSpawn;
     
     public GameObject target;
 
     private float _spawnCooldown;
-    private float _timeToDispawn;
+    private float _timeToDeSpawn;
 
-    private Coroutine spawnCoroutine = null;
+    private Coroutine _spawnCoroutine = null;
 
-    public void Init(float spawnCooldown, float timeToDispawn)
+    public void Init(float spawnCooldown, float timeToDeSpawn)
     {
         _spawnCooldown = spawnCooldown;
-        _timeToDispawn = timeToDispawn;
+        _timeToDeSpawn = timeToDeSpawn;
     }
     
     private void Spawn()
     {
         float randomX = Random.Range(-8f, 8f);
         float randomY;
-        if (randomX > -1.4f && randomX < 1.4f)
+        if (randomX is > -1.4f and < 1.4f)
         {
             randomY = Random.Range(-4f, 2.4f);
+        }
+        else if (randomX is < -5.8f)
+        {
+            randomY = Random.Range(-2.7f, 4f);
         }
         else
         {
@@ -36,19 +40,19 @@ public class SpawnSystem : MonoBehaviour
 
         Vector3 randomPosition = new Vector3(randomX, randomY, 0);
 
-        GameObject _target = Instantiate(target, randomPosition, Quaternion.identity);
-        StartCoroutine(DispawnAfterTime(_target));
+        GameObject targetRef = Instantiate(target, randomPosition, Quaternion.identity);
+        StartCoroutine(DeSpawnAfterTime(targetRef));
         OnSpawn?.Invoke();
     }
 
     public void StartSpawn()
     {
-        spawnCoroutine = StartCoroutine(SpawnLoop());
+        _spawnCoroutine = StartCoroutine(SpawnLoop());
     }
     
     public void StopSpawn()
     {
-        StopCoroutine(spawnCoroutine);
+        StopCoroutine(_spawnCoroutine);
     }
 
     private IEnumerator SpawnLoop()
@@ -60,13 +64,13 @@ public class SpawnSystem : MonoBehaviour
         }
     }
 
-    private IEnumerator DispawnAfterTime(GameObject obj)
+    private IEnumerator DeSpawnAfterTime(GameObject obj)
     {
-        yield return new WaitForSeconds(_timeToDispawn);
+        yield return new WaitForSeconds(_timeToDeSpawn);
         if (obj != null)
         {
             Destroy(obj);
-            OnDispawn?.Invoke();
+            OnDeSpawn?.Invoke();
         }
     }
 }

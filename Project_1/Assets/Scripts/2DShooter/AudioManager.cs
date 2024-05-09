@@ -7,7 +7,7 @@ public class AudioManager : MonoBehaviour
     [SerializeField] private AudioSource weaponSystemAudioSource;
     [SerializeField] private AudioSource ammunitionSystemAudioSource;
     [SerializeField] private AudioSource spawnSystemAudioSource;
-    [SerializeField] private AudioSource dispawnSystemAudioSource;
+    [SerializeField] private AudioSource deSpawnSystemAudioSource;
 
     [Header("Audio Clips")]
     [SerializeField] private AudioClip backgroundMusic;
@@ -16,7 +16,7 @@ public class AudioManager : MonoBehaviour
     [SerializeField] private AudioClip missSound;
     [SerializeField] private AudioClip reloadSound;
     [SerializeField] private AudioClip spawnSound;
-    [SerializeField] private AudioClip dispawnSound;
+    [SerializeField] private AudioClip deSpawnSound;
 
 
     private void Start()
@@ -49,9 +49,9 @@ public class AudioManager : MonoBehaviour
         spawnSystemAudioSource.Play();
     }
     
-    public void PlayDispawnSound()
+    public void PlayDeSpawnSound()
     {
-        dispawnSystemAudioSource.clip = dispawnSound;
-        dispawnSystemAudioSource.Play();
+        deSpawnSystemAudioSource.clip = deSpawnSound;
+        deSpawnSystemAudioSource.Play();
     }
 }

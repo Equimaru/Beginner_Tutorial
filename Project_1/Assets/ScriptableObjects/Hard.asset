@@ -15,6 +15,6 @@ MonoBehaviour:
   difficulty: Hard
   scoreToWin: 20
   scoreLossOnMiss: 2
-  scoreLossOnDispawn: 1
+  scoreLossOnDeSpawn: 1
   spawnCooldown: 0.8
-  dispawnTime: 1.2
+  deSpawnTime: 1

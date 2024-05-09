@@ -28,9 +28,9 @@ public class GameManager : MonoBehaviour
     [Header("Custom Config")] 
     [SerializeField] private int scoreToWin;
     [SerializeField] private int scoreLossOnMiss;
-    [SerializeField] private int scoreLossOnDispawn;
+    [SerializeField] private int scoreLossOnDeSpawn;
     [SerializeField] private float spawnCooldown;
-    [SerializeField] private float dispawnTime;
+    [SerializeField] private float deSpawnTime;
     [SerializeField] private int ammoInMag;
     [SerializeField] private float reloadTime;
     
@@ -85,16 +85,16 @@ public class GameManager : MonoBehaviour
     {
         scoreToWin = _currentSettings.ScoreToWin;
         scoreLossOnMiss = _currentSettings.ScoreLossOnMiss;
-        scoreLossOnDispawn = _currentSettings.ScoreLossOnDispawm;
+        scoreLossOnDeSpawn = _currentSettings.ScoreLossOnDeSpawn;
         spawnCooldown = _currentSettings.SpawnCooldown;
-        dispawnTime = _currentSettings.DispawnTime;
+        deSpawnTime = _currentSettings.DeSpawnTime;
     }
     
     private void InitAllSystems()
     {
         scoreSystem.Init(scoreToWin);
         weaponSystem.Init(_gameInput, ammunitionSystem);
-        spawnSystem.Init(spawnCooldown, dispawnTime);
+        spawnSystem.Init(spawnCooldown, deSpawnTime);
         ammunitionSystem.Init(ammoInMag, reloadTime);
     }
 
@@ -106,7 +106,7 @@ public class GameManager : MonoBehaviour
         ammunitionSystem.OnReloadStarted += OnReloadStarted;
         ammunitionSystem.OnReloadEnded += OnReloadEnded;
         spawnSystem.OnSpawn += OnSpawn;
-        spawnSystem.OnDispawn += OnDispawn;
+        spawnSystem.OnDeSpawn += OnDeSpawn;
     }
 
     private void OnFinishScoreReached()
@@ -127,7 +127,7 @@ public class GameManager : MonoBehaviour
 
     private void OnShotMiss()
     {
-        scoreSystem.DicreaseScore(scoreLossOnMiss);
+        scoreSystem.DeCreaseScore(scoreLossOnMiss);
         audioManager.PlayMissSound();
     }
 
@@ -146,9 +146,9 @@ public class GameManager : MonoBehaviour
         audioManager.PlaySpawnSound();
     }
 
-    private void OnDispawn()
+    private void OnDeSpawn()
     {
-        audioManager.PlayDispawnSound();
-        scoreSystem.DicreaseScore(scoreLossOnDispawn);
+        audioManager.PlayDeSpawnSound();
+        scoreSystem.DeCreaseScore(scoreLossOnDeSpawn);
     }
 }

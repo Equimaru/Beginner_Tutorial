@@ -532,9 +532,9 @@ MonoBehaviour:
   usePreset: 1
   scoreToWin: 15
   scoreLossOnMiss: 0
-  scoreLossOnDispawn: 0
+  scoreLossOnDeSpawn: 0
   spawnCooldown: 1
-  dispawnTime: 20
+  deSpawnTime: 5
   ammoInMag: 5
   reloadTime: 1.2
   ammunitionSystem: {fileID: 747364597}
@@ -546,8 +546,8 @@ MonoBehaviour:
   uIManager: {fileID: 704475453}
   Settings:
   - {fileID: 11400000, guid: af75173deadceb24eaa2d5a0621d21f0, type: 2}
-  - {fileID: 11400000, guid: 3a3b137c14ab89c47bea12da2f6019a3, type: 2}
   - {fileID: 11400000, guid: 25c309558893d1c46b19059d6990b262, type: 2}
+  - {fileID: 11400000, guid: 3a3b137c14ab89c47bea12da2f6019a3, type: 2}
   - {fileID: 11400000, guid: 83f63f6d2c528cb458456c08afe60dea, type: 2}
 --- !u!4 &385008530
 Transform:
@@ -1648,13 +1648,13 @@ MonoBehaviour:
   weaponSystemAudioSource: {fileID: 652339211}
   ammunitionSystemAudioSource: {fileID: 747364598}
   spawnSystemAudioSource: {fileID: 107269380}
-  dispawnSystemAudioSource: {fileID: 1715793074}
+  deSpawnSystemAudioSource: {fileID: 1715793074}
   backgroundMusic: {fileID: 8300000, guid: 43981870ea2f9f64cae8efda620ef141, type: 3}
   hitSound: {fileID: 8300000, guid: 628c7c99229390c40aa5ea7c4061fe8d, type: 3}
   missSound: {fileID: 8300000, guid: c6c33ff08e240b045938270b58c5cd15, type: 3}
   reloadSound: {fileID: 8300000, guid: 9aa5f4304160add4fb3d09c03dbeff44, type: 3}
   spawnSound: {fileID: 8300000, guid: 1ef31c7689980aa49bc6d08992ffc0ec, type: 3}
-  dispawnSound: {fileID: 8300000, guid: 8966cadd0b7a2584a860b89c342d3720, type: 3}
+  deSpawnSound: {fileID: 8300000, guid: 8966cadd0b7a2584a860b89c342d3720, type: 3}
 --- !u!4 &1287913880
 Transform:
   m_ObjectHideFlags: 0
@@ -2439,7 +2439,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4778779430712003929, guid: 5208dd4659f1ad940aca5d24864168de, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6721850737323779840, guid: 5208dd4659f1ad940aca5d24864168de, type: 3}
       propertyPath: m_Name

@@ -7,7 +7,7 @@ public class WeaponSystem : MonoBehaviour
     public Action OnShotHit;
     public Action OnShotMiss;
 
-    private AmmunitionSystem ammunitionSystem;
+    private AmmunitionSystem _ammunitionSystem;
     
     public LayerMask droneLayer;
     
@@ -23,7 +23,7 @@ public class WeaponSystem : MonoBehaviour
 
     public void Init(InputActions gameInput, AmmunitionSystem ammoSystem)
     {
-        ammunitionSystem = ammoSystem;
+        _ammunitionSystem = ammoSystem;
         _gameInput = gameInput;
         _gameInput.Player.Weapon.performed += CheckForHit;
     }
@@ -35,7 +35,7 @@ public class WeaponSystem : MonoBehaviour
 
     private void CheckForHit(InputAction.CallbackContext callbackContext)
     {
-        if (!ammunitionSystem.CheckForAmmo()) return;
+        if (!_ammunitionSystem.CheckForAmmo()) return;
 
         RaycastHit2D[] hits =
             Physics2D.RaycastAll(_cam.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 10)),

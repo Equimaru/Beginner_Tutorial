@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Extreme
   m_EditorClassIdentifier: 
   difficulty: Extreme
-  scoreToWin: 1000
+  scoreToWin: 30
   scoreLossOnMiss: 10
-  scoreLossOnDispawn: 20
+  scoreLossOnDeSpawn: 5
   spawnCooldown: 0.5
-  dispawnTime: 1
+  deSpawnTime: 1

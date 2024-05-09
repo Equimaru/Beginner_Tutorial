@@ -9,11 +9,11 @@ public class DifficultySettings : ScriptableObject
     public int ScoreToWin => scoreToWin;
     [SerializeField] private int scoreLossOnMiss;
     public int ScoreLossOnMiss => scoreLossOnMiss;
-    [SerializeField] private int scoreLossOnDispawn;
-    public int ScoreLossOnDispawm => scoreLossOnDispawn;
+    [SerializeField] private int scoreLossOnDeSpawn;
+    public int ScoreLossOnDeSpawn => scoreLossOnDeSpawn;
     [SerializeField] private float spawnCooldown;
     public float SpawnCooldown => spawnCooldown;
-    [SerializeField] private float dispawnTime;
-    public float DispawnTime => dispawnTime;
+    [SerializeField] private float deSpawnTime;
+    public float DeSpawnTime => deSpawnTime;
     
 }

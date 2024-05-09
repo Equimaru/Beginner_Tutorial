@@ -26,7 +26,7 @@ public class ScoreSystem : MonoBehaviour
         OnFinishScoreReached?.Invoke();
     }
 
-    public void DicreaseScore(int scoreLoss)
+    public void DeCreaseScore(int scoreLoss)
     {
         _score -= scoreLoss;
         _score = Math.Max(0, _score);
