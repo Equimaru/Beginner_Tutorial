@@ -57,3 +57,6 @@ TagManager:
   - name: You Win
     uniqueID: 381264833
     locked: 0
+  - name: Settings UI
+    uniqueID: 3298429897
+    locked: 0
