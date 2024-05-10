@@ -1,3 +1,5 @@
+using DG.Tweening;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -11,19 +13,42 @@ public class UIManager : MonoBehaviour
     [SerializeField] private Button resetButton;
     [SerializeField] private Button exitButton;
 
-    private bool settingsPanelIsOpened;
+    private bool settingsPanelIsOpened = false;
+    private bool animationInProgress = false;
 
     public void ToggleSettingsPanel()
     {
-        if (settingsPanelIsOpened)
+        if (!settingsPanelIsOpened && !animationInProgress)
         {
-
+            StartCoroutine(OpenSettingsPanel());
+        }
+        else if (!animationInProgress) 
+        {
+            StartCoroutine(CloseSettingsPanel());
         }
     }
 
-    private void OpenSettingsPanel()
+    private IEnumerator OpenSettingsPanel()
     {
+        animationInProgress = true;
+        settingsPanel.SetActive(true);
+        settingsPanel.transform.DOScale(1, 0.5f);
+        yield return new WaitForSeconds(0.5f);
+        settingsPanelIsOpened = true;
+        animationInProgress = false;
+        yield return null;
+    }
 
+
+    private IEnumerator CloseSettingsPanel()
+    {
+        animationInProgress = true;
+        settingsPanel.transform.DOScale(0, 0.5f);
+        yield return new WaitForSeconds(0.5f);
+        settingsPanel.SetActive(false);
+        settingsPanelIsOpened = false;
+        animationInProgress = false;
+        yield return null;
     }
 
 

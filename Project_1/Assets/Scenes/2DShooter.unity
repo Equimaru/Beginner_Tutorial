@@ -649,7 +649,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &110423918
 RectTransform:
   m_ObjectHideFlags: 0
@@ -659,16 +659,16 @@ RectTransform:
   m_GameObject: {fileID: 110423917}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 0.001, y: 0.001, z: 0.001}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 1161957930}
   m_Father: {fileID: 1164634523}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 730, y: 109}
-  m_SizeDelta: {x: 259.65, y: 377.27}
+  m_AnchoredPosition: {x: 730, y: 110}
+  m_SizeDelta: {x: 260, y: 380}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &110423919
 MonoBehaviour:
@@ -1089,12 +1089,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   winTitle: {fileID: 2080658810}
-  settingsPanel: {fileID: 0}
-  MusicButton: {fileID: 0}
-  sFXButton: {fileID: 0}
-  settingsButton: {fileID: 0}
-  resetButton: {fileID: 0}
-  exitButton: {fileID: 0}
+  settingsPanel: {fileID: 110423917}
+  MusicButton: {fileID: 1804931100}
+  sFXButton: {fileID: 716721681}
+  settingsButton: {fileID: 1129000597}
+  resetButton: {fileID: 38511570}
+  exitButton: {fileID: 805532070}
 --- !u!1 &716721681
 GameObject:
   m_ObjectHideFlags: 0
@@ -1992,7 +1992,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1129000598}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 704475453}
+        m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
+        m_MethodName: ToggleSettingsPanel
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1129000598
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3761,7 +3773,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!212 &2080658811
 SpriteRenderer:
   m_ObjectHideFlags: 0
