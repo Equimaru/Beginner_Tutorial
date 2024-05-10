@@ -218,7 +218,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 38511571}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 704475453}
+        m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
+        m_MethodName: RestartGame
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &38511571
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -659,17 +671,17 @@ RectTransform:
   m_GameObject: {fileID: 110423917}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.001, y: 0.001, z: 0.001}
+  m_LocalScale: {x: 0, y: 0, z: 0}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 1161957930}
   m_Father: {fileID: 1164634523}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 730, y: 110}
-  m_SizeDelta: {x: 260, y: 380}
-  m_Pivot: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 813, y: 310}
+  m_SizeDelta: {x: 360, y: 480}
+  m_Pivot: {x: 0.85, y: 1}
 --- !u!114 &110423919
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -751,6 +763,7 @@ MonoBehaviour:
   weaponSystem: {fileID: 652339209}
   spawnSystem: {fileID: 2032492131}
   scoreSystem: {fileID: 93949096}
+  settingsPanelUISystem: {fileID: 1164634524}
   audioManager: {fileID: 1287913879}
   cursorManager: {fileID: 1001770384}
   uIManager: {fileID: 704475453}
@@ -926,6 +939,10 @@ MonoBehaviour:
   droneLayer:
     serializedVersion: 2
     m_Bits: 64
+  uILayer:
+    serializedVersion: 2
+    m_Bits: 0
+  isMouseOverUI: 0
 --- !u!4 &652339210
 Transform:
   m_ObjectHideFlags: 0
@@ -2375,6 +2392,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1164634523}
+  - component: {fileID: 1164634524}
   m_Layer: 5
   m_Name: Settings
   m_TagString: Untagged
@@ -2403,6 +2421,18 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1164634524
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1164634522}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff1f8f4b4fd53bb4c906420a58281e92, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1176693361
 GameObject:
   m_ObjectHideFlags: 0

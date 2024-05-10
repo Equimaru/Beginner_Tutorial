@@ -10,7 +10,7 @@ public class GameManager : MonoBehaviour
     
     [Header("Current Settings Preset")]
     [Dropdown("Difficulties")]
-    public string Difficulty; //In PascalCase or proper visualization in Inspector
+    public string Difficulty; //In PascalCase for proper visualization in Inspector
 
     private DifficultySettings SelectedSettings
     {
@@ -39,6 +39,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private WeaponSystem weaponSystem;
     [SerializeField] private SpawnSystem spawnSystem;
     [SerializeField] private ScoreSystem scoreSystem;
+    [SerializeField] private SettingsPanelUISystem settingsPanelUISystem;
     
     [Header("Managers")] 
     [SerializeField] private AudioManager audioManager;
@@ -107,6 +108,8 @@ public class GameManager : MonoBehaviour
         ammunitionSystem.OnReloadEnded += OnReloadEnded;
         spawnSystem.OnSpawn += OnSpawn;
         spawnSystem.OnDeSpawn += OnDeSpawn;
+        settingsPanelUISystem.OnMouseOverUIEnter += OnMouseOverUIEnter;
+        settingsPanelUISystem.OnMouseOverUIExit += OnMouseOverUIExit;
     }
 
     private void OnFinishScoreReached()
@@ -150,5 +153,15 @@ public class GameManager : MonoBehaviour
     {
         audioManager.PlayDeSpawnSound();
         scoreSystem.DeCreaseScore(scoreLossOnDeSpawn);
+    }
+
+    private void OnMouseOverUIEnter()
+    {
+        weaponSystem.isMouseOverUI = true;
+    }
+
+    private void OnMouseOverUIExit()
+    {
+        weaponSystem.isMouseOverUI = false;
     }
 }

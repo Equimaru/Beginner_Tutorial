@@ -1,6 +1,9 @@
 using DG.Tweening;
+using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
@@ -49,6 +52,11 @@ public class UIManager : MonoBehaviour
         settingsPanelIsOpened = false;
         animationInProgress = false;
         yield return null;
+    }
+
+    public void RestartGame()
+    {
+        SceneManager.LoadScene("2DShooter");
     }
 
 

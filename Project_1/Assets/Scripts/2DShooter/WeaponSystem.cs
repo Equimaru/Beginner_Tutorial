@@ -10,11 +10,13 @@ public class WeaponSystem : MonoBehaviour
     private AmmunitionSystem _ammunitionSystem;
     
     public LayerMask droneLayer;
+    public LayerMask uILayer;
     
     private Camera _cam;
     
     private InputActions _gameInput;
     private bool _gameEnded;
+    public bool isMouseOverUI;
 
     private void Start()
     {
@@ -35,6 +37,7 @@ public class WeaponSystem : MonoBehaviour
 
     private void CheckForHit(InputAction.CallbackContext callbackContext)
     {
+        if (isMouseOverUI) return;
         if (!_ammunitionSystem.CheckForAmmo()) return;
 
         RaycastHit2D[] hits =
