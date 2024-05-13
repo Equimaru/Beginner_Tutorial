@@ -1,7 +1,11 @@
 using UnityEngine;
+using UnityEngine.Audio;
 
 public class AudioManager : MonoBehaviour
 {
+    [Header("AudioMixer")] 
+    [SerializeField] private AudioMixer audioMixer;
+    
     [Header("Audio Sources")]
     [SerializeField] private AudioSource musicAudioSource;
     [SerializeField] private AudioSource weaponSystemAudioSource;
@@ -11,13 +15,14 @@ public class AudioManager : MonoBehaviour
 
     [Header("Audio Clips")]
     [SerializeField] private AudioClip backgroundMusic;
-    
     [SerializeField] private AudioClip hitSound;
     [SerializeField] private AudioClip missSound;
     [SerializeField] private AudioClip reloadSound;
     [SerializeField] private AudioClip spawnSound;
     [SerializeField] private AudioClip deSpawnSound;
 
+    private float _sFXVolumeBuffer;
+    private float _musicVolumeBuffer;
 
     private void Start()
     {
@@ -53,5 +58,33 @@ public class AudioManager : MonoBehaviour
     {
         deSpawnSystemAudioSource.clip = deSpawnSound;
         deSpawnSystemAudioSource.Play();
+    }
+
+    public void ToggleSFXVolume()
+    {
+        audioMixer.GetFloat("SFX", out float volume);
+        if (volume == -80f)
+        {
+            audioMixer.SetFloat("SFX", _sFXVolumeBuffer);
+        }
+        else
+        {
+            _sFXVolumeBuffer = volume;
+            audioMixer.SetFloat("SFX", -80f);
+        }
+    }
+
+    public void ToggleMusicVolume()
+    {
+        audioMixer.GetFloat("Music", out float volume);
+        if (volume == -80f)
+        {
+            audioMixer.SetFloat("Music", _musicVolumeBuffer);
+        }
+        else
+        {
+            _musicVolumeBuffer = volume;
+            audioMixer.SetFloat("Music", -80f);
+        }
     }
 }

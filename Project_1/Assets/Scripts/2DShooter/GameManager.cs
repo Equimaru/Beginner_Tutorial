@@ -1,8 +1,8 @@
-using System;
 using System.Collections.Generic;
-using UnityEditor.Presets;
 using UnityEngine;
 using System.Linq;
+using UnityEditor;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -101,6 +101,7 @@ public class GameManager : MonoBehaviour
 
     private void SignUpForActions()
     {
+        #region Gameplay
         scoreSystem.OnFinishScoreReached += OnFinishScoreReached;
         weaponSystem.OnShotHit += OnShotHit;
         weaponSystem.OnShotMiss += OnShotMiss;
@@ -108,8 +109,16 @@ public class GameManager : MonoBehaviour
         ammunitionSystem.OnReloadEnded += OnReloadEnded;
         spawnSystem.OnSpawn += OnSpawn;
         spawnSystem.OnDeSpawn += OnDeSpawn;
+        #endregion
+
+        #region UI
         settingsPanelUISystem.OnMouseOverUIEnter += OnMouseOverUIEnter;
         settingsPanelUISystem.OnMouseOverUIExit += OnMouseOverUIExit;
+        uIManager.OnGameRestartRequest += OnGameRestartRequest;
+        uIManager.OnGameExitRequest += OnGameExitRequest;
+        uIManager.OnSFXVolumeToggled += OnSFXVolumeToggled;
+        uIManager.OnMusicVolumeToggled += OnMusicVolumeToggled;
+        #endregion
     }
 
     private void OnFinishScoreReached()
@@ -155,6 +164,7 @@ public class GameManager : MonoBehaviour
         scoreSystem.DeCreaseScore(scoreLossOnDeSpawn);
     }
 
+    #region  Settings UI related methods
     private void OnMouseOverUIEnter()
     {
         weaponSystem.isMouseOverUI = true;
@@ -164,4 +174,32 @@ public class GameManager : MonoBehaviour
     {
         weaponSystem.isMouseOverUI = false;
     }
+
+    private void OnGameRestartRequest()
+    {
+        SceneManager.LoadScene("2DShooter");
+    }
+
+    private void OnGameExitRequest()
+    {
+        if (Application.isEditor)
+        {
+            EditorApplication.isPlaying = false;
+        }
+        else
+        {
+            Application.Quit();
+        }
+    }
+
+    private void OnSFXVolumeToggled()
+    {
+        audioManager.ToggleSFXVolume();
+    }
+
+    private void OnMusicVolumeToggled()
+    {
+        audioManager.ToggleMusicVolume();
+    }
+    #endregion
 }
