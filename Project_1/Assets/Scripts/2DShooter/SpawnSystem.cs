@@ -29,9 +29,13 @@ public class SpawnSystem : MonoBehaviour
         {
             randomY = Random.Range(-4f, 2.4f);
         }
-        else if (randomX is < -5.8f)
+        else if (randomX < -5.8f)
         {
             randomY = Random.Range(-2.7f, 4f);
+        }
+        else if (randomX > 6.6f)
+        {
+            randomY = Random.Range(-4f, 2.7f);
         }
         else
         {

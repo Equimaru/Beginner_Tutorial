@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using Sirenix.OdinInspector;
 using UnityEditor;
 using UnityEngine.SceneManagement;
 
@@ -9,7 +10,7 @@ public class GameManager : MonoBehaviour
     private InputActions _gameInput;
     
     [Header("Current Settings Preset")]
-    [Dropdown("Difficulties")]
+    [ValueDropdown("Difficulties")]
     public string Difficulty; //In PascalCase for proper visualization in Inspector
 
     private DifficultySettings SelectedSettings
