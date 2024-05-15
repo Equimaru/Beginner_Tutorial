@@ -5,9 +5,10 @@ namespace Runner
 {
     public class DifficultyLevelController : MonoBehaviour
     {
-        public static Action OnDifficultyIncrease;
+        public Action OnDifficultyIncrease;
+        
+        private SpawnSystem _spawnSystem;
 
-        [SerializeField] private float gameDifficultyModificator;
         [SerializeField] private float gameDifficultyCap;
 
         public int score;

@@ -7,6 +7,8 @@ namespace Runner
     public class SpawnSystem : MonoBehaviour
     {
         [SerializeField] private GameObject[] obstacle;
+        
+        private DifficultyLevelController _difficultyLevelController;
 
         public bool gameOver = false;
 
@@ -15,15 +17,18 @@ namespace Runner
 
         public float ObstacleSpeedOnSpawn { get; private set; }
 
-        private void Start()
+        public void Init(DifficultyLevelController difficultyLevelController, float minSpawnTime, float maxSpawnTime)
         {
+            _difficultyLevelController = difficultyLevelController;
+            _minSpawnTime = minSpawnTime;
+            _maxSpawnTime = maxSpawnTime;
+            
             ObstacleSpeedOnSpawn = 12f;
-        
             StartCoroutine(Spawn());
 
-            DifficultyLevelController.OnDifficultyIncrease += IncreaseObstacleSpeedOnSpawn;
+            _difficultyLevelController.OnDifficultyIncrease += IncreaseObstacleSpeedOnSpawn;
         }
-
+        
         IEnumerator Spawn()
         {
             float waitTime = 1f;
@@ -42,7 +47,9 @@ namespace Runner
         private void SpawnObstacle()
         {
             int random = Random.Range(0, obstacle.Length);
-            Instantiate(obstacle[random], transform.position, Quaternion.identity);
+            GameObject newObstacle = Instantiate(obstacle[random], transform.position, Quaternion.identity);
+            Obstacle newObstacleScript = newObstacle.GetComponent<Obstacle>();
+            newObstacleScript.Init(_difficultyLevelController, ObstacleSpeedOnSpawn);
         }
 
         private void IncreaseObstacleSpeedOnSpawn()

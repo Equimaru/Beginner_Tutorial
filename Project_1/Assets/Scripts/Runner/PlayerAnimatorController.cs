@@ -11,8 +11,6 @@ namespace Runner
         private static readonly int Jump1 = Animator.StringToHash("Jump");
         private static readonly int IsGrounded = Animator.StringToHash("IsGrounded");
         
-        
-
         public void ProcessJumpAnimationGroup()
         {
             animator.SetBool(IsGrounded, false);

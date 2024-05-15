@@ -7,6 +7,9 @@ namespace Runner
 {
     [Header("Config")] 
     [SerializeField] private float jumpForce;
+    [SerializeField] private float minSpawnTime,
+        maxSpawnTime;
+    
     
     [Header("Managers")] 
     [SerializeField] private AudioManager audioManager;
@@ -38,6 +41,14 @@ namespace Runner
     private void InitAllSystems()
     {
         playerMovementController.Init(_inputActions, jumpForce);
+        spawnSystem.Init(difficultyLevelController, minSpawnTime, maxSpawnTime);
+        
+        
+        TextureScrolling[] scrollingObjects = FindObjectsOfType<TextureScrolling>();
+        foreach (TextureScrolling i in scrollingObjects)
+        {
+            i.Init(difficultyLevelController);
+        }
     }
 
     private void SignUpForActions()
