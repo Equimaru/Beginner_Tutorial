@@ -3479,8 +3479,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   jumpForce: 14
-  minSpawnTime: 1
-  maxSpawnTime: 2
+  minSpawnTime: 0.5
+  maxSpawnTime: 1
   audioManager: {fileID: 1525557392}
   uIManager: {fileID: 1523474628}
   scoreSystem: {fileID: 1850022680}

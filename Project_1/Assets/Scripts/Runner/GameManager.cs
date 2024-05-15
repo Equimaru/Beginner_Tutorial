@@ -77,6 +77,8 @@ namespace Runner
         cameraControlSystem.DoCameraShake();
         playerAnimatorController.ProcessDeathAnimationGroup();
         spawnSystem.gameOver = true;
+        playerMovementController.TurnOffMovement();
+        spawnSystem.StopObstaclesMovement();
         textureScrollingController.StopScrolling();
         uIManager.ShowScoreBoard();
         uIManager.ShowGameOverPanel();

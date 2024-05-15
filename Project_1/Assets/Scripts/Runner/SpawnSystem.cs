@@ -56,6 +56,15 @@ namespace Runner
         {
             ObstacleSpeedOnSpawn *= 1.05f;
         }
+
+        public void StopObstaclesMovement()
+        {
+            Obstacle[] obstacles = FindObjectsOfType<Obstacle>();
+            foreach (Obstacle i in obstacles)
+            {
+                i.StopMovement();
+            }
+        }
     }
 }
 

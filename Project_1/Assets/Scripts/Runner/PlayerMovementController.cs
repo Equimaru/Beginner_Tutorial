@@ -43,6 +43,11 @@ namespace Runner
                 _rb.velocity = Vector2.up * _jumpForce;
             }
         }
+
+        public void TurnOffMovement()
+        {
+            _gameOver = true;
+        }
         
         private void OnTriggerEnter2D(Collider2D col)
         {

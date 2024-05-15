@@ -15,17 +15,13 @@ namespace Runner
             _rb = GetComponent<Rigidbody2D>();
         }
 
-        private void Start()
-        {
-            _rb.velocity = Vector2.left * _movementSpeed;
-
-            _difficultyLevelController.OnDifficultyIncrease += IncreaseObstacleSpeed;
-        }
-
         public void Init(DifficultyLevelController difficultyLevelController, float movementSpeed)
         {
             _difficultyLevelController = difficultyLevelController;
             _movementSpeed = movementSpeed;
+            _rb.velocity = Vector2.left * _movementSpeed;
+
+            _difficultyLevelController.OnDifficultyIncrease += IncreaseObstacleSpeed;
         }
         
         private void OnDestroy()
@@ -38,6 +34,11 @@ namespace Runner
             _movementSpeed *= 1.05f;
         
             _rb.velocity = Vector2.left * _movementSpeed;
+        }
+
+        public void StopMovement()
+        {
+            _rb.velocity = Vector2.zero;
         }
     }
 }
