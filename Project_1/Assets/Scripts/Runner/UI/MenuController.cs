@@ -8,6 +8,16 @@ namespace Runner
 {
     public class MenuController : MonoBehaviour
     {
+
+        private void Start()
+        {
+            TextureScrolling[] scrollingObjects = FindObjectsOfType<TextureScrolling>();
+            foreach (TextureScrolling i in scrollingObjects)
+            {
+                i.InitForMenu();
+            }
+        }
+        
         public void Play()
         {
             SceneManager.LoadScene("2DRunner");

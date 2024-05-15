@@ -5,7 +5,7 @@ using DG.Tweening;
 
 namespace Runner
 {
-    public class GameOverPanel : MonoBehaviour
+    public class GameOverPanelController : MonoBehaviour
     {
         void Start()
         {

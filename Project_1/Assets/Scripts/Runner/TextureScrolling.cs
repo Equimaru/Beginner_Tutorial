@@ -8,7 +8,7 @@ namespace Runner
         
         private Material _material;
 
-        public bool isScrolling = true;
+        public bool isScrolling;
         [SerializeField] private float scrollingSpeed;
 
         private Vector2 _offset;
@@ -27,8 +27,16 @@ namespace Runner
             
             _material = GetComponent<Renderer>().material;
             _offset = new Vector2(scrollingSpeed, 0);
+            isScrolling = true;
 
             difficultyLevelController.OnDifficultyIncrease += IncreaseScrollSpeed;
+        }
+
+        public void InitForMenu()
+        {
+            _material = GetComponent<Renderer>().material;
+            _offset = new Vector2(scrollingSpeed, 0);
+            isScrolling = true;
         }
         
         private void IncreaseScrollSpeed()

@@ -774,7 +774,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e5af7e6553022984591213025f632fcc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameDifficultyCap: 20
   score: 0
 --- !u!4 &377696338
 Transform:
@@ -875,9 +874,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2027945395}
-        m_TargetAssemblyTypeName: RunnerGameManager, Assembly-CSharp
-        m_MethodName: Restart
+      - m_Target: {fileID: 1523474628}
+        m_TargetAssemblyTypeName: Runner.UIManager, Assembly-CSharp
+        m_MethodName: RequestRestart
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -965,10 +964,10 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
-  Loop: 0
+  Loop: 1
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
@@ -1426,8 +1425,8 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
-  m_PlayOnAwake: 1
-  m_Volume: 1
+  m_PlayOnAwake: 0
+  m_Volume: 0.62
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -1945,9 +1944,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2027945395}
-        m_TargetAssemblyTypeName: RunnerGameManager, Assembly-CSharp
-        m_MethodName: OpenMenu
+      - m_Target: {fileID: 1523474628}
+        m_TargetAssemblyTypeName: Runner.UIManager, Assembly-CSharp
+        m_MethodName: RequestMenuExit
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3259,8 +3258,8 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
-  m_PlayOnAwake: 1
-  m_Volume: 1
+  m_PlayOnAwake: 0
+  m_Volume: 0.7
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -3479,8 +3478,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   jumpForce: 14
-  minSpawnTime: 0.5
+  minSpawnTime: 1
   maxSpawnTime: 1
+  maxDifficultyScore: 20
   audioManager: {fileID: 1525557392}
   uIManager: {fileID: 1523474628}
   scoreSystem: {fileID: 1850022680}

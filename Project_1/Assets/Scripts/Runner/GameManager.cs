@@ -9,6 +9,8 @@ namespace Runner
     [SerializeField] private float jumpForce;
     [SerializeField] private float minSpawnTime,
         maxSpawnTime;
+
+    [SerializeField] private int maxDifficultyScore;
     
     
     [Header("Managers")] 
@@ -42,6 +44,8 @@ namespace Runner
     {
         playerMovementController.Init(_inputActions, jumpForce);
         spawnSystem.Init(difficultyLevelController, minSpawnTime, maxSpawnTime);
+        scoreSystem.Init(uIManager);
+        difficultyLevelController.Init(maxDifficultyScore);
         
         
         TextureScrolling[] scrollingObjects = FindObjectsOfType<TextureScrolling>();
@@ -49,6 +53,8 @@ namespace Runner
         {
             i.Init(difficultyLevelController);
         }
+        
+        audioManager.PlayBackgroundMusic();
     }
 
     private void SignUpForActions()
@@ -58,6 +64,8 @@ namespace Runner
         playerMovementController.OnPlayerCrash += OnPlayerCrash;
         scoreSystem.OnRecordBreak += OnRecordScoreBroke; // Rename
         gatekeeperSystem.OnObstacleScored += OnObstacleScored;
+        uIManager.OnRestartRequest += OnRestartRequest;
+        uIManager.OnMenuExitRequest += OnMenuExitRequest;
     }
 
     private void OnPlayerJump()
@@ -93,14 +101,15 @@ namespace Runner
     private void OnObstacleScored()
     {
         scoreSystem.IncrementScore();
+        difficultyLevelController.IncreaseGameSpeed();
     }
     
-    public void OnRestartRequest()
+    private void OnRestartRequest()
     {
         SceneManager.LoadScene("2DRunner");
     }
 
-    public void OnOpenMenuRequest()
+    private void OnMenuExitRequest()
     {
         SceneManager.LoadScene("2DRunnerMenu");
     }

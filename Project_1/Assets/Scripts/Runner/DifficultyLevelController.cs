@@ -9,14 +9,19 @@ namespace Runner
         
         private SpawnSystem _spawnSystem;
 
-        [SerializeField] private float gameDifficultyCap;
+        private float _gameDifficultyCap;
 
         public int score;
         private float _gameSpeed;
 
+        public void Init(int maxDifficultyScore)
+        {
+            _gameDifficultyCap = maxDifficultyScore;
+        }
+        
         public void IncreaseGameSpeed()
         {
-            if (score <= gameDifficultyCap)
+            if (score <= _gameDifficultyCap)
             {
                 OnDifficultyIncrease?.Invoke();
             }
