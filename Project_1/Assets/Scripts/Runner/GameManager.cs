@@ -5,8 +5,6 @@ namespace Runner
 {
     public class GameManager : MonoBehaviour
 {
-    public static GameManager Instance;
-
     [Header("Config")] 
     [SerializeField] private float jumpForce;
     
@@ -21,29 +19,13 @@ namespace Runner
     [SerializeField] private CameraControlSystem cameraControlSystem;
     
     [Header("Controllers")]
-    [SerializeField] private CharacterMovementController characterMovementController;
+    [SerializeField] private PlayerMovementController playerMovementController;
     [SerializeField] private DifficultyLevelController difficultyLevelController;
     [SerializeField] private TextureScrollingController textureScrollingController;
     [SerializeField] private PlayerAnimatorController playerAnimatorController;
 
     private InputActions _inputActions;
     
-    
-
-    [SerializeField] private GameObject gameOverPanel;
-
-    
-    
-    
-    private ButtonScalingUI _menuButtonScalingUI;
-    private void Awake()
-    {
-        if (Instance == null)
-        {
-            Instance = this;
-        }
-    }
-
     private void Start()
     {
         _inputActions = new InputActions();
@@ -55,25 +37,51 @@ namespace Runner
 
     private void InitAllSystems()
     {
-        characterMovementController.Init(_inputActions, jumpForce);
+        playerMovementController.Init(_inputActions, jumpForce);
     }
 
     private void SignUpForActions()
     {
-        
+        playerMovementController.OnPlayerJump += OnPlayerJump;
+        playerMovementController.OnPlayerLand += OnPlayerLand;
+        playerMovementController.OnPlayerCrash += OnPlayerCrash;
+        scoreSystem.OnRecordBreak += OnRecordScoreBroke; // Rename
+        gatekeeperSystem.OnObstacleScored += OnObstacleScored;
+    }
+
+    private void OnPlayerJump()
+    {
+        audioManager.PlayJumpSound();
+        playerAnimatorController.ProcessJumpAnimationGroup();
+    }
+
+    private void OnPlayerLand()
+    {
+        playerAnimatorController.ProcessLandAnimationGroup();
     }
     
-    public void EndPlayPhase()
+    private void OnPlayerCrash()
     {
+        audioManager.PlayCrashSound();
+        cameraControlSystem.DoCameraShake();
+        playerAnimatorController.ProcessDeathAnimationGroup();
         spawnSystem.gameOver = true;
         textureScrollingController.StopScrolling();
         uIManager.ShowScoreBoard();
-        cameraControlSystem.DoCameraShake();
-        gameOverPanel.SetActive(true);
+        uIManager.ShowGameOverPanel();
+    }
+
+    private void OnRecordScoreBroke()
+    {
+        audioManager.PlayRecordBrokeSound();
+        //Particle system implementation
+    }
+
+    private void OnObstacleScored()
+    {
+        scoreSystem.IncrementScore();
     }
     
-    
-
     public void OnRestartRequest()
     {
         SceneManager.LoadScene("2DRunner");
@@ -83,11 +91,6 @@ namespace Runner
     {
         SceneManager.LoadScene("2DRunnerMenu");
     }
-
-    
-
-    
-
 }
 }
 

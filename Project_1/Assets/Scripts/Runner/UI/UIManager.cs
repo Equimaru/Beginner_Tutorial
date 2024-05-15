@@ -10,7 +10,7 @@ namespace Runner
 
         [SerializeField] private TextMeshProUGUI playerScoreInGameOver;
         [SerializeField] private TextMeshProUGUI maxScoreInGameOver;
-
+        [SerializeField] private GameObject gameOverPanel;
         
         
         
@@ -32,14 +32,11 @@ namespace Runner
             maxScoreInGameOver.text = $"Max score: {PlayerPrefs.GetInt("maxScore")}";
             playerScoreInGameOver.text = $"Your score: {_score}";
         }
-        
-        /*public void IncrementScore()
+
+        public void ShowGameOverPanel()
         {
-            _score++;
-            difficultyLevelController.score = _score;
-            difficultyLevelController.IncreaseGameSpeed();
-            scoreText.text = _score.ToString();
-        }*/
+            gameOverPanel.SetActive(true);
+        }
     }
 }
 

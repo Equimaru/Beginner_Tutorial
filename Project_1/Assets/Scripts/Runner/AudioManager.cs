@@ -13,9 +13,33 @@ namespace Runner
 
         [Header("Audio Clips")] 
         [SerializeField] private AudioClip jump;
-        [SerializeField] private AudioClip obstacleHit;
+        [SerializeField] private AudioClip crash;
         [SerializeField] private AudioClip backgroundMusic;
-        [SerializeField] private AudioClip recordReached;
+        [SerializeField] private AudioClip recordBroke;
+
+        public void PlayJumpSound()
+        {
+            player.clip = jump;
+            player.Play();
+        }
+        
+        public void PlayCrashSound()
+        {
+            player.clip = crash;
+            player.Play();
+        }
+        
+        public void PlayBackgroundMusic()
+        {
+            music.clip = backgroundMusic;
+            music.Play();
+        }
+        
+        public void PlayRecordBrokeSound()
+        {
+            scoreSystem.clip = recordBroke;
+            scoreSystem.Play();
+        }
     }
 }
 

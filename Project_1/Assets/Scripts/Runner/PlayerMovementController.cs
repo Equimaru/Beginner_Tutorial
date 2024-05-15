@@ -4,24 +4,24 @@ using UnityEngine.InputSystem;
 
 namespace Runner
 {
-    public class CharacterMovementController : MonoBehaviour
+    public class PlayerMovementController : MonoBehaviour
     {
         public Action OnPlayerJump;
+        public Action OnPlayerLand;
         public Action OnPlayerCrash;
         
         private Rigidbody2D _rb;
         private InputActions _inputActions;
-        [SerializeField] private Animator animator;
-    
+         
         private float _jumpForce;
+        
         [SerializeField] private float groundCheckDistance;
         [SerializeField] private LayerMask ground;
     
         private bool _jump;
         private bool _isGrounded;
         private bool _gameOver = false;
-        private static readonly int Jump1 = Animator.StringToHash("Jump");
-        private static readonly int IsGrounded = Animator.StringToHash("IsGrounded");
+        
     
         private void Awake()
         {
@@ -41,8 +41,6 @@ namespace Runner
             {
                 OnPlayerJump?.Invoke();
                 _rb.velocity = Vector2.up * _jumpForce;
-    
-                animator.SetTrigger(Jump1);
             }
         }
         
@@ -52,24 +50,18 @@ namespace Runner
             {
                 OnPlayerCrash?.Invoke();
                 Destroy(col.gameObject);
-                animator.Play("Death");
-                _gameOver = true;
-                GameManager.Instance.EndPlayPhase();
             }
         }
     
         private void OnCollisionEnter2D(Collision2D collision)
         {
             _isGrounded = true;
-            
-            animator.SetBool(IsGrounded, _isGrounded);
+            OnPlayerLand?.Invoke();
         }
     
         private void OnCollisionExit2D(Collision2D other)
         {
             _isGrounded = false;
-            
-            animator.SetBool(IsGrounded, _isGrounded);
         }
     }
 }
