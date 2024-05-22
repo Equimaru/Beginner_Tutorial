@@ -6,6 +6,8 @@ public class ObjectToCatch : MonoBehaviour
     public static Action OnObjectCatch;
     public static Action OnObjectLost;
     
+    
+    
     public void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))

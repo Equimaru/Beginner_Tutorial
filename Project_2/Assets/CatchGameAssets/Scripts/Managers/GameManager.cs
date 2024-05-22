@@ -4,9 +4,12 @@ using UnityEngine.SocialPlatforms.Impl;
 
 public class GameManager : MonoBehaviour
 {
-    
+
     [Header("Config")] 
+    [SerializeField] private int health;
     [SerializeField] private float playerSpeed;
+    [SerializeField] private float minSpawnTime,
+        maxSpawnTime;
     
     [Header("Controllers")]
     [SerializeField] private PlayerController playerController;
@@ -29,7 +32,27 @@ public class GameManager : MonoBehaviour
         _playerInputActions = new PlayerInputActions();
         _playerInputActions.Player.Enable();
         
+        InitAll();
+        SignUpToAllEvents();
+    }
+
+    private void InitAll()
+    {
         playerController.Init(_playerInputActions, playerSpeed);
+        spawnSystem.Init(difficultyController, minSpawnTime, maxSpawnTime);
+        scoreSystem.Init();
+        healthSystem.Init(health);
+    }
+
+    private void SignUpToAllEvents()
+    {
+        healthSystem.OnRanOutOfHealth += OnRanOutOfHealth;
+    }
+
+    private void OnRanOutOfHealth()
+    {
+        spawnSystem.gameOver = true;
+        playerController.gameOver = true;
     }
     
 }

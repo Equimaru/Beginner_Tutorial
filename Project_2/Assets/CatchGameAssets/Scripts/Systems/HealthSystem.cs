@@ -1,18 +1,32 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class HealthSystem : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    public Action OnRanOutOfHealth;
+    
+    [SerializeField] private TextMeshProUGUI healthText;
+    
+    private int _health;
+
+    public void Init(int health)
     {
-        
+        _health = health;
+        healthText.text = "Health: " + _health;
+        ObjectToCatch.OnObjectLost += DecreaseHealth;
     }
 
-    // Update is called once per frame
-    void Update()
+    private void DecreaseHealth()
     {
-        
+        _health = Mathf.Clamp(_health - 1, 0, 2147483647);
+        healthText.text = "Health: " + _health;
+
+        if (_health <= 0)
+        {
+            OnRanOutOfHealth?.Invoke();
+        }
     }
 }

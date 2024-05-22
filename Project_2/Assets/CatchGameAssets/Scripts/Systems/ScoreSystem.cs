@@ -23,7 +23,7 @@ public class ScoreSystem : MonoBehaviour
     private void IncrementScore()
     {
         _score++;
-        scoreText.text = _score.ToString();
+        scoreText.text = "Score: " +_score;
 
         if (_score < _recordScore) return;
         
