@@ -1,17 +1,37 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class ScoreSystem : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField] private TextMeshProUGUI scoreText;
+    
+    public Action OnNewRecordSet;
+    
+    private int _score,
+        _recordScore;
+
+    private bool _isRecordSet;
+
+    public void Init()
     {
+        ObjectToCatch.OnObjectCatch += IncrementScore;
+    }
+    
+    private void IncrementScore()
+    {
+        _score++;
+        scoreText.text = _score.ToString();
+
+        if (_score < _recordScore) return;
         
+        SaveNewRecordScore();
+        OnNewRecordSet?.Invoke();
     }
 
-    // Update is called once per frame
-    void Update()
+    private void SaveNewRecordScore()
     {
         
     }

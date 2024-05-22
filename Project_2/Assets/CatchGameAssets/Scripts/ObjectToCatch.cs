@@ -1,18 +1,22 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using UnityEngine;
 
 public class ObjectToCatch : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    public static Action OnObjectCatch;
+    public static Action OnObjectLost;
+    
+    public void OnTriggerEnter(Collider other)
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        if (other.CompareTag("Player"))
+        {
+            OnObjectCatch?.Invoke();
+            Destroy(gameObject);
+        }
+        else if (other.CompareTag("Gatekeeper"))
+        {
+            OnObjectLost?.Invoke();
+            Destroy(gameObject);
+        }
     }
 }
