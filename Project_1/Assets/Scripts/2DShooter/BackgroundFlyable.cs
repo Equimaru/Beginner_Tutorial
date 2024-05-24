@@ -1,8 +1,9 @@
 using UnityEngine;
 
-public class BackgroundFlyable : MonoBehaviour
+public class BackgroundFlyable : MonoBehaviour, IPausable
 {
-    public float velocity;
+    public float velocity,
+        velocityBuffer;
     public float startXPosition,
         endXPosition;
 
@@ -10,6 +11,7 @@ public class BackgroundFlyable : MonoBehaviour
     
     void Start()
     {
+        PauseSystem.Instance.AddPausable(this);
         _objPos = GetComponent<Transform>();
         _objPos.position = new Vector3(startXPosition, transform.position.y, _objPos.position.z);
     }
@@ -24,5 +26,16 @@ public class BackgroundFlyable : MonoBehaviour
         {
             _objPos.position = new Vector3 (startXPosition, transform.position.y, _objPos.position.z);
         }
+    }
+
+    public void Pause()
+    {
+        velocityBuffer = velocity;
+        velocity = 0f;
+    }
+
+    public void Resume()
+    {
+        velocity = velocityBuffer;
     }
 }

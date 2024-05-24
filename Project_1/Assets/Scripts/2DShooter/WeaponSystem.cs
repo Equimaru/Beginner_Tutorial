@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class WeaponSystem : MonoBehaviour
+public class WeaponSystem : MonoBehaviour, IPausable
 {
     public Action OnShotHit;
     public Action OnShotMiss;
@@ -15,11 +15,13 @@ public class WeaponSystem : MonoBehaviour
     private Camera _cam;
     
     private InputActions _gameInput;
-    private bool _gameEnded;
+    private bool _gameEnded,
+        _gamePaused;
     public bool isMouseOverUI;
 
     private void Start()
     {
+        PauseSystem.Instance.AddPausable(this);
         _cam = Camera.main;
     }
 
@@ -37,7 +39,7 @@ public class WeaponSystem : MonoBehaviour
 
     private void CheckForHit(InputAction.CallbackContext callbackContext)
     {
-        if (isMouseOverUI) return;
+        if (isMouseOverUI || _gamePaused) return;
         if (!_ammunitionSystem.CheckForAmmo()) return;
 
         RaycastHit2D[] hits =
@@ -57,5 +59,15 @@ public class WeaponSystem : MonoBehaviour
         {
             OnShotMiss?.Invoke();
         }
+    }
+
+    public void Pause()
+    {
+        _gamePaused = true;
+    }
+
+    public void Resume()
+    {
+        _gamePaused = false;
     }
 }

@@ -44,6 +44,7 @@ public class UIManager : MonoBehaviour
 
     private IEnumerator OpenSettingsPanel()
     {
+        PauseSystem.Instance.Pause();
         _animationInProgress = true;
         settingsPanel.SetActive(true);
         settingsPanel.transform.DOScale(1, 0.5f);
@@ -55,6 +56,7 @@ public class UIManager : MonoBehaviour
 
     private IEnumerator CloseSettingsPanel()
     {
+        PauseSystem.Instance.Resume();
         _animationInProgress = true;
         settingsPanel.transform.DOScale(0, 0.5f);
         yield return new WaitForSeconds(0.5f);

@@ -3,7 +3,7 @@ using System.Collections;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-public class SpawnSystem : MonoBehaviour
+public class SpawnSystem : MonoBehaviour, IPausable
 {
     public Action OnSpawn;
     public Action OnDeSpawn;
@@ -13,12 +13,25 @@ public class SpawnSystem : MonoBehaviour
     private float _spawnCooldown;
     private float _timeToDeSpawn;
 
+    private bool _isPaused;
+
     private Coroutine _spawnCoroutine = null;
 
     public void Init(float spawnCooldown, float timeToDeSpawn)
     {
+        PauseSystem.Instance.AddPausable(this);
         _spawnCooldown = spawnCooldown;
         _timeToDeSpawn = timeToDeSpawn;
+    }
+
+    public void Pause()
+    {
+        _isPaused = true;
+    }
+
+    public void Resume()
+    {
+        _isPaused = false;
     }
     
     private void Spawn()
@@ -63,16 +76,30 @@ public class SpawnSystem : MonoBehaviour
     {
         while (Application.isPlaying)
         {
-            Spawn();
-            yield return new WaitForSeconds(_spawnCooldown);
+            if (_isPaused)
+            {
+                yield return new WaitForSeconds(_spawnCooldown);
+            }
+            else
+            {
+                Spawn();
+                yield return new WaitForSeconds(_spawnCooldown);
+            }
         }
     }
 
     private IEnumerator DeSpawnAfterTime(GameObject obj)
     {
         yield return new WaitForSeconds(_timeToDeSpawn);
-        if (obj != null)
+        if (obj != null && !_isPaused)
         {
+            Destroy(obj);
+            OnDeSpawn?.Invoke();
+        }
+        else if (obj != null && _isPaused)
+        {
+            yield return new WaitUntil(() => _isPaused == false);
+            yield return new WaitForSeconds(_timeToDeSpawn);
             Destroy(obj);
             OnDeSpawn?.Invoke();
         }
