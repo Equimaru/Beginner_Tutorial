@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Catch;
 using TMPro;
 using UnityEngine;
 
@@ -12,11 +13,18 @@ public class HealthSystem : MonoBehaviour
     
     private int _health;
 
+    private List<ObjectToCatch> _objectsList;
+
     public void Init(int health)
     {
         _health = health;
         healthText.text = "Health: " + _health;
-        ObjectToCatch.OnObjectLost += DecreaseHealth;
+    }
+
+    public void AddToObjList(ObjectToCatch obj)
+    {
+        _objectsList.Add(obj);
+        obj.OnBadCatchOrLost += DecreaseHealth;
     }
 
     private void DecreaseHealth()

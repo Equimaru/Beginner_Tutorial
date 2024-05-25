@@ -2,57 +2,61 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SocialPlatforms.Impl;
 
-public class GameManager : MonoBehaviour
+namespace Catch
 {
-
-    [Header("Config")] 
-    [SerializeField] private int health;
-    [SerializeField] private float playerSpeed;
-    [SerializeField] private float minSpawnTime,
-        maxSpawnTime;
-    
-    [Header("Controllers")]
-    [SerializeField] private PlayerController playerController;
-    [SerializeField] private DifficultyController difficultyController;
-
-    [Header("Managers")]
-    [SerializeField] private AudioManager audioManager;
-
-    [Header("Systems")] 
-    [SerializeField] private SpawnSystem spawnSystem;
-    [SerializeField] private ScoreSystem scoreSystem;
-    [SerializeField] private HealthSystem healthSystem;
-    
-
-    private PlayerInputActions _playerInputActions;
-    
-    
-    private void Start()
+    public class GameManager : MonoBehaviour
     {
-        _playerInputActions = new PlayerInputActions();
-        _playerInputActions.Player.Enable();
+
+        [Header("Config")] 
+        [SerializeField] private int health;
+        [SerializeField] private float playerSpeed;
+        [SerializeField] private float minSpawnTime,
+            maxSpawnTime;
+    
+        [Header("Controllers")]
+        [SerializeField] private PlayerController playerController;
+        [SerializeField] private DifficultyController difficultyController;
+
+        [Header("Managers")]
+        [SerializeField] private AudioManager audioManager;
+
+        [Header("Systems")] 
+        [SerializeField] private SpawnSystem spawnSystem;
+        [SerializeField] private ScoreSystem scoreSystem;
+        [SerializeField] private HealthSystem healthSystem;
+    
+
+        private PlayerInputActions _playerInputActions;
+    
+    
+        private void Start()
+        {
+            _playerInputActions = new PlayerInputActions();
+            _playerInputActions.Player.Enable();
         
-        InitAll();
-        SignUpToAllEvents();
-    }
+            InitAll();
+            SignUpToAllEvents();
+        }
 
-    private void InitAll()
-    {
-        playerController.Init(_playerInputActions, playerSpeed);
-        spawnSystem.Init(difficultyController, minSpawnTime, maxSpawnTime);
-        scoreSystem.Init();
-        healthSystem.Init(health);
-    }
+        private void InitAll()
+        {
+            playerController.Init(_playerInputActions, playerSpeed);
+            spawnSystem.Init(difficultyController, healthSystem, scoreSystem, minSpawnTime, maxSpawnTime);
+            scoreSystem.Init();
+            healthSystem.Init(health);
+        }
 
-    private void SignUpToAllEvents()
-    {
-        healthSystem.OnRanOutOfHealth += OnRanOutOfHealth;
-    }
+        private void SignUpToAllEvents()
+        {
+            healthSystem.OnRanOutOfHealth += OnRanOutOfHealth;
+        }
 
-    private void OnRanOutOfHealth()
-    {
-        spawnSystem.gameOver = true;
-        playerController.gameOver = true;
-    }
+        private void OnRanOutOfHealth()
+        {
+            spawnSystem.gameOver = true;
+            playerController.gameOver = true;
+        }
     
+    }
 }
+

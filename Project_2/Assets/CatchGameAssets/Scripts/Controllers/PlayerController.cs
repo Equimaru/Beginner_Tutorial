@@ -2,37 +2,41 @@ using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PlayerController : MonoBehaviour
+namespace Catch
 {
-    private PlayerInputActions _playerInputActions;
+    public class PlayerController : MonoBehaviour
+    {
+        private PlayerInputActions _playerInputActions;
 
-    private Rigidbody _rb;
-    private Transform _transform;
+        private Rigidbody _rb;
+        private Transform _transform;
     
-    private float _playerSpeed;
-    private float _inputAxis;
+        private float _playerSpeed;
+        private float _inputAxis;
 
-    public bool gameOver;
+        public bool gameOver;
 
-    public void Init(PlayerInputActions playerInputActions, float playerSpeed)
-    {
-        _rb = GetComponent<Rigidbody>();
-        _transform = GetComponent<Transform>();
-        
-        _playerInputActions = playerInputActions;
-        _playerSpeed = playerSpeed;
-    }
-
-    private void Update()
-    {
-        _inputAxis = _playerInputActions.Player.Movement.ReadValue<float>();
-    }
-
-    private void FixedUpdate()
-    {
-        if (!gameOver)
+        public void Init(PlayerInputActions playerInputActions, float playerSpeed)
         {
-            _rb.velocity = new Vector3(_inputAxis * _playerSpeed, 0, 0);
+            _rb = GetComponent<Rigidbody>();
+            _transform = GetComponent<Transform>();
+        
+            _playerInputActions = playerInputActions;
+            _playerSpeed = playerSpeed;
+        }
+
+        private void Update()
+        {
+            _inputAxis = _playerInputActions.Player.Movement.ReadValue<float>();
+        }
+
+        private void FixedUpdate()
+        {
+            if (!gameOver)
+            {
+                _rb.velocity = new Vector3(_inputAxis * _playerSpeed, 0, 0);
+            }
         }
     }
 }
+
