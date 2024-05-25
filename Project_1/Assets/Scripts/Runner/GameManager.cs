@@ -22,6 +22,7 @@ namespace Runner
     [SerializeField] private SpawnSystem spawnSystem;
     [SerializeField] private GatekeeperSystem gatekeeperSystem;
     [SerializeField] private CameraControlSystem cameraControlSystem;
+    [SerializeField] private RunnerParticleSystem runnerParticleSystem;
     
     [Header("Controllers")]
     [SerializeField] private PlayerMovementController playerMovementController;
@@ -42,7 +43,7 @@ namespace Runner
 
     private void InitAllSystems()
     {
-        playerMovementController.Init(_inputActions, jumpForce);
+        playerMovementController.Init(_inputActions, runnerParticleSystem, jumpForce);
         spawnSystem.Init(difficultyLevelController, minSpawnTime, maxSpawnTime);
         scoreSystem.Init(uIManager);
         difficultyLevelController.Init(maxDifficultyScore);

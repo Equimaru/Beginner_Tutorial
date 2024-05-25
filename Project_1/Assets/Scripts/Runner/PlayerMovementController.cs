@@ -12,15 +12,13 @@ namespace Runner
         
         private Rigidbody2D _rb;
         private InputActions _inputActions;
+        private RunnerParticleSystem _runnerParticleSystem;
          
         private float _jumpForce;
         
-        [SerializeField] private float groundCheckDistance;
-        [SerializeField] private LayerMask ground;
-    
         private bool _jump;
         private bool _isGrounded;
-        private bool _gameOver = false;
+        private bool _gameOver;
         
     
         private void Awake()
@@ -28,11 +26,13 @@ namespace Runner
             _rb = GetComponent<Rigidbody2D>();
         }
         
-        public void Init(InputActions inputActions, float jumpForce)
+        public void Init(InputActions inputActions, RunnerParticleSystem runnerParticleSystem, float jumpForce)
         {
             _inputActions = inputActions;
             _jumpForce = jumpForce;
             _inputActions.Player.Jump.performed += Jump;
+
+            _runnerParticleSystem = runnerParticleSystem;
         }
     
         private void Jump(InputAction.CallbackContext callbackContext)
@@ -54,6 +54,8 @@ namespace Runner
             if (col.gameObject.CompareTag("Obstacle"))
             {
                 OnPlayerCrash?.Invoke();
+                Vector3 colPos = col.transform.position;
+                _runnerParticleSystem.DoExplosion(colPos);
                 Destroy(col.gameObject);
             }
         }
