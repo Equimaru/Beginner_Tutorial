@@ -12,7 +12,6 @@ namespace Runner
         
         private Rigidbody2D _rb;
         private InputActions _inputActions;
-        private RunnerParticleSystem _runnerParticleSystem;
          
         private float _jumpForce;
         
@@ -26,13 +25,11 @@ namespace Runner
             _rb = GetComponent<Rigidbody2D>();
         }
         
-        public void Init(InputActions inputActions, RunnerParticleSystem runnerParticleSystem, float jumpForce)
+        public void Init(InputActions inputActions, float jumpForce)
         {
             _inputActions = inputActions;
             _jumpForce = jumpForce;
             _inputActions.Player.Jump.performed += Jump;
-
-            _runnerParticleSystem = runnerParticleSystem;
         }
     
         private void Jump(InputAction.CallbackContext callbackContext)
@@ -54,8 +51,7 @@ namespace Runner
             if (col.gameObject.CompareTag("Obstacle"))
             {
                 OnPlayerCrash?.Invoke();
-                Vector3 colPos = col.transform.position;
-                _runnerParticleSystem.DoExplosion(colPos);
+                col.GetComponent<Obstacle>().CallExplosionOnYourself();
                 Destroy(col.gameObject);
             }
         }

@@ -16,29 +16,18 @@ namespace Runner
         [SerializeField] private TextMeshProUGUI playerScoreInGameOver;
         [SerializeField] private TextMeshProUGUI maxScoreInGameOver;
         [SerializeField] private GameObject gameOverPanel;
+        
 
 
-        public void GetCurrentScore(int currentScore)
+        public void SetCurrentScore(int currentScore)
         {
             _score = currentScore;
+            scoreText.text = "score: " + _score;
         }
         
         public void ShowScoreBoard()
         {
-            if (PlayerPrefs.HasKey("maxScore"))
-            {
-                int maxScore = PlayerPrefs.GetInt("maxScore");
-                if (maxScore < _score)
-                {
-                    PlayerPrefs.SetInt("maxScore", _score);
-                }
-            }
-            else
-            {
-                PlayerPrefs.SetInt("maxScore", _score);
-            }
-
-            maxScoreInGameOver.text = $"Max score: {PlayerPrefs.GetInt("maxScore")}";
+            maxScoreInGameOver.text = $"Max score: {ScoreSystem.Instance.currentRecord}";
             playerScoreInGameOver.text = $"Your score: {_score}";
         }
 

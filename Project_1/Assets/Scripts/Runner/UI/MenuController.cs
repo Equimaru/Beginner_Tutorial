@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -9,6 +10,10 @@ namespace Runner
     public class MenuController : MonoBehaviour
     {
 
+        [SerializeField] private TextMeshProUGUI record;
+
+        private int _currentRecord;
+        
         private void Start()
         {
             TextureScrolling[] scrollingObjects = FindObjectsOfType<TextureScrolling>();
@@ -16,6 +21,9 @@ namespace Runner
             {
                 i.InitForMenu();
             }
+
+            _currentRecord = ScoreSystem.Instance.currentRecord;
+            record.text = $"Record: {_currentRecord}";
         }
         
         public void Play()

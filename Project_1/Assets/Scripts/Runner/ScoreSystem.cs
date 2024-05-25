@@ -6,32 +6,64 @@ namespace Runner
 {
     public class ScoreSystem : MonoBehaviour
     {
+        public static ScoreSystem Instance;
+        
         public Action OnRecordBreak;
 
         private UIManager _uIManager;
 
-        private bool _recordBroken = false;
-        private int _record;
+        private bool _recordIsBroken = false;
+        public int currentRecord;
         
         private int _score;
-        [SerializeField] private TextMeshProUGUI scoreText;
+        
 
+        private void Awake()
+        {
+            DontDestroyOnLoad(gameObject);
+        }
+        
+        private void Start()
+        {
+            if (Instance == null)
+            {
+                Instance = this;
+            }
+            
+            if (PlayerPrefs.HasKey("maxScore"))
+            {
+                currentRecord = PlayerPrefs.GetInt("maxScore");
+            }
+        }
+        
         public void Init(UIManager uIManager)
         {
             _uIManager = uIManager;
-            _record = PlayerPrefs.GetInt("maxScore");
         }
         
         public void IncrementScore()
         {
             _score++;
-            scoreText.text = "score: " + _score;
-            _uIManager.GetCurrentScore(_score);
+            _uIManager.SetCurrentScore(_score);
 
-            if (_score > _record && !_recordBroken)
+            if (_score > currentRecord && !_recordIsBroken)
             {
                 Debug.Log("Record is broken!");
-                _recordBroken = true;
+                _recordIsBroken = true;
+                OnRecordBreak?.Invoke();
+            }
+
+            if (_recordIsBroken)
+            {
+                currentRecord = _score;
+            }
+        }
+
+        public void SetNewMaxScore()
+        {
+            if (_recordIsBroken)
+            {
+                PlayerPrefs.SetInt("maxScore", currentRecord);
             }
         }
     }

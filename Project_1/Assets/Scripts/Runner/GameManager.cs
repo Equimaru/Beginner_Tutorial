@@ -37,14 +37,16 @@ namespace Runner
         _inputActions = new InputActions();
         _inputActions.Player.Enable();
         
+        scoreSystem = ScoreSystem.Instance;
+        
         InitAllSystems();
         SignUpForActions();
     }
 
     private void InitAllSystems()
     {
-        playerMovementController.Init(_inputActions, runnerParticleSystem, jumpForce);
-        spawnSystem.Init(difficultyLevelController, minSpawnTime, maxSpawnTime);
+        playerMovementController.Init(_inputActions, jumpForce);
+        spawnSystem.Init(difficultyLevelController, runnerParticleSystem, minSpawnTime, maxSpawnTime);
         scoreSystem.Init(uIManager);
         difficultyLevelController.Init(maxDifficultyScore);
         
@@ -91,12 +93,13 @@ namespace Runner
         textureScrollingController.StopScrolling();
         uIManager.ShowScoreBoard();
         uIManager.ShowGameOverPanel();
+        scoreSystem.SetNewMaxScore();
     }
 
     private void OnRecordScoreBroke()
     {
         audioManager.PlayRecordBrokeSound();
-        //Particle system implementation
+        runnerParticleSystem.DoShine(playerMovementController.transform.position);
     }
 
     private void OnObstacleScored()

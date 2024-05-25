@@ -9,6 +9,7 @@ namespace Runner
         [SerializeField] private GameObject[] obstacle;
         
         private DifficultyLevelController _difficultyLevelController;
+        private RunnerParticleSystem _runnerParticleSystem;
 
         public bool gameOver = false;
 
@@ -17,9 +18,10 @@ namespace Runner
 
         public float ObstacleSpeedOnSpawn { get; private set; }
 
-        public void Init(DifficultyLevelController difficultyLevelController, float minSpawnTime, float maxSpawnTime)
+        public void Init(DifficultyLevelController difficultyLevelController, RunnerParticleSystem runnerParticleSystem, float minSpawnTime, float maxSpawnTime)
         {
             _difficultyLevelController = difficultyLevelController;
+            _runnerParticleSystem = runnerParticleSystem;
             _minSpawnTime = minSpawnTime;
             _maxSpawnTime = maxSpawnTime;
             
@@ -49,7 +51,7 @@ namespace Runner
             int random = Random.Range(0, obstacle.Length);
             GameObject newObstacle = Instantiate(obstacle[random], transform.position, Quaternion.identity);
             Obstacle newObstacleScript = newObstacle.GetComponent<Obstacle>();
-            newObstacleScript.Init(_difficultyLevelController, ObstacleSpeedOnSpawn);
+            newObstacleScript.Init(_difficultyLevelController, _runnerParticleSystem, ObstacleSpeedOnSpawn);
         }
 
         private void IncreaseObstacleSpeedOnSpawn()

@@ -4,12 +4,13 @@ using UnityEngine;
 
 namespace Runner
 {
-    public class Explosion : MonoBehaviour
+    public class StopParticleAnim : MonoBehaviour
     {
-   
+        [SerializeField] private float duration;
+        
         void Start()
         {
-            Destroy(this.gameObject, 2f);
+            Destroy(this.gameObject, duration);
         }
 
     }
