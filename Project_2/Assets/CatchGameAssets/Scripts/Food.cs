@@ -6,31 +6,34 @@ namespace Catch
 {
     public class Food : ObjectToCatch
     {
+        public Action OnCatchFood;
+        public Action OnDropFood;
+        
         public void Start()
         {
             Rotate();
         }
 
-        private void ReactToPlayerCatch()
+        public override void OnCatch()
         {
-            OnGoodCatch?.Invoke();
+            OnCatchFood?.Invoke();
         }
 
-        private void ReactToGatekeeperCatch()
+        public override void OnDrop()
         {
-            OnBadCatchOrLost?.Invoke();
+            OnDropFood?.Invoke();
         }
     
         public void OnTriggerEnter(Collider other)
         {
             if (other.CompareTag("Player"))
             {
-                ReactToPlayerCatch();
+                OnCatch();
                 Destroy(gameObject);
             }
             else if (other.CompareTag("Gatekeeper"))
             {
-                ReactToGatekeeperCatch();
+                OnDrop();
                 Destroy(gameObject);
             }
         }

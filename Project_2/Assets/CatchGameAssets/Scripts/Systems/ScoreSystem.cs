@@ -1,46 +1,80 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
-using Catch;
 using TMPro;
 using UnityEngine;
 
-public class ScoreSystem : MonoBehaviour
+namespace Catch
 {
-    [SerializeField] private TextMeshProUGUI scoreText;
-    
-    public Action OnNewRecordSet;
-    
-    private List<ObjectToCatch> _objectsList;
-    
-    private int _score,
-        _recordScore;
-
-    private bool _isRecordSet;
-
-    public void Init()
+    public class ScoreSystem : MonoBehaviour
     {
-    }
+        [SerializeField] private TextMeshProUGUI scoreText;
     
-    public void AddToObjList(ObjectToCatch obj)
-    {
-        _objectsList.Add(obj);
-        obj.OnGoodCatch += IncrementScore;
-    }
+        public Action OnLevelCleared;
+        public Action OnLevelFailed;
     
-    private void IncrementScore()
-    {
-        _score++;
-        scoreText.text = "Score: " +_score;
+        private int _currentCatchFoodCount,
+             _maxFoodToCatch;
 
-        if (_score < _recordScore) return;
+        private float _percentageOfCatchFood,
+            _minimalPercentageOfCatchFood;
+
+        public void SetParameters(float minimalPercentageOfCatchFood)
+        {
+            _minimalPercentageOfCatchFood = minimalPercentageOfCatchFood;
+        }
+    
+        public void SignUpForActions(Food food)
+        {
+            food.OnCatchFood += OnFoodCatch;
+            food.OnDropFood += OnFoodDrop;
+        }
+    
+        private void OnFoodCatch()
+        {
+            _currentCatchFoodCount++;
+            _maxFoodToCatch++;
+            FindPercentOfCatchFood();
+        }
+
+        private void OnFoodDrop()
+        {
+            _maxFoodToCatch++;
+            FindPercentOfCatchFood();
+        }
+
+        private void FindPercentOfCatchFood()
+        {
+            _percentageOfCatchFood = (float)_currentCatchFoodCount / _maxFoodToCatch;
+            scoreText.text = _percentageOfCatchFood.ToString("0%");
+        }
+
+        private bool CalcIfPassMinScore()
+        {
+            return _percentageOfCatchFood >= _minimalPercentageOfCatchFood * 0.00f;
+        }
+
+        private bool ScanForCatchableObjectsOnScene()
+        {
+            return FindObjectOfType<ObjectToCatch>();
+        }
+
+        public void StartSLRCoroutine()
+        {
+            StartCoroutine(ShowLevelResults());
+        }
         
-        SaveNewRecordScore();
-        OnNewRecordSet?.Invoke();
-    }
-
-    private void SaveNewRecordScore()
-    {
-        
+        private IEnumerator ShowLevelResults()
+        {
+            yield return new WaitUntil(() => ScanForCatchableObjectsOnScene() == false);
+            if (CalcIfPassMinScore())
+            {
+                OnLevelCleared?.Invoke();
+            }
+            else
+            {
+                OnLevelFailed?.Invoke();
+            }
+        }
     }
 }
+

@@ -5,31 +5,34 @@ namespace Catch
 {
     public class Garbage : ObjectToCatch
     {
+        public Action OnCatchGarbage;
+        public Action OnDropGarbage;
+        
         public void Start()
         {
             Rotate();
         }
 
-        private void ReactToPlayerCatch()
+        public override void OnCatch()
         {
-            OnBadCatchOrLost?.Invoke();
+            OnCatchGarbage?.Invoke();
         }
 
-        private void ReactToGatekeeperCatch()
+        public override void OnDrop()
         {
-            
+            OnDropGarbage?.Invoke();
         }
     
         public void OnTriggerEnter(Collider other)
         {
             if (other.CompareTag("Player"))
             {
-                ReactToPlayerCatch();
+                OnCatch();
                 Destroy(gameObject);
             }
             else if (other.CompareTag("Gatekeeper"))
             {
-                ReactToGatekeeperCatch();
+                OnDrop();
                 Destroy(gameObject);
             }
         }

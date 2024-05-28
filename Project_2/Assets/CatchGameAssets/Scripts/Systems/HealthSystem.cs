@@ -5,36 +5,56 @@ using Catch;
 using TMPro;
 using UnityEngine;
 
-public class HealthSystem : MonoBehaviour
+namespace Catch
 {
-    public Action OnRanOutOfHealth;
-    
-    [SerializeField] private TextMeshProUGUI healthText;
-    
-    private int _health;
-
-    private List<ObjectToCatch> _objectsList;
-
-    public void Init(int health)
+    public class HealthSystem : MonoBehaviour
     {
-        _health = health;
-        healthText.text = "Health: " + _health;
-    }
+        public Action OnNoHPLeft;
 
-    public void AddToObjList(ObjectToCatch obj)
-    {
-        _objectsList.Add(obj);
-        obj.OnBadCatchOrLost += DecreaseHealth;
-    }
+        [SerializeField] private GameObject hPIcon;
+        private List<GameObject> _hP;
+        private int _hPToSet;
+        [SerializeField] private float distBtwIcons;
+        
+        private int _health;
 
-    private void DecreaseHealth()
-    {
-        _health = Mathf.Clamp(_health - 1, 0, 2147483647);
-        healthText.text = "Health: " + _health;
-
-        if (_health <= 0)
+        public void Init(int health)
         {
-            OnRanOutOfHealth?.Invoke();
+            _hPToSet = health;
+            SetHP();
+        }
+        
+        private void SetHP()
+        {
+            _hP = new List<GameObject>();
+            Vector3 heartPos = transform.position;
+
+            for (int i = 0; i < _hPToSet; i++)
+            {
+                GameObject newHeart = Instantiate(hPIcon, heartPos, Quaternion.identity);
+                newHeart.transform.SetParent(GameObject.FindGameObjectWithTag("HealthSystem").transform, true);
+                heartPos.x += distBtwIcons;
+                _hP.Add(newHeart);
+            }
+        }
+
+        public void SignUpForActions(Garbage obj)
+        {
+            obj.OnCatchGarbage += DecreaseHealth;
+        }
+
+        private void DecreaseHealth()
+        {
+            int indexOfLastHeart = _hP.Count - 1;
+            Destroy(_hP[indexOfLastHeart]);
+            _hP.RemoveAt(indexOfLastHeart);
+
+            if (indexOfLastHeart <= 0)
+            {
+                OnNoHPLeft?.Invoke();
+            }
         }
     }
+
 }
+

@@ -14,8 +14,21 @@ namespace Catch
         private float _playerSpeed;
         private float _inputAxis;
 
-        public bool gameOver;
+        private bool _gameOver;
 
+        private void Update()
+        {
+            _inputAxis = _playerInputActions.Player.Movement.ReadValue<float>();
+        }
+
+        private void FixedUpdate()
+        {
+            if (!_gameOver)
+            {
+                _rb.velocity = new Vector3(_inputAxis * _playerSpeed, 0, 0);
+            }
+        }
+        
         public void Init(PlayerInputActions playerInputActions, float playerSpeed)
         {
             _rb = GetComponent<Rigidbody>();
@@ -25,17 +38,10 @@ namespace Catch
             _playerSpeed = playerSpeed;
         }
 
-        private void Update()
+        public void EndGamePhase()
         {
-            _inputAxis = _playerInputActions.Player.Movement.ReadValue<float>();
-        }
-
-        private void FixedUpdate()
-        {
-            if (!gameOver)
-            {
-                _rb.velocity = new Vector3(_inputAxis * _playerSpeed, 0, 0);
-            }
+            _rb.velocity = Vector3.zero;
+            _gameOver = true;
         }
     }
 }

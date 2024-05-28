@@ -1,6 +1,4 @@
 using UnityEngine;
-using UnityEngine.InputSystem;
-using UnityEngine.SocialPlatforms.Impl;
 
 namespace Catch
 {
@@ -8,6 +6,7 @@ namespace Catch
     {
 
         [Header("Config")] 
+        [SerializeField] private int startLevel;
         [SerializeField] private int health;
         [SerializeField] private float playerSpeed;
         [SerializeField] private float minSpawnTime,
@@ -15,7 +14,7 @@ namespace Catch
     
         [Header("Controllers")]
         [SerializeField] private PlayerController playerController;
-        [SerializeField] private DifficultyController difficultyController;
+        [SerializeField] private LevelController levelController;
 
         [Header("Managers")]
         [SerializeField] private AudioManager audioManager;
@@ -40,21 +39,40 @@ namespace Catch
 
         private void InitAll()
         {
+            levelController.Init(spawnSystem, scoreSystem, startLevel);
             playerController.Init(_playerInputActions, playerSpeed);
-            spawnSystem.Init(difficultyController, healthSystem, scoreSystem, minSpawnTime, maxSpawnTime);
-            scoreSystem.Init();
+            spawnSystem.Init(healthSystem, scoreSystem);
             healthSystem.Init(health);
         }
 
         private void SignUpToAllEvents()
         {
-            healthSystem.OnRanOutOfHealth += OnRanOutOfHealth;
+            healthSystem.OnNoHPLeft += OnRanOutOfHealth;
+            spawnSystem.OnAllObjectsSpawned += OnAllObjectsSpawned;
+            scoreSystem.OnLevelCleared += OnLevelCleared;
+            scoreSystem.OnLevelFailed += OnLevelFailed;
+        }
+
+        private void OnAllObjectsSpawned()
+        {
+            scoreSystem.StartSLRCoroutine();
         }
 
         private void OnRanOutOfHealth()
         {
             spawnSystem.gameOver = true;
-            playerController.gameOver = true;
+            playerController.EndGamePhase();
+            //Show lose panel
+        }
+
+        private void OnLevelCleared()
+        {
+            Debug.Log("Yeeeey");
+        }
+
+        private void OnLevelFailed()
+        {
+            Debug.Log("Fuck");
         }
     
     }
