@@ -18,9 +18,13 @@ namespace Catch
         private float _percentageOfCatchFood,
             _minimalPercentageOfCatchFood;
 
+        public float PercentageOfCathcFood => _percentageOfCatchFood;
+
         public void SetParameters(float minimalPercentageOfCatchFood)
         {
             _minimalPercentageOfCatchFood = minimalPercentageOfCatchFood;
+            _currentCatchFoodCount = 0;
+            _maxFoodToCatch = 0;
         }
     
         public void SignUpForActions(Food food)
@@ -45,12 +49,12 @@ namespace Catch
         private void FindPercentOfCatchFood()
         {
             _percentageOfCatchFood = (float)_currentCatchFoodCount / _maxFoodToCatch;
-            scoreText.text = _percentageOfCatchFood.ToString("0%");
+            scoreText.text = _percentageOfCatchFood.ToString("0%") + " / " + _minimalPercentageOfCatchFood.ToString("0%");
         }
 
         private bool CalcIfPassMinScore()
         {
-            return _percentageOfCatchFood >= _minimalPercentageOfCatchFood * 0.00f;
+            return _percentageOfCatchFood >= _minimalPercentageOfCatchFood;
         }
 
         private bool ScanForCatchableObjectsOnScene()

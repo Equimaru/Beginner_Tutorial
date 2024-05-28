@@ -8,4 +8,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/CatchGame.unity
     guid: 99c9720ab356a0642a771bea13969a05
+  - enabled: 1
+    path: Assets/Scenes/CatchGameMenu.unity
+    guid: ab9cdbb6e1d157f4ba282d9f98fd7a75
   m_configObjects: {}

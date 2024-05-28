@@ -65,6 +65,7 @@ namespace Catch
         public void SetParameters(float minSpawnTime, float maxSpawnTime, int objectsToSpawn)
         {
             _objectsToSpawn = objectsToSpawn;
+            _objectsSpawned = 0;
             _minSpawnTime = minSpawnTime;
             _maxSpawnTime = maxSpawnTime;
             
@@ -75,7 +76,7 @@ namespace Catch
         {
             if (Camera.main != null) 
                 _screenSize = Camera.main.ScreenToWorldPoint(new Vector2(Screen.width, Screen.height));
-            float randomX = Random.Range(_screenSize.x * -1 + gapAtBorder, _screenSize.x + gapAtBorder);
+            float randomX = Random.Range(_screenSize.x * -1 + gapAtBorder, _screenSize.x - gapAtBorder);
             
             int random = Random.Range(0, food.Length);
             GameObject newObj = Instantiate(food[random], new Vector3(randomX, _position.y, _position.z), Quaternion.identity);

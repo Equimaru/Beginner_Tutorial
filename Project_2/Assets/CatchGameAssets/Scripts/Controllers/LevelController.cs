@@ -36,8 +36,24 @@ namespace Catch
             
             SetLevelParameters();
             
-            _spawnSystem.SetParameters(_minSpawnTime, _maxSpawnTime, _objectsToSpawn);
-            _scoreSystem.SetParameters(_minCatchPercentage);
+            
+        }
+
+        public void LevelUpAndStart()
+        {
+            _currentLevel++;
+            _level = (Level) _currentLevel;
+            
+            SetLevelParameters();
+            
+            Debug.Log("Welcome to level " + _currentLevel);
+        }
+
+        public void RestartLevel()
+        {
+            SetLevelParameters();
+            
+            Debug.Log("Try again");
         }
 
         private void SetLevelParameters()
@@ -48,41 +64,44 @@ namespace Catch
                     _objectsToSpawn = 15;
                     _minSpawnTime = 2f;
                     _maxSpawnTime = 2f;
-                    _minCatchPercentage = 50f;
+                    _minCatchPercentage = 0.50f;
                     Physics.gravity = new Vector3(0, -5, 0);
                     break;
                 case Level.Second:
                     _objectsToSpawn = 20;
                     _minSpawnTime = 1.5f;
                     _maxSpawnTime = 2f;
-                    _minCatchPercentage = 60f;
+                    _minCatchPercentage = 0.60f;
                     Physics.gravity = new Vector3(0, -7, 0);
                     break;
                 case Level.Third:
                     _objectsToSpawn = 25;
                     _minSpawnTime = 1f;
                     _maxSpawnTime = 2f;
-                    _minCatchPercentage = 65f;
+                    _minCatchPercentage = 0.65f;
                     Physics.gravity = new Vector3(0, -9, 0);
                     break;
                 case Level.Fourth:
                     _objectsToSpawn = 30;
                     _minSpawnTime = 1f;
                     _maxSpawnTime = 2f;
-                    _minCatchPercentage = 70f;
+                    _minCatchPercentage = 0.70f;
                     Physics.gravity = new Vector3(0, -11, 0);
                     break;
                 case Level.Fifth:
                     _objectsToSpawn = 30;
                     _minSpawnTime = 0.5f;
                     _maxSpawnTime = 1.5f;
-                    _minCatchPercentage = 70f;
+                    _minCatchPercentage = 0.70f;
                     Physics.gravity = new Vector3(0, -11, 0);
                     break;
                 default:
                     Debug.LogError("You are trying to load non existent level.");
                     break;
             }
+            
+            _spawnSystem.SetParameters(_minSpawnTime, _maxSpawnTime, _objectsToSpawn);
+            _scoreSystem.SetParameters(_minCatchPercentage);
         }
     }
 }

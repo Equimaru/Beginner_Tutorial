@@ -43,6 +43,11 @@ namespace Catch
             _rb.velocity = Vector3.zero;
             _gameOver = true;
         }
+
+        public void StartGamePhase()
+        {
+            _gameOver = false;
+        }
     }
 }
 

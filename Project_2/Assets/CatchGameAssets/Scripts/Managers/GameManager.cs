@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace Catch
 {
@@ -9,8 +10,6 @@ namespace Catch
         [SerializeField] private int startLevel;
         [SerializeField] private int health;
         [SerializeField] private float playerSpeed;
-        [SerializeField] private float minSpawnTime,
-            maxSpawnTime;
     
         [Header("Controllers")]
         [SerializeField] private PlayerController playerController;
@@ -18,11 +17,14 @@ namespace Catch
 
         [Header("Managers")]
         [SerializeField] private AudioManager audioManager;
+        [SerializeField] private ShopManager shopManager;
+        [SerializeField] private UIManager uIManager;
 
         [Header("Systems")] 
         [SerializeField] private SpawnSystem spawnSystem;
         [SerializeField] private ScoreSystem scoreSystem;
         [SerializeField] private HealthSystem healthSystem;
+        [SerializeField] private CashSystem cashSystem;
     
 
         private PlayerInputActions _playerInputActions;
@@ -39,10 +41,11 @@ namespace Catch
 
         private void InitAll()
         {
-            levelController.Init(spawnSystem, scoreSystem, startLevel);
-            playerController.Init(_playerInputActions, playerSpeed);
-            spawnSystem.Init(healthSystem, scoreSystem);
             healthSystem.Init(health);
+            shopManager.Init(cashSystem);
+            playerController.Init(_playerInputActions, playerSpeed);
+            levelController.Init(spawnSystem, scoreSystem, startLevel);
+            spawnSystem.Init(healthSystem, scoreSystem);
         }
 
         private void SignUpToAllEvents()
@@ -51,6 +54,11 @@ namespace Catch
             spawnSystem.OnAllObjectsSpawned += OnAllObjectsSpawned;
             scoreSystem.OnLevelCleared += OnLevelCleared;
             scoreSystem.OnLevelFailed += OnLevelFailed;
+
+            uIManager.OnNextLevelRequest += OnNextLevelEnterRequest;
+            uIManager.OnOpenShopRequest += OnOpenShopRequest;
+            uIManager.OnRestartRequest += OnRestartRequest;
+            uIManager.OnMenuExitRequest += OnMenuExitRequest;
         }
 
         private void OnAllObjectsSpawned()
@@ -67,12 +75,41 @@ namespace Catch
 
         private void OnLevelCleared()
         {
-            Debug.Log("Yeeeey");
+            playerController.EndGamePhase();
+            cashSystem.AddMoney((int)scoreSystem.PercentageOfCathcFood * 100);
+            uIManager.SetCurrentMoneyAmount(cashSystem.CurrentMoneyAmount);
+            uIManager.ShowOnWinPanel();
+        }
+
+        private void OnRestartRequest()
+        {
+            uIManager.HideOnLosePanel();
+            uIManager.HideOnWinPanel();
+            playerController.StartGamePhase();
+            levelController.RestartLevel();
+        }
+
+        private void OnMenuExitRequest()
+        {
+            SceneManager.LoadScene("CatchGameMenu");
+        }
+
+        private void OnOpenShopRequest()
+        {
+            Debug.Log("Shop is closed for technical purpose");
+        }
+
+        private void OnNextLevelEnterRequest()
+        {
+            uIManager.HideOnWinPanel();
+            playerController.StartGamePhase();
+            levelController.LevelUpAndStart();
         }
 
         private void OnLevelFailed()
         {
-            Debug.Log("Fuck");
+            playerController.EndGamePhase();
+            uIManager.ShowOnLosePanel();
         }
     
     }
