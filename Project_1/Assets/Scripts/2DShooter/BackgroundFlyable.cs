@@ -2,10 +2,11 @@ using UnityEngine;
 
 public class BackgroundFlyable : MonoBehaviour, IPausable
 {
-    public float velocity,
-        velocityBuffer;
+    public float velocity;
     public float startXPosition,
         endXPosition;
+    
+    public bool IsPaused { get; set; }
 
     private Transform _objPos;
     
@@ -18,24 +19,28 @@ public class BackgroundFlyable : MonoBehaviour, IPausable
 
     void Update()
     {
-        if (transform.position.x < endXPosition)
+        if (!IsPaused)
         {
-            transform.Translate(Vector2.right * velocity * Time.deltaTime);
-        }
-        else
-        {
-            _objPos.position = new Vector3 (startXPosition, transform.position.y, _objPos.position.z);
+            if (transform.position.x < endXPosition)
+            {
+                transform.Translate(Vector2.right * velocity * Time.deltaTime);
+            }
+            else
+            {
+                _objPos.position = new Vector3(startXPosition, transform.position.y, _objPos.position.z);
+            }
         }
     }
 
+   
+
     public void Pause()
     {
-        velocityBuffer = velocity;
-        velocity = 0f;
+        IsPaused = true;
     }
 
     public void Resume()
     {
-        velocity = velocityBuffer;
+        IsPaused = false;
     }
 }

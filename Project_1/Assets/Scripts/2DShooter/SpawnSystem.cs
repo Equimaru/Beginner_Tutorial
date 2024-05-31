@@ -10,28 +10,28 @@ public class SpawnSystem : MonoBehaviour, IPausable
     
     public GameObject target;
 
-    private float _spawnCooldown;
-    private float _timeToDeSpawn;
+    private float _spawnCooldown,
+        _deSpawnCooldown;
 
-    private bool _isPaused;
-
-    private Coroutine _spawnCoroutine = null;
+    private Coroutine _spawnCoroutine;
+    
+    public bool IsPaused { get; set; }
 
     public void Init(float spawnCooldown, float timeToDeSpawn)
     {
         PauseSystem.Instance.AddPausable(this);
         _spawnCooldown = spawnCooldown;
-        _timeToDeSpawn = timeToDeSpawn;
+        _deSpawnCooldown = timeToDeSpawn;
     }
 
     public void Pause()
     {
-        _isPaused = true;
+        IsPaused = true;
     }
 
     public void Resume()
     {
-        _isPaused = false;
+        IsPaused = false;
     }
     
     private void Spawn()
@@ -72,34 +72,21 @@ public class SpawnSystem : MonoBehaviour, IPausable
         StopCoroutine(_spawnCoroutine);
     }
 
+    
     private IEnumerator SpawnLoop()
     {
         while (Application.isPlaying)
         {
-            if (_isPaused)
-            {
-                yield return new WaitForSeconds(_spawnCooldown);
-            }
-            else
-            {
-                Spawn();
-                yield return new WaitForSeconds(_spawnCooldown);
-            }
+            yield return new CustomPauseInstruction(this, _spawnCooldown);
+            Spawn();
         }
     }
 
     private IEnumerator DeSpawnAfterTime(GameObject obj)
     {
-        yield return new WaitForSeconds(_timeToDeSpawn);
-        if (obj != null && !_isPaused)
+        if (obj != null)
         {
-            Destroy(obj);
-            OnDeSpawn?.Invoke();
-        }
-        else if (obj != null && _isPaused)
-        {
-            yield return new WaitUntil(() => _isPaused == false);
-            yield return new WaitForSeconds(_timeToDeSpawn);
+            yield return new CustomPauseInstruction(this, _deSpawnCooldown);
             Destroy(obj);
             OnDeSpawn?.Invoke();
         }

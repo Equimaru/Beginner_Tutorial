@@ -10,15 +10,16 @@ public class WeaponSystem : MonoBehaviour, IPausable
     private AmmunitionSystem _ammunitionSystem;
     
     public LayerMask droneLayer;
-    public LayerMask uILayer;
     
     private Camera _cam;
     
     private InputActions _gameInput;
-    private bool _gameEnded,
-        _gamePaused;
+    private bool _gameEnded;
+    
     public bool isMouseOverUI;
 
+    public bool IsPaused { get; set; }
+    
     private void Start()
     {
         PauseSystem.Instance.AddPausable(this);
@@ -32,14 +33,9 @@ public class WeaponSystem : MonoBehaviour, IPausable
         _gameInput.Player.Weapon.performed += CheckForHit;
     }
 
-    private void OnDisable() // Get rid of
-    {
-        _gameInput.Player.Weapon.performed -= CheckForHit;
-    }
-
     private void CheckForHit(InputAction.CallbackContext callbackContext)
     {
-        if (isMouseOverUI || _gamePaused) return;
+        if (isMouseOverUI || IsPaused) return;
         if (!_ammunitionSystem.CheckForAmmo()) return;
 
         RaycastHit2D[] hits =
@@ -63,11 +59,11 @@ public class WeaponSystem : MonoBehaviour, IPausable
 
     public void Pause()
     {
-        _gamePaused = true;
+        IsPaused = true;
     }
 
     public void Resume()
     {
-        _gamePaused = false;
+        IsPaused = false;
     }
 }
