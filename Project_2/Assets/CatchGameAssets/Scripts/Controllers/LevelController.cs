@@ -4,6 +4,14 @@ namespace Catch
 {
     public class LevelController : MonoBehaviour
     {
+        [SerializeField] private LevelSettings lvl_1;
+        [SerializeField] private LevelSettings lvl_2;
+        [SerializeField] private LevelSettings lvl_3;
+        [SerializeField] private LevelSettings lvl_4;
+        [SerializeField] private LevelSettings lvl_5;
+
+        private LevelSettings _currentLevelSettings;
+        
         private SpawnSystem _spawnSystem;
         private ScoreSystem _scoreSystem;
         
@@ -35,8 +43,6 @@ namespace Catch
             _level = (Level)_currentLevel;
             
             SetLevelParameters();
-            
-            
         }
 
         public void LevelUpAndStart()
@@ -61,44 +67,30 @@ namespace Catch
             switch (_level)
             {
                 case Level.First:
-                    _objectsToSpawn = 15;
-                    _minSpawnTime = 2f;
-                    _maxSpawnTime = 2f;
-                    _minCatchPercentage = 0.50f;
-                    Physics.gravity = new Vector3(0, -5, 0);
+                    _currentLevelSettings = lvl_1;
                     break;
                 case Level.Second:
-                    _objectsToSpawn = 20;
-                    _minSpawnTime = 1.5f;
-                    _maxSpawnTime = 2f;
-                    _minCatchPercentage = 0.60f;
-                    Physics.gravity = new Vector3(0, -7, 0);
+                    _currentLevelSettings = lvl_2;
                     break;
                 case Level.Third:
-                    _objectsToSpawn = 25;
-                    _minSpawnTime = 1f;
-                    _maxSpawnTime = 2f;
-                    _minCatchPercentage = 0.65f;
-                    Physics.gravity = new Vector3(0, -9, 0);
+                    _currentLevelSettings = lvl_3;
                     break;
                 case Level.Fourth:
-                    _objectsToSpawn = 30;
-                    _minSpawnTime = 1f;
-                    _maxSpawnTime = 2f;
-                    _minCatchPercentage = 0.70f;
-                    Physics.gravity = new Vector3(0, -11, 0);
+                    _currentLevelSettings = lvl_4;
                     break;
                 case Level.Fifth:
-                    _objectsToSpawn = 30;
-                    _minSpawnTime = 0.5f;
-                    _maxSpawnTime = 1.5f;
-                    _minCatchPercentage = 0.70f;
-                    Physics.gravity = new Vector3(0, -11, 0);
+                    _currentLevelSettings = lvl_5;
                     break;
                 default:
                     Debug.LogError("You are trying to load non existent level.");
                     break;
             }
+            
+            _objectsToSpawn = _currentLevelSettings.FoodToSpawn;
+            _minSpawnTime = _currentLevelSettings.MinSpawnTime;
+            _maxSpawnTime = _currentLevelSettings.MaxSpawnTime;
+            _minCatchPercentage = _currentLevelSettings.MinCatchPercentage;
+            Physics.gravity = _currentLevelSettings.Gravity;
             
             _spawnSystem.SetParameters(_minSpawnTime, _maxSpawnTime, _objectsToSpawn);
             _scoreSystem.SetParameters(_minCatchPercentage);

@@ -38,12 +38,11 @@ namespace Catch
             }
         }
 
-        public void SignUpForActions(Garbage obj)
+        public void SignUpForActions(Uneatable obj)
         {
-            obj.OnCatchGarbage += DecreaseHealth;
         }
 
-        private void DecreaseHealth()
+        public void DecreaseHealth()
         {
             int indexOfLastHeart = _hP.Count - 1;
             Destroy(_hP[indexOfLastHeart]);
