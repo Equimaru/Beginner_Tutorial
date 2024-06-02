@@ -21,13 +21,14 @@ namespace Runner
         private void Awake()
         {
             DontDestroyOnLoad(gameObject);
-        }
-        
-        private void Start()
-        {
+            
             if (Instance == null)
             {
                 Instance = this;
+            }
+            else if (Instance != this)
+            {
+                Destroy(gameObject);
             }
             
             if (PlayerPrefs.HasKey("maxScore"))
