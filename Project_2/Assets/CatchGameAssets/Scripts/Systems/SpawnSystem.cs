@@ -82,8 +82,10 @@ namespace Catch
             GameObject newObj = Instantiate(food[random], new Vector3(randomX, _position.y, _position.z), Quaternion.identity);
             var drop = newObj.GetComponent<Drop>();
             drop.OnCaught += ObjectOnCaught;
+           
+            
         }
-
+        
         private void ObjectOnCaught(Drop drop)
         {
             drop.OnCaught -= ObjectOnCaught;
@@ -98,4 +100,3 @@ namespace Catch
         }
     }
 }
-
