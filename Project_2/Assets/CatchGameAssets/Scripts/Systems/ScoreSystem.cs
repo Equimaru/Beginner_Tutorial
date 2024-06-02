@@ -27,20 +27,18 @@ namespace Catch
             _maxFoodToCatch = 0;
         }
     
-        public void SignUpForActions(Food food)
+        public void SignUpForActions(Eatable eatable)
         {
-            food.OnCatchFood += OnFoodCatch;
-            food.OnDropFood += OnFoodDrop;
         }
     
-        private void OnFoodCatch()
+        public void OnFoodCatch()
         {
             _currentCatchFoodCount++;
             _maxFoodToCatch++;
             FindPercentOfCatchFood();
         }
 
-        private void OnFoodDrop()
+        public void OnFoodDrop()
         {
             _maxFoodToCatch++;
             FindPercentOfCatchFood();
@@ -59,7 +57,7 @@ namespace Catch
 
         private bool ScanForCatchableObjectsOnScene()
         {
-            return FindObjectOfType<ObjectToCatch>();
+            return FindObjectOfType<Drop>();
         }
 
         public void StartSLRCoroutine()

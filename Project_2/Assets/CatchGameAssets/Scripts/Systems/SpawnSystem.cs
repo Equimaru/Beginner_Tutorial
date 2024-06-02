@@ -47,7 +47,7 @@ namespace Catch
             {
                 if (_objectsSpawned < _objectsToSpawn)
                 {
-                    SpawnObstacle();
+                    SpawnDrop();
                     _objectsSpawned++;
 
                     waitTime = Random.Range(_minSpawnTime, _maxSpawnTime);
@@ -72,7 +72,7 @@ namespace Catch
             _spawnCoroutine = StartCoroutine(Spawn());
         }
 
-        private void SpawnObstacle()
+        private void SpawnDrop()
         {
             if (Camera.main != null) 
                 _screenSize = Camera.main.ScreenToWorldPoint(new Vector2(Screen.width, Screen.height));
@@ -80,15 +80,21 @@ namespace Catch
             
             int random = Random.Range(0, food.Length);
             GameObject newObj = Instantiate(food[random], new Vector3(randomX, _position.y, _position.z), Quaternion.identity);
-            if (newObj.GetComponent<Garbage>())
+            var drop = newObj.GetComponent<Drop>();
+            drop.OnCaught += ObjectOnCaught;
+        }
+
+        private void ObjectOnCaught(Drop drop)
+        {
+            drop.OnCaught -= ObjectOnCaught;
+            if (drop.Type == ObjectType.Eatable)
             {
-                _healthSystem.SignUpForActions(newObj.GetComponent<Garbage>());
+                _scoreSystem.OnFoodCatch();
             }
-            else
+            else if (drop.Type == ObjectType.Uneatable)
             {
-                _scoreSystem.SignUpForActions(newObj.GetComponent<Food>());
+                _healthSystem.DecreaseHealth();
             }
-            
         }
     }
 }
