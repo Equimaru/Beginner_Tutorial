@@ -6,10 +6,11 @@ public class UneatableFactory : DroppableFactory
 {
     [SerializeField] private List<GameObject> uneatablePrefabs;
         
-    public override Droppable CreateDroppable(Vector3 pos)
+    public override Droppable CreateDroppable()
     {
         int prefabInUse = Random.Range(0, uneatablePrefabs.Count);
-        GameObject newObject = Instantiate(uneatablePrefabs[prefabInUse], pos, Quaternion.identity);
+        Vector3 pos = transform.position;
+        GameObject newObject = Instantiate(uneatablePrefabs[prefabInUse], new Vector3(GetRandomXPos(), pos.y, pos.z), Quaternion.identity);
         return newObject.GetComponent<Droppable>();
     }
 }

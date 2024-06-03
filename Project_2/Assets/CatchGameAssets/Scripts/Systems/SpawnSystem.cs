@@ -13,7 +13,6 @@ namespace Catch
         [SerializeField] private List<DroppableFactory> droppableFactories;
 
         private Vector2 _screenSize;
-        [SerializeField] private float gapAtBorder;
         
         private Vector3 _position;
         private LevelController _levelController;
@@ -75,29 +74,9 @@ namespace Catch
 
         private void SpawnDrop()
         {
-            _position = transform.position;
-            if (Camera.main != null) 
-                _screenSize = Camera.main.ScreenToWorldPoint(new Vector2(Screen.width, Screen.height));
-            float randomX = Random.Range(_screenSize.x * -1 + gapAtBorder, _screenSize.x - gapAtBorder);
-<<<<<<< Updated upstream
-            
-            int random = Random.Range(0, food.Length);
-            GameObject newObj = Instantiate(food[random], new Vector3(randomX, _position.y, _position.z), Quaternion.identity);
-            var drop = newObj.GetComponent<Drop>();
-            drop.OnCaught += ObjectOnCaught;
-           
-            
-        }
-        
-        private void ObjectOnCaught(Drop drop)
-        {
-            drop.OnCaught -= ObjectOnCaught;
-            if (drop.Type == ObjectType.Eatable)
-=======
-
             int factoryInUse = Random.Range(0, 2);
 
-            var droppable = droppableFactories[factoryInUse].CreateDroppable(new Vector3(randomX, _position.y, _position.z));
+            var droppable = droppableFactories[factoryInUse].CreateDroppable();
             droppable.OnCaught += ObjectOnCaught;
             droppable.OnDropped += ObjectOnDrop;
         }
@@ -107,7 +86,6 @@ namespace Catch
             droppable.OnCaught -= ObjectOnCaught;
             droppable.OnDropped -= ObjectOnCaught;
             if (droppable.Type == ObjectType.Eatable)
->>>>>>> Stashed changes
             {
                 _scoreSystem.OnFoodCatch();
             }
