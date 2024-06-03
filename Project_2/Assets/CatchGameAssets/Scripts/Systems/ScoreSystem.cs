@@ -27,10 +27,6 @@ namespace Catch
             _maxFoodToCatch = 0;
         }
     
-        public void SignUpForActions(Eatable eatable)
-        {
-        }
-    
         public void OnFoodCatch()
         {
             _currentCatchFoodCount++;
@@ -57,7 +53,7 @@ namespace Catch
 
         private bool ScanForCatchableObjectsOnScene()
         {
-            return FindObjectOfType<Drop>();
+            return FindObjectOfType<Droppable>();
         }
 
         public void StartSLRCoroutine()

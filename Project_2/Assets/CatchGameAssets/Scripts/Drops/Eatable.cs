@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Catch
 {
-    public class Eatable : Drop
+    public class Eatable : Droppable
     {
         public override ObjectType Type => ObjectType.Eatable;
 

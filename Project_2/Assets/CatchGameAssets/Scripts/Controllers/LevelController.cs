@@ -17,7 +17,7 @@ namespace Catch
         
         private int _currentLevel;
 
-        private int _objectsToSpawn;
+        private int _eatableToSpawn;
 
         private float _minCatchPercentage,
             _minSpawnTime,
@@ -86,13 +86,13 @@ namespace Catch
                     break;
             }
             
-            _objectsToSpawn = _currentLevelSettings.FoodToSpawn;
+            _eatableToSpawn = _currentLevelSettings.FoodToSpawn;
             _minSpawnTime = _currentLevelSettings.MinSpawnTime;
             _maxSpawnTime = _currentLevelSettings.MaxSpawnTime;
             _minCatchPercentage = _currentLevelSettings.MinCatchPercentage;
             Physics.gravity = _currentLevelSettings.Gravity;
             
-            _spawnSystem.SetParameters(_minSpawnTime, _maxSpawnTime, _objectsToSpawn);
+            _spawnSystem.SetParameters(_minSpawnTime, _maxSpawnTime, _eatableToSpawn);
             _scoreSystem.SetParameters(_minCatchPercentage);
         }
     }

@@ -5,10 +5,10 @@ using Random = UnityEngine.Random;
 
 namespace Catch
 {
-    public abstract class Drop : MonoBehaviour
+    public abstract class Droppable : MonoBehaviour
     {
-        public Action<Drop> OnCaught;
-        public Action<Drop> OnDropped;
+        public Action<Droppable> OnCaught;
+        public Action<Droppable> OnDropped;
 
         public abstract ObjectType Type { get; }
 

@@ -38,10 +38,6 @@ namespace Catch
             }
         }
 
-        public void SignUpForActions(Uneatable obj)
-        {
-        }
-
         public void DecreaseHealth()
         {
             int indexOfLastHeart = _hP.Count - 1;
