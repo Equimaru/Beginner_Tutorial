@@ -76,7 +76,7 @@ namespace Catch
         private void OnLevelCleared()
         {
             playerController.EndGamePhase();
-            cashSystem.AddMoney((int)scoreSystem.PercentageOfCathcFood * 100);
+            cashSystem.AddMoney((int)scoreSystem.PercentageOfCatchFood * 100);
             uIManager.SetCurrentMoneyAmount(cashSystem.CurrentMoneyAmount);
             uIManager.ShowOnWinPanel();
         }

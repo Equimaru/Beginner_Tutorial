@@ -93,7 +93,7 @@ namespace Catch
             Physics.gravity = _currentLevelSettings.Gravity;
             
             _spawnSystem.SetParameters(_minSpawnTime, _maxSpawnTime, _eatableToSpawn);
-            _scoreSystem.SetParameters(_minCatchPercentage);
+            _scoreSystem.SetParameters(_eatableToSpawn, _minCatchPercentage);
         }
     }
 }

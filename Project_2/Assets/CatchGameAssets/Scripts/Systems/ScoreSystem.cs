@@ -7,43 +7,42 @@ namespace Catch
 {
     public class ScoreSystem : MonoBehaviour
     {
-        [SerializeField] private TextMeshProUGUI scoreText;
-    
+        [SerializeField] private FillUpSystemUI fillUpSystemUI;
+        
         public Action OnLevelCleared;
         public Action OnLevelFailed;
     
         private int _currentCatchFoodCount,
-             _maxFoodToCatch;
+             _eatableToCatch;
 
         private float _percentageOfCatchFood,
             _minimalPercentageOfCatchFood;
 
-        public float PercentageOfCathcFood => _percentageOfCatchFood;
+        public float PercentageOfCatchFood => _percentageOfCatchFood;
 
-        public void SetParameters(float minimalPercentageOfCatchFood)
+        public void SetParameters(int eatableToCatch, float minimalPercentageOfCatchFood)
         {
             _minimalPercentageOfCatchFood = minimalPercentageOfCatchFood;
+            fillUpSystemUI.SetUpMinFillUpMarker(_minimalPercentageOfCatchFood);
             _currentCatchFoodCount = 0;
-            _maxFoodToCatch = 0;
+            _eatableToCatch = eatableToCatch;
         }
     
-        public void OnFoodCatch()
+        public void OnEatableCatch()
         {
             _currentCatchFoodCount++;
-            _maxFoodToCatch++;
             FindPercentOfCatchFood();
         }
 
-        public void OnFoodDrop()
+        public void OnEatableDrop()
         {
-            _maxFoodToCatch++;
             FindPercentOfCatchFood();
         }
 
         private void FindPercentOfCatchFood()
         {
-            _percentageOfCatchFood = (float)_currentCatchFoodCount / _maxFoodToCatch;
-            scoreText.text = _percentageOfCatchFood.ToString("0%") + " / " + _minimalPercentageOfCatchFood.ToString("0%");
+            _percentageOfCatchFood = (float)_currentCatchFoodCount / _eatableToCatch;
+            fillUpSystemUI.SetCurrentFillUpMarker(_percentageOfCatchFood);
         }
 
         private bool CalcIfPassMinScore()

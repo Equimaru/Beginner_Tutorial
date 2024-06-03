@@ -14,7 +14,6 @@ namespace Catch
 
         private Vector2 _screenSize;
         
-        private Vector3 _position;
         private LevelController _levelController;
         private HealthSystem _healthSystem;
         private ScoreSystem _scoreSystem;
@@ -34,7 +33,6 @@ namespace Catch
         {
             _healthSystem = healthSystem;
             _scoreSystem = scoreSystem;
-            _position = transform.position;
         }
         
         IEnumerator Spawn()
@@ -47,9 +45,8 @@ namespace Catch
             {
                 if (_eatablesSpawned < _eatablesToSpawn)
                 {
-                    SpawnDrop();
-                    _eatablesSpawned++;
-
+                    SpawnDroppable();
+                    
                     waitTime = Random.Range(_minSpawnTime, _maxSpawnTime);
                     yield return new WaitForSeconds(waitTime);
                 }
@@ -72,11 +69,15 @@ namespace Catch
             _spawnCoroutine = StartCoroutine(Spawn());
         }
 
-        private void SpawnDrop()
+        private void SpawnDroppable()
         {
             int factoryInUse = Random.Range(0, 2);
 
             var droppable = droppableFactories[factoryInUse].CreateDroppable();
+            if (droppable.Type == ObjectType.Eatable)
+            {
+                _eatablesSpawned++;
+            }
             droppable.OnCaught += ObjectOnCaught;
             droppable.OnDropped += ObjectOnDrop;
         }
@@ -87,7 +88,7 @@ namespace Catch
             droppable.OnDropped -= ObjectOnCaught;
             if (droppable.Type == ObjectType.Eatable)
             {
-                _scoreSystem.OnFoodCatch();
+                _scoreSystem.OnEatableCatch();
             }
             else if (droppable.Type == ObjectType.Uneatable)
             {
@@ -101,7 +102,7 @@ namespace Catch
             droppable.OnDropped -= ObjectOnCaught;
             if (droppable.Type == ObjectType.Eatable)
             {
-                _scoreSystem.OnFoodDrop();
+                _scoreSystem.OnEatableDrop();
             }
         }
     }
