@@ -1,8 +1,4 @@
-﻿using System;
-using DG.Tweening;
-using UnityEngine;
-
-namespace Catch
+﻿namespace Catch
 {
     public class Eatable : Droppable
     {

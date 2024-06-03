@@ -1,7 +1,4 @@
-﻿using System;
-using UnityEngine;
-
-namespace Catch
+﻿namespace Catch
 {
     public class Uneatable : Droppable
     {
