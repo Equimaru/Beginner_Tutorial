@@ -7,6 +7,8 @@ public class PauseSystem : MonoBehaviour
     private static PauseSystem _instance;
 
     private List<IPausable> _pausables = new();
+    
+    public bool IsPaused { get; private set; }
 
     private void Awake()
     {
@@ -25,6 +27,7 @@ public class PauseSystem : MonoBehaviour
 
     public void Pause()
     {
+        IsPaused = true;
         foreach (var pausable in _pausables)
         {
             pausable.Pause();
@@ -33,6 +36,7 @@ public class PauseSystem : MonoBehaviour
     
     public void Resume()
     {
+        IsPaused = false;
         foreach (var pausable in _pausables)
         {
             pausable.Resume();

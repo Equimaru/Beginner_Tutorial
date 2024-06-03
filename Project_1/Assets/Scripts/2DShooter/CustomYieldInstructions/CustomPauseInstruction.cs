@@ -6,7 +6,7 @@ public class CustomPauseInstruction : CustomYieldInstruction
     {
         get
         {
-            if (_iPausable.IsPaused)
+            if (PauseSystem.Instance.IsPaused)
             {
                 _pauseTimer += Time.unscaledDeltaTime;
                 return true;

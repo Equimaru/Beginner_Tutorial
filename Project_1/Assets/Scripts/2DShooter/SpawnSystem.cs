@@ -15,7 +15,6 @@ public class SpawnSystem : MonoBehaviour, IPausable
 
     private Coroutine _spawnCoroutine;
     
-    public bool IsPaused { get; set; }
 
     public void Init(float spawnCooldown, float timeToDeSpawn)
     {
@@ -26,12 +25,10 @@ public class SpawnSystem : MonoBehaviour, IPausable
 
     public void Pause()
     {
-        IsPaused = true;
     }
 
     public void Resume()
     {
-        IsPaused = false;
     }
     
     private void Spawn()
