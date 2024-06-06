@@ -27,13 +27,13 @@ namespace Catch
             _eatableToCatch = eatableToCatch;
         }
     
-        public void OnEatableCatch()
+        public void OnGoodItemCatch()
         {
             _currentCatchFoodCount++;
             FindPercentOfCatchFood();
         }
 
-        public void OnEatableDrop()
+        public void OnGoodItemDrop()
         {
             FindPercentOfCatchFood();
         }

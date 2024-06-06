@@ -14,6 +14,7 @@ namespace Catch
         [Header("Controllers")]
         [SerializeField] private PlayerController playerController;
         [SerializeField] private LevelController levelController;
+        [SerializeField] private BackgroundController backgroundController;
 
         [Header("Managers")]
         [SerializeField] private AudioManager audioManager;
@@ -44,8 +45,10 @@ namespace Catch
             healthSystem.Init(health);
             shopManager.Init(cashSystem);
             playerController.Init(_playerInputActions, playerSpeed);
-            levelController.Init(spawnSystem, scoreSystem, startLevel);
             spawnSystem.Init(healthSystem, scoreSystem);
+            levelController.Init(spawnSystem, scoreSystem, startLevel);
+            
+            backgroundController.ChangeBackground();
         }
 
         private void SignUpToAllEvents()
@@ -70,7 +73,7 @@ namespace Catch
         {
             spawnSystem.gameOver = true;
             playerController.EndGamePhase();
-            //Show lose panel
+            uIManager.ShowOnLosePanel();
         }
 
         private void OnLevelCleared()
@@ -104,6 +107,7 @@ namespace Catch
             uIManager.HideOnWinPanel();
             playerController.StartGamePhase();
             levelController.LevelUpAndStart();
+            backgroundController.ChangeBackground();
         }
 
         private void OnLevelFailed()
