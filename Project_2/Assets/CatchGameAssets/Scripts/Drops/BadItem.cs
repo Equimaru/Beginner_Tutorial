@@ -1,8 +1,8 @@
 ﻿namespace Catch
 {
-    public class Eatable : Droppable
+    public class BadItem : FallingItem
     {
-        public override ObjectType Type => ObjectType.Eatable;
+        public override ObjectType Type => ObjectType.Uneatable;
 
         protected override void OnCatch()
         {

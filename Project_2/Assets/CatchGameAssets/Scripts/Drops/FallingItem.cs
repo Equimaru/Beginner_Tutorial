@@ -4,10 +4,10 @@ using UnityEngine;
 
 namespace Catch
 {
-    public abstract class Droppable : MonoBehaviour
+    public abstract class FallingItem : MonoBehaviour
     {
-        public Action<Droppable> OnCaught;
-        public Action<Droppable> OnDropped;
+        public Action<FallingItem> OnCaught;
+        public Action<FallingItem> OnDropped;
 
         public abstract ObjectType Type { get; }
 

@@ -51,7 +51,7 @@ namespace Catch
 
         private bool ScanForCatchableObjectsOnScene()
         {
-            return FindObjectOfType<Droppable>();
+            return FindObjectOfType<FallingItem>();
         }
 
         public void StartSLRCoroutine()

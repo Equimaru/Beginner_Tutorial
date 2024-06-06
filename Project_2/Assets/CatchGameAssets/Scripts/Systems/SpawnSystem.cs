@@ -10,7 +10,7 @@ namespace Catch
     {
         public Action OnAllObjectsSpawned;
 
-        [SerializeField] private List<DroppableFactory> droppableFactories;
+        [SerializeField] private List<FallingItemFactory> droppableFactories;
 
         private Vector2 _screenSize;
         
@@ -73,7 +73,7 @@ namespace Catch
         {
             int factoryInUse = Random.Range(0, 2);
 
-            var droppable = droppableFactories[factoryInUse].CreateDroppable();
+            var droppable = droppableFactories[factoryInUse].CreateFallingItem();
             if (droppable.Type == ObjectType.Eatable)
             {
                 _eatablesSpawned++;
@@ -82,25 +82,25 @@ namespace Catch
             droppable.OnDropped += ObjectOnDrop;
         }
 
-        private void ObjectOnCaught(Droppable droppable)
+        private void ObjectOnCaught(FallingItem fallingItem)
         {
-            droppable.OnCaught -= ObjectOnCaught;
-            droppable.OnDropped -= ObjectOnCaught;
-            if (droppable.Type == ObjectType.Eatable)
+            fallingItem.OnCaught -= ObjectOnCaught;
+            fallingItem.OnDropped -= ObjectOnCaught;
+            if (fallingItem.Type == ObjectType.Eatable)
             {
                 _scoreSystem.OnEatableCatch();
             }
-            else if (droppable.Type == ObjectType.Uneatable)
+            else if (fallingItem.Type == ObjectType.Uneatable)
             {
                 _healthSystem.DecreaseHealth();
             }
         }
 
-        private void ObjectOnDrop(Droppable droppable)
+        private void ObjectOnDrop(FallingItem fallingItem)
         {
-            droppable.OnCaught -= ObjectOnCaught;
-            droppable.OnDropped -= ObjectOnCaught;
-            if (droppable.Type == ObjectType.Eatable)
+            fallingItem.OnCaught -= ObjectOnCaught;
+            fallingItem.OnDropped -= ObjectOnCaught;
+            if (fallingItem.Type == ObjectType.Eatable)
             {
                 _scoreSystem.OnEatableDrop();
             }

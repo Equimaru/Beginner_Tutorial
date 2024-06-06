@@ -2,9 +2,9 @@ using UnityEngine;
 
 namespace Catch
 {
-    public abstract class DroppableFactory : MonoBehaviour
+    public abstract class FallingItemFactory : MonoBehaviour
     {
-        public abstract Droppable CreateDroppable();
+        public abstract FallingItem CreateFallingItem();
 
         protected float GetRandomXPos()
         {
@@ -16,11 +16,8 @@ namespace Catch
                 float randomX = Random.Range(screenSize.x * -1 + gapAtBorder, screenSize.x - gapAtBorder);
                 return randomX;
             }
-            else
-            {
-                Debug.LogError("There is no camera in scene.");
-                return 0f;
-            }
+            Debug.LogError("There is no camera in scene.");
+            return 0f;
         }
     }
 }
