@@ -11,7 +11,7 @@ namespace Catch
         {
             int prefabInUse = Random.Range(0, backgroundPrefabs.Count);
             Vector3 pos = transform.position;
-            var newBackground = Instantiate(backgroundPrefabs[prefabInUse], pos, Quaternion.identity);
+            var newBackground = Instantiate(backgroundPrefabs[prefabInUse], pos, new Quaternion(-90f,90f,-90f,90f));
             return newBackground;
         }
     }

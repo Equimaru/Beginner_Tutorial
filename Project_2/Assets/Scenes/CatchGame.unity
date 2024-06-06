@@ -2903,7 +2903,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18537a5d4b79be14fbc1dfcb8226ff4f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fallingItemFactory: []
+  fallingItemFactory:
+  - {fileID: 1790549691}
+  - {fileID: 1790549694}
   gameOver: 0
 --- !u!1 &1312435032
 GameObject:
@@ -2962,8 +2964,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1368289047}
-  - component: {fileID: 1368289048}
   - component: {fileID: 1368289049}
+  - component: {fileID: 1368289050}
   m_Layer: 0
   m_Name: BackgroundFactory
   m_TagString: Untagged
@@ -2986,24 +2988,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1244528137}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1368289048
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1368289046}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4fa7c386e599f6845b1c5d9c3de54174, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  backgroundPrefabs:
-  - {fileID: 3695228675961243022, guid: 3e58c2c4fa92f7041956237756b465c4, type: 3}
-  - {fileID: 9102284831025826245, guid: 0f094e336063dbd4e8297e1f99be10c1, type: 3}
-  - {fileID: 516336460200648912, guid: b94de438c0853904d8f3ef5b018d7dda, type: 3}
-  - {fileID: 6160838914200949354, guid: 7e095a1d6fc50534d9e431db84e3ce70, type: 3}
-  - {fileID: 3945106514359686681, guid: 5452cc317adcfa441a34f74430dcc5d0, type: 3}
 --- !u!114 &1368289049
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3016,7 +3000,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dea46f57908983a449c0143a8ef6e18c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  backgroundFactory: {fileID: 1368289048}
+  backgroundFactory: {fileID: 1368289050}
+--- !u!114 &1368289050
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1368289046}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4fa7c386e599f6845b1c5d9c3de54174, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  backgroundPrefabs:
+  - {fileID: 2814737630223175455, guid: 3e58c2c4fa92f7041956237756b465c4, type: 3}
+  - {fileID: 6559927026520212991, guid: 0f094e336063dbd4e8297e1f99be10c1, type: 3}
+  - {fileID: 4040756939982680935, guid: b94de438c0853904d8f3ef5b018d7dda, type: 3}
+  - {fileID: 2194656886972818220, guid: 7e095a1d6fc50534d9e431db84e3ce70, type: 3}
+  - {fileID: -2528758974828498237, guid: 5452cc317adcfa441a34f74430dcc5d0, type: 3}
 --- !u!1 &1373677603
 GameObject:
   m_ObjectHideFlags: 0
@@ -3874,8 +3876,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1790549693}
-  - component: {fileID: 1790549691}
   - component: {fileID: 1790549694}
+  - component: {fileID: 1790549691}
   m_Layer: 0
   m_Name: FallingItemsFactory
   m_TagString: Untagged
