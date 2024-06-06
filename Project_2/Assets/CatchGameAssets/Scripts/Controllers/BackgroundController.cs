@@ -1,4 +1,3 @@
-using Catch;
 using UnityEngine;
 
 namespace Catch
@@ -16,10 +15,10 @@ namespace Catch
             {
                 while (newBackground.colour == _currentBackground.colour)
                 {
-                    Destroy(newBackground);
+                    Destroy(newBackground.gameObject);
                     newBackground = backgroundFactory.CreateBackground();
                 }
-                Destroy(_currentBackground);
+                Destroy(_currentBackground.gameObject);
             }
 
             _currentBackground = newBackground;
