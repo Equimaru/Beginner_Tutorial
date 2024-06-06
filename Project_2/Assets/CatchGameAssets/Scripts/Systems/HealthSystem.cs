@@ -11,8 +11,6 @@ namespace Catch
         [SerializeField] private GameObject hPIcon;
         private List<GameObject> _hP;
         private int _hPToSet;
-        [SerializeField] private float distBtwIcons;
-        
         private int _health;
 
         public void Init(int health)
@@ -30,7 +28,6 @@ namespace Catch
             {
                 GameObject newHeart = Instantiate(hPIcon, heartPos, Quaternion.identity);
                 newHeart.transform.SetParent(GameObject.FindGameObjectWithTag("HealthSystem").transform, true);
-                heartPos.x += distBtwIcons;
                 _hP.Add(newHeart);
             }
         }
