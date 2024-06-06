@@ -8,7 +8,7 @@ namespace Catch
 {
     public class SpawnSystem : MonoBehaviour
     {
-        public Action OnAllObjectsSpawned;
+        public Action OnAllSpawnedObjectsGone;
 
         [SerializeField] private List<FallingItemFactory> fallingItemFactory;
 
@@ -20,8 +20,10 @@ namespace Catch
 
         public bool gameOver;
 
-        private int _eatablesToSpawn,
-            _eatablesSpawned;
+        private int _goodItemsToSpawn,
+            _goodItemsSpawned,
+            _goodItemsCatchOrDropped,
+            _maxGoodItemsCatchOrDropped;
 
         private float _minSpawnTime = 1f,
             _maxSpawnTime = 2f;
@@ -43,7 +45,7 @@ namespace Catch
 
             while (!gameOver)
             {
-                if (_eatablesSpawned < _eatablesToSpawn)
+                if (_goodItemsSpawned < _goodItemsToSpawn)
                 {
                     SpawnDroppable();
                     
@@ -53,7 +55,6 @@ namespace Catch
                 else
                 {
                     StopCoroutine(_spawnCoroutine);
-                    OnAllObjectsSpawned?.Invoke();
                     yield return null;
                 }
             }
@@ -61,8 +62,10 @@ namespace Catch
 
         public void SetParameters(float minSpawnTime, float maxSpawnTime, int objectsToSpawn)
         {
-            _eatablesToSpawn = objectsToSpawn;
-            _eatablesSpawned = 0;
+            _goodItemsToSpawn = objectsToSpawn;
+            _maxGoodItemsCatchOrDropped = _goodItemsToSpawn;
+            _goodItemsCatchOrDropped = 0;
+            _goodItemsSpawned = 0;
             _minSpawnTime = minSpawnTime;
             _maxSpawnTime = maxSpawnTime;
             
@@ -76,7 +79,7 @@ namespace Catch
             var fallingItem = fallingItemFactory[factoryInUse].CreateFallingItem();
             if (fallingItem.Type == ObjectType.Eatable)
             {
-                _eatablesSpawned++;
+                _goodItemsSpawned++;
             }
             fallingItem.OnCaught += ObjectOnCaught;
             fallingItem.OnDropped += ObjectOnDrop;
@@ -89,6 +92,8 @@ namespace Catch
             if (fallingItem.Type == ObjectType.Eatable)
             {
                 _scoreSystem.OnGoodItemCatch();
+                _goodItemsCatchOrDropped++;
+                CheckForAllItemsGone();
             }
             else if (fallingItem.Type == ObjectType.Uneatable)
             {
@@ -103,6 +108,16 @@ namespace Catch
             if (fallingItem.Type == ObjectType.Eatable)
             {
                 _scoreSystem.OnGoodItemDrop();
+                _goodItemsCatchOrDropped++;
+                CheckForAllItemsGone();
+            }
+        }
+
+        private void CheckForAllItemsGone()
+        {
+            if (_goodItemsCatchOrDropped == _maxGoodItemsCatchOrDropped)
+            {
+                OnAllSpawnedObjectsGone?.Invoke();
             }
         }
     }

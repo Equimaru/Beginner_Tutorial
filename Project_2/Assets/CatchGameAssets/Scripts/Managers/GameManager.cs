@@ -54,7 +54,7 @@ namespace Catch
         private void SignUpToAllEvents()
         {
             healthSystem.OnNoHPLeft += OnRanOutOfHealth;
-            spawnSystem.OnAllObjectsSpawned += OnAllObjectsSpawned;
+            spawnSystem.OnAllSpawnedObjectsGone += OnAllObjectsSpawned;
             scoreSystem.OnLevelCleared += OnLevelCleared;
             scoreSystem.OnLevelFailed += OnLevelFailed;
 
@@ -66,7 +66,7 @@ namespace Catch
 
         private void OnAllObjectsSpawned()
         {
-            scoreSystem.StartSLRCoroutine();
+            scoreSystem.ShowLevelResults();
         }
 
         private void OnRanOutOfHealth()

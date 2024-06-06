@@ -49,19 +49,8 @@ namespace Catch
             return _percentageOfCatchFood >= _minimalPercentageOfCatchFood;
         }
 
-        private bool ScanForCatchableObjectsOnScene()
+        public void ShowLevelResults()
         {
-            return FindObjectOfType<FallingItem>();
-        }
-
-        public void StartSLRCoroutine()
-        {
-            StartCoroutine(ShowLevelResults());
-        }
-        
-        private IEnumerator ShowLevelResults()
-        {
-            yield return new WaitUntil(() => ScanForCatchableObjectsOnScene() == false);
             if (CalcIfPassMinScore())
             {
                 OnLevelCleared?.Invoke();
