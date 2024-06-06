@@ -5,8 +5,9 @@ public class BackgroundFlyable : MonoBehaviour, IPausable
     public float velocity;
     public float startXPosition,
         endXPosition;
-    
 
+    private bool _isPaused;
+    
     private Transform _objPos;
     
     void Start()
@@ -18,7 +19,7 @@ public class BackgroundFlyable : MonoBehaviour, IPausable
 
     void Update()
     {
-        if (!PauseSystem.Instance.IsPaused)
+        if (!_isPaused)
         {
             if (transform.position.x < endXPosition)
             {
@@ -35,9 +36,11 @@ public class BackgroundFlyable : MonoBehaviour, IPausable
 
     public void Pause()
     {
+        _isPaused = true;
     }
 
     public void Resume()
     {
+        _isPaused = true;
     }
 }

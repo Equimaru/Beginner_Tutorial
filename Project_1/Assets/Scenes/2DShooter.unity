@@ -884,8 +884,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c0733151649c6764297242f8689b0f91, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Difficulty: Hard
-  usePreset: 1
+  Difficulty: Easy
+  usePreset: 0
   scoreToWin: 15
   scoreLossOnMiss: 0
   scoreLossOnDeSpawn: 0
@@ -1073,9 +1073,6 @@ MonoBehaviour:
   droneLayer:
     serializedVersion: 2
     m_Bits: 64
-  uILayer:
-    serializedVersion: 2
-    m_Bits: 0
   isMouseOverUI: 0
 --- !u!4 &652339210
 Transform:
@@ -1996,7 +1993,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   velocity: 0.5
-  velocityBuffer: 0
   startXPosition: -10
   endXPosition: 10
 --- !u!1 &1076953040
@@ -3955,7 +3951,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   velocity: 1
-  velocityBuffer: 0
   startXPosition: -10
   endXPosition: 10
 --- !u!1 &2032492130

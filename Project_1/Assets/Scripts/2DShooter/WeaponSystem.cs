@@ -14,7 +14,8 @@ public class WeaponSystem : MonoBehaviour, IPausable
     private Camera _cam;
     
     private InputActions _gameInput;
-    private bool _gameEnded;
+    private bool _gameEnded,
+        _isPaused;
     
     public bool isMouseOverUI;
 
@@ -33,7 +34,7 @@ public class WeaponSystem : MonoBehaviour, IPausable
 
     private void CheckForHit(InputAction.CallbackContext callbackContext)
     {
-        if (isMouseOverUI || PauseSystem.Instance.IsPaused) return;
+        if (isMouseOverUI || _isPaused) return;
         if (!_ammunitionSystem.CheckForAmmo()) return;
 
         RaycastHit2D[] hits =
@@ -57,9 +58,11 @@ public class WeaponSystem : MonoBehaviour, IPausable
 
     public void Pause()
     {
+        _isPaused = true;
     }
 
     public void Resume()
     {
+        _isPaused = false;
     }
 }

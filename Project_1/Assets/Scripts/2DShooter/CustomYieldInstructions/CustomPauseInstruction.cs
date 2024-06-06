@@ -2,11 +2,12 @@ using UnityEngine;
 
 public class CustomPauseInstruction : CustomYieldInstruction
 {
+    private bool _isPaused;
     public override bool keepWaiting
     {
         get
         {
-            if (PauseSystem.Instance.IsPaused)
+            if (_isPaused)
             {
                 _pauseTimer += Time.unscaledDeltaTime;
                 return true;
@@ -25,4 +26,11 @@ public class CustomPauseInstruction : CustomYieldInstruction
         _startTime = Time.unscaledTime;
         _iPausable = iPausable;
     }
+    
+    public void SetPauseState(bool state)
+    {
+        _isPaused = state;
+    }
 }
+
+

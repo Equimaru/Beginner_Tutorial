@@ -10,6 +10,9 @@ public class SpawnSystem : MonoBehaviour, IPausable
     
     public GameObject target;
 
+    private CustomPauseInstruction _customForSpawn,
+        _customForDeSpawn;
+
     private float _spawnCooldown,
         _deSpawnCooldown;
 
@@ -25,10 +28,14 @@ public class SpawnSystem : MonoBehaviour, IPausable
 
     public void Pause()
     {
+        _customForSpawn.SetPauseState(true);
+        _customForDeSpawn.SetPauseState(true);
     }
 
     public void Resume()
     {
+        _customForSpawn.SetPauseState(false);
+        _customForDeSpawn.SetPauseState(false);
     }
     
     private void Spawn()
@@ -74,16 +81,18 @@ public class SpawnSystem : MonoBehaviour, IPausable
     {
         while (Application.isPlaying)
         {
-            yield return new CustomPauseInstruction(this, _spawnCooldown);
+            _customForSpawn = new CustomPauseInstruction(this, _spawnCooldown);
+            yield return _customForSpawn;
             Spawn();
         }
     }
 
     private IEnumerator DeSpawnAfterTime(GameObject obj)
     {
+        _customForDeSpawn = new CustomPauseInstruction(this, _deSpawnCooldown);
+        yield return _customForDeSpawn;
         if (obj != null)
         {
-            yield return new CustomPauseInstruction(this, _deSpawnCooldown);
             Destroy(obj);
             OnDeSpawn?.Invoke();
         }
