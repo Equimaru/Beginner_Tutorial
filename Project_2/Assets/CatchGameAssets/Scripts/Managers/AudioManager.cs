@@ -4,17 +4,15 @@ namespace Catch
 {
     public class AudioManager : MonoBehaviour
     {
-        // Start is called before the first frame update
-        void Start()
-        {
+        [Header("Audio Sources")] 
+        [SerializeField] private AudioSource player;
+        [SerializeField] private AudioSource gatekeeper;
+        [SerializeField] private AudioSource healthSystem;
         
-        }
-
-        // Update is called once per frame
-        void Update()
-        {
-        
-        }
+        [Header("Audio Clips")]
+        [SerializeField] private AudioClip catchClip;
+        [SerializeField] private AudioClip dropClip;
+        [SerializeField] private AudioClip explosionClip;
     }
 
 }
