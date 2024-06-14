@@ -10,6 +10,8 @@ namespace Catch
     {
         public Action OnAllSpawnedObjectsGone;
 
+        private RandomGenerator _randomGenerator = new RandomGenerator(new int[] {0, 1}, new float[] {0.9f, 0.1f});
+
         [SerializeField] private List<FallingItemFactory> fallingItemFactory;
 
         private Vector2 _screenSize;
@@ -74,7 +76,7 @@ namespace Catch
 
         private void SpawnDroppable()
         {
-            int factoryInUse = Random.Range(0, 2);
+            int factoryInUse = _randomGenerator.GetRandomResult();
 
             var fallingItem = fallingItemFactory[factoryInUse].CreateFallingItem();
             if (fallingItem.Type == ObjectType.Eatable)

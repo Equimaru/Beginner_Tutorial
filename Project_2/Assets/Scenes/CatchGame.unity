@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.17856255, g: 0.22358268, b: 0.30554968, a: 1}
+  m_IndirectSpecularColor: {r: 0.17856273, g: 0.2235831, b: 0.3055503, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -2840,8 +2840,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fallingItemFactory:
-  - {fileID: 1790549691}
   - {fileID: 1790549694}
+  - {fileID: 1790549691}
   gameOver: 0
 --- !u!1 &1312435032
 GameObject:
