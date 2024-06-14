@@ -19,7 +19,7 @@ namespace Catch
             SetHP();
         }
         
-        private void SetHP()
+        public void SetHP()
         {
             _hP = new List<GameObject>();
             Vector3 heartPos = transform.position;
@@ -41,6 +41,14 @@ namespace Catch
             if (indexOfLastHeart <= 0)
             {
                 OnNoHPLeft?.Invoke();
+            }
+        }
+
+        public void ClearHealthBar()
+        {
+            foreach (var heart in _hP)
+            {
+                Destroy(heart);
             }
         }
     }

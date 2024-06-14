@@ -46,18 +46,18 @@ namespace Catch
         {
             while (!gameOver)
             {
+                await Task.Delay(2000);
+
                 if (_goodItemsSpawned < _goodItemsToSpawn)
                 {
+                    SpawnDroppable();
+                    
                     var timeToWait = Random.Range(_minSpawnTime, _maxSpawnTime);
                     await Task.Delay((int) (timeToWait * 1000f));
-                    
-                    SpawnDroppable();
                 }
-                
+
                 await Task.Yield();
             }
-
-            await Task.Yield();
         }
         
         IEnumerator Spawn()
@@ -91,7 +91,8 @@ namespace Catch
             _goodItemsSpawned = 0;
             _minSpawnTime = minSpawnTime;
             _maxSpawnTime = maxSpawnTime;
-            
+
+            gameOver = false;
             //_spawnCoroutine = StartCoroutine(Spawn());
             AsyncSpawn();
         }

@@ -42,6 +42,20 @@ namespace Catch
             SignUpToAllEvents();
         }
 
+        private void StopGamePhase()
+        {
+            healthSystem.ClearHealthBar();
+            playerController.EndGamePhase();
+            spawnSystem.gameOver = true;
+        }
+        
+        private void StartGamePhase()
+        {
+            healthSystem.SetHP();
+            playerController.StartGamePhase();
+            spawnSystem.gameOver = false;
+        }
+
         private void InitAll()
         {
             healthSystem.Init(health);
@@ -73,14 +87,13 @@ namespace Catch
 
         private void OnRanOutOfHealth()
         {
-            spawnSystem.gameOver = true;
-            playerController.EndGamePhase();
+            StopGamePhase();
             uIManager.ShowOnLosePanel();
         }
 
         private void OnLevelCleared()
         {
-            playerController.EndGamePhase();
+            StopGamePhase();
             cashSystem.AddMoney((int)scoreSystem.PercentageOfCatchFood * 100);
             uIManager.SetCurrentMoneyAmount(cashSystem.CurrentMoneyAmount);
             uIManager.ShowOnWinPanel();
@@ -90,7 +103,7 @@ namespace Catch
         {
             uIManager.HideOnLosePanel();
             uIManager.HideOnWinPanel();
-            playerController.StartGamePhase();
+            StartGamePhase();
             levelController.RestartLevel();
         }
 
@@ -107,17 +120,16 @@ namespace Catch
         private void OnNextLevelEnterRequest()
         {
             uIManager.HideOnWinPanel();
-            playerController.StartGamePhase();
+            StartGamePhase();
             levelController.LevelUpAndStart();
             backgroundController.ChangeBackground();
         }
 
         private void OnLevelFailed()
         {
-            playerController.EndGamePhase();
+            StopGamePhase();
             uIManager.ShowOnLosePanel();
         }
-    
     }
 }
 
