@@ -7,6 +7,8 @@ namespace Catch
     {
 
         [Header("Config")] 
+        [SerializeField] private float goodItemSpawnChance;
+        [SerializeField] private float badItemSpawnChance;
         [SerializeField] private int startLevel;
         [SerializeField] private int health;
         [SerializeField] private float playerSpeed;
@@ -45,7 +47,7 @@ namespace Catch
             healthSystem.Init(health);
             shopManager.Init(cashSystem);
             playerController.Init(_playerInputActions, playerSpeed);
-            spawnSystem.Init(healthSystem, scoreSystem);
+            spawnSystem.Init(healthSystem, scoreSystem, goodItemSpawnChance, badItemSpawnChance);
             levelController.Init(spawnSystem, scoreSystem, startLevel);
             
             backgroundController.ChangeBackground();

@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -10,7 +11,7 @@ namespace Catch
     {
         public Action OnAllSpawnedObjectsGone;
 
-        private RandomGenerator _randomGenerator = new RandomGenerator(new int[] {0, 1}, new float[] {0.9f, 0.1f});
+        private RandomGenerator _randomGenerator;
 
         [SerializeField] private List<FallingItemFactory> fallingItemFactory;
 
@@ -33,10 +34,30 @@ namespace Catch
         private Coroutine _spawnCoroutine;
 
 
-        public void Init(HealthSystem healthSystem, ScoreSystem scoreSystem)
+        public void Init(HealthSystem healthSystem, ScoreSystem scoreSystem, float goodItemDropChance, float badItemSpawnChance)
         {
             _healthSystem = healthSystem;
             _scoreSystem = scoreSystem;
+            
+            _randomGenerator = new RandomGenerator(new int[] {0, 1}, new float[] {goodItemDropChance, badItemSpawnChance});
+        }
+
+        private async void AsyncSpawn()
+        {
+            while (!gameOver)
+            {
+                if (_goodItemsSpawned < _goodItemsToSpawn)
+                {
+                    var timeToWait = Random.Range(_minSpawnTime, _maxSpawnTime);
+                    await Task.Delay((int) (timeToWait * 1000f));
+                    
+                    SpawnDroppable();
+                }
+                
+                await Task.Yield();
+            }
+
+            await Task.Yield();
         }
         
         IEnumerator Spawn()
@@ -71,7 +92,8 @@ namespace Catch
             _minSpawnTime = minSpawnTime;
             _maxSpawnTime = maxSpawnTime;
             
-            _spawnCoroutine = StartCoroutine(Spawn());
+            //_spawnCoroutine = StartCoroutine(Spawn());
+            AsyncSpawn();
         }
 
         private void SpawnDroppable()
