@@ -5,6 +5,11 @@ namespace Catch
 {
     public class GameManager : MonoBehaviour
     {
+        [Header("Custom Settings")] 
+        [SerializeField] private bool useCustomSettings;
+        [SerializeField] private int customLevel;
+
+        #region Config
 
         [Header("Config")] 
         [SerializeField] private float goodItemSpawnChance;
@@ -12,23 +17,39 @@ namespace Catch
         [SerializeField] private int startLevel;
         [SerializeField] private int health;
         [SerializeField] private float playerSpeed;
-    
+
+        #endregion
+
+        #region Controllers
+
         [Header("Controllers")]
         [SerializeField] private PlayerController playerController;
         [SerializeField] private LevelController levelController;
         [SerializeField] private BackgroundController backgroundController;
+
+        #endregion
+
+        #region Managers
 
         [Header("Managers")]
         [SerializeField] private AudioManager audioManager;
         [SerializeField] private ShopManager shopManager;
         [SerializeField] private UIManager uIManager;
 
+        #endregion
+
+        #region Systems
+
         [Header("Systems")] 
         [SerializeField] private SpawnSystem spawnSystem;
         [SerializeField] private ScoreSystem scoreSystem;
         [SerializeField] private HealthSystem healthSystem;
         [SerializeField] private CashSystem cashSystem;
-    
+
+        private PlayerSaveSystem _playerSaveSystem;
+
+        #endregion
+
 
         private PlayerInputActions _playerInputActions;
     
@@ -37,6 +58,9 @@ namespace Catch
         {
             _playerInputActions = new PlayerInputActions();
             _playerInputActions.Player.Enable();
+
+            _playerSaveSystem = new PlayerSaveSystem();
+            _playerSaveSystem.Init(useCustomSettings, customLevel);
         
             InitAll();
             SignUpToAllEvents();
@@ -109,6 +133,8 @@ namespace Catch
 
         private void OnMenuExitRequest()
         {
+            _playerSaveSystem.OnMenuExit();
+            
             SceneManager.LoadScene("CatchGameMenu");
         }
 

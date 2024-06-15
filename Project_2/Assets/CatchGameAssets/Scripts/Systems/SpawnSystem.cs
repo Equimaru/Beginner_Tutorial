@@ -34,12 +34,12 @@ namespace Catch
         private Coroutine _spawnCoroutine;
 
 
-        public void Init(HealthSystem healthSystem, ScoreSystem scoreSystem, float goodItemDropChance, float badItemSpawnChance)
+        public void Init(HealthSystem healthSystem, ScoreSystem scoreSystem, float goodItemSpawnChance, float badItemSpawnChance)
         {
             _healthSystem = healthSystem;
             _scoreSystem = scoreSystem;
             
-            _randomGenerator = new RandomGenerator(new int[] {0, 1}, new float[] {goodItemDropChance, badItemSpawnChance});
+            _randomGenerator = new RandomGenerator(new int[] {0, 1}, new float[] {goodItemSpawnChance, badItemSpawnChance});
         }
 
         private async void AsyncSpawn()
