@@ -47,7 +47,7 @@ namespace Catch
 
         private void SetLevelParameters()
         {
-            _currentLevelSettings = levelSettings[_currentLevel - 1];
+            _currentLevelSettings = levelSettings[_currentLevel - 1]; //Adjusting int for proper index usage
             
             _eatableToSpawn = _currentLevelSettings.FoodToSpawn;
             _minSpawnTime = _currentLevelSettings.MinSpawnTime;

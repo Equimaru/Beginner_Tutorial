@@ -14,9 +14,9 @@ namespace Catch
         [Header("Config")] 
         [SerializeField] private float goodItemSpawnChance;
         [SerializeField] private float badItemSpawnChance;
-        [SerializeField] private int startLevel;
         [SerializeField] private int health;
         [SerializeField] private float playerSpeed;
+        [SerializeField] private int amuletPrice;
 
         #endregion
 
@@ -44,7 +44,6 @@ namespace Catch
         [SerializeField] private SpawnSystem spawnSystem;
         [SerializeField] private ScoreSystem scoreSystem;
         [SerializeField] private HealthSystem healthSystem;
-        [SerializeField] private CashSystem cashSystem;
 
         private PlayerSaveSystem _playerSaveSystem;
 
@@ -52,7 +51,6 @@ namespace Catch
 
 
         private PlayerInputActions _playerInputActions;
-    
     
         private void Start()
         {
@@ -83,10 +81,9 @@ namespace Catch
         private void InitAll()
         {
             healthSystem.Init(health);
-            shopManager.Init(cashSystem);
             playerController.Init(_playerInputActions, playerSpeed);
             spawnSystem.Init(healthSystem, scoreSystem, goodItemSpawnChance, badItemSpawnChance);
-            levelController.Init(spawnSystem, scoreSystem, startLevel);
+            levelController.Init(spawnSystem, scoreSystem, _playerSaveSystem.GetCurrentLevel());
             
             backgroundController.ChangeBackground();
         }
@@ -102,6 +99,24 @@ namespace Catch
             uIManager.OnOpenShopRequest += OnOpenShopRequest;
             uIManager.OnRestartRequest += OnRestartRequest;
             uIManager.OnMenuExitRequest += OnMenuExitRequest;
+            
+            shopManager.OnAmuletBuyAttemptRequest += OnAmuletBuyAttempt;
+            shopManager.OnCloseShopPanelRequest += OnCloseShopPanelRequest;
+        }
+
+        private void OnCloseShopPanelRequest()
+        {
+            shopManager.CloseShop();
+            
+            uIManager.ShowOnWinPanel();
+        }
+
+        private void OnAmuletBuyAttempt()
+        {
+            if (_playerSaveSystem.CheckForEnoughMoneyAmount(amuletPrice))
+            {
+                _playerSaveSystem.TryAddAmuletToPocket();
+            }
         }
 
         private void OnAllObjectsSpawned()
@@ -111,15 +126,23 @@ namespace Catch
 
         private void OnRanOutOfHealth()
         {
-            StopGamePhase();
-            uIManager.ShowOnLosePanel();
+            if (_playerSaveSystem.TryUseAmuletFromPocket())
+            {
+                healthSystem.SetHP();
+                Debug.Log("Amulet was used!");
+            }
+            else
+            {
+                StopGamePhase();
+                uIManager.ShowOnLosePanel();
+            }
         }
 
         private void OnLevelCleared()
         {
             StopGamePhase();
-            cashSystem.AddMoney((int)scoreSystem.PercentageOfCatchFood * 100);
-            uIManager.SetCurrentMoneyAmount(cashSystem.CurrentMoneyAmount);
+            _playerSaveSystem.AddMoneyAmount((int)scoreSystem.PercentageOfCatchFood * 100);
+            uIManager.SetCurrentMoneyAmount(_playerSaveSystem.GetMoneyAmount());
             uIManager.ShowOnWinPanel();
         }
 
@@ -140,7 +163,9 @@ namespace Catch
 
         private void OnOpenShopRequest()
         {
-            Debug.Log("Shop is closed for technical purpose");
+            uIManager.HideOnWinPanel();
+            
+            shopManager.OpenShop();
         }
 
         private void OnNextLevelEnterRequest()
@@ -149,6 +174,8 @@ namespace Catch
             StartGamePhase();
             levelController.LevelUpAndStart();
             backgroundController.ChangeBackground();
+            
+            _playerSaveSystem.IncreaseCurrentLevel();
         }
 
         private void OnLevelFailed()

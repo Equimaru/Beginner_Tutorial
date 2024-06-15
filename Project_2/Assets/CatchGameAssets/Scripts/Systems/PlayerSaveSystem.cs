@@ -26,6 +26,11 @@ namespace Catch
 
         #region LevelManaging
 
+        public int GetCurrentLevel()
+        {
+            return CurrentLevel;
+        }
+        
         public void IncreaseCurrentLevel()
         {
             CurrentLevel++;
@@ -50,6 +55,11 @@ namespace Catch
             
             Debug.Log("Not enough money!");
             return false;
+        }
+
+        public int GetMoneyAmount()
+        {
+            return MoneyAmount;
         }
 
         #endregion

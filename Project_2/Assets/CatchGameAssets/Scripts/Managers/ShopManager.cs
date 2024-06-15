@@ -1,14 +1,33 @@
+using System;
 using UnityEngine;
 
 namespace Catch
 {
     public class ShopManager : MonoBehaviour
     {
-        private CashSystem _cashSystem;
+        public Action OnAmuletBuyAttemptRequest;
+        public Action OnCloseShopPanelRequest;
 
-        public void Init(CashSystem cashSystem)
+        [SerializeField] private GameObject shopPanel;
+
+        public void BuyAmuletRequest()
         {
-            _cashSystem = cashSystem;
+            OnAmuletBuyAttemptRequest?.Invoke();
+        }
+
+        public void CloseShopPanelRequest()
+        {
+            OnCloseShopPanelRequest?.Invoke();
+        }
+
+        public void OpenShop()
+        {
+            shopPanel.SetActive(true);
+        }
+
+        public void CloseShop()
+        {
+            shopPanel.SetActive(false);
         }
     }
 }

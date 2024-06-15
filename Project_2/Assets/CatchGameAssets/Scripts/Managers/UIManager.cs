@@ -13,7 +13,7 @@ namespace Catch
         
         
         [SerializeField] private TextMeshProUGUI moneyText;
-        private int _money = 0;
+        private int _money;
 
         [SerializeField] private GameObject onWinPanel;
         [SerializeField] private GameObject onLosePanel;
