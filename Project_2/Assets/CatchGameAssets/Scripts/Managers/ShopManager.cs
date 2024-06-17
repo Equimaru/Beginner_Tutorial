@@ -1,18 +1,20 @@
 using System;
+using TMPro;
 using UnityEngine;
 
 namespace Catch
 {
     public class ShopManager : MonoBehaviour
     {
-        public Action OnAmuletBuyAttemptRequest;
+        public Action OnAmuletBuyRequest;
         public Action OnCloseShopPanelRequest;
 
         [SerializeField] private GameObject shopPanel;
+        [SerializeField] private TextMeshProUGUI moneyAmountText;
 
         public void BuyAmuletRequest()
         {
-            OnAmuletBuyAttemptRequest?.Invoke();
+            OnAmuletBuyRequest?.Invoke();
         }
 
         public void CloseShopPanelRequest()
@@ -28,6 +30,11 @@ namespace Catch
         public void CloseShop()
         {
             shopPanel.SetActive(false);
+        }
+
+        public void SetMoneyAmountText(int moneyAmount)
+        {
+            moneyAmountText.text = "You have " + moneyAmount + " coins";
         }
     }
 }

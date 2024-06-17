@@ -100,7 +100,7 @@ namespace Catch
             uIManager.OnRestartRequest += OnRestartRequest;
             uIManager.OnMenuExitRequest += OnMenuExitRequest;
             
-            shopManager.OnAmuletBuyAttemptRequest += OnAmuletBuyAttempt;
+            shopManager.OnAmuletBuyRequest += OnAmuletBuyRequest;
             shopManager.OnCloseShopPanelRequest += OnCloseShopPanelRequest;
         }
 
@@ -111,11 +111,12 @@ namespace Catch
             uIManager.ShowOnWinPanel();
         }
 
-        private void OnAmuletBuyAttempt()
+        private void OnAmuletBuyRequest()
         {
             if (_playerSaveSystem.CheckForEnoughMoneyAmount(amuletPrice))
             {
                 _playerSaveSystem.TryAddAmuletToPocket();
+                shopManager.SetMoneyAmountText(_playerSaveSystem.GetMoneyAmount());
             }
         }
 
@@ -165,6 +166,7 @@ namespace Catch
         {
             uIManager.HideOnWinPanel();
             
+            shopManager.SetMoneyAmountText(_playerSaveSystem.GetMoneyAmount());
             shopManager.OpenShop();
         }
 

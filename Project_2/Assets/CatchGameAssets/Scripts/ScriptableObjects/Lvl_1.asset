@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71d1a418e54813c4baa8580dbb6c080b, type: 3}
   m_Name: Lvl_1
   m_EditorClassIdentifier: Assembly-CSharp::Level/DifficultySettings
-  foodToSpawn: 15
+  foodToSpawn: 5
   minSpawnTime: 2
   maxSpawnTime: 2
   minCatchPercentage: 0.5

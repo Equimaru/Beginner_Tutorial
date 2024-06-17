@@ -47,7 +47,7 @@ namespace Catch
 
         public bool CheckForEnoughMoneyAmount(int moneyInNeed)
         {
-            if (MoneyAmount <= moneyInNeed)
+            if (MoneyAmount >= moneyInNeed)
             {
                 MoneyAmount -= moneyInNeed;
                 return true;
