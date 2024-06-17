@@ -93,8 +93,8 @@ namespace Catch
             _maxSpawnTime = maxSpawnTime;
 
             gameOver = false;
-            //_spawnCoroutine = StartCoroutine(Spawn());
-            AsyncSpawn();
+            _spawnCoroutine = StartCoroutine(Spawn());
+            //AsyncSpawn();
         }
 
         private void SpawnDroppable()
