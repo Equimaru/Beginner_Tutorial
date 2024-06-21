@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.Serialization;
 
 namespace Catch
 {
@@ -14,9 +15,10 @@ namespace Catch
         [Header("Config")] 
         [SerializeField] private float goodItemSpawnChance;
         [SerializeField] private float badItemSpawnChance;
-        [SerializeField] private int health;
         [SerializeField] private float playerSpeed;
+        [SerializeField] private int health;
         [SerializeField] private int amuletPrice;
+        [SerializeField] private int moneyGainFromAdd;
 
         #endregion
 
@@ -35,6 +37,7 @@ namespace Catch
         [SerializeField] private AudioManager audioManager;
         [SerializeField] private ShopManager shopManager;
         [SerializeField] private UIManager uIManager;
+        [SerializeField] private AddManager addManager;
 
         #endregion
 
@@ -91,7 +94,9 @@ namespace Catch
         private void SignUpToAllEvents()
         {
             healthSystem.OnNoHPLeft += OnRanOutOfHealth;
+            
             spawnSystem.OnAllSpawnedObjectsGone += OnAllObjectsSpawned;
+            
             scoreSystem.OnLevelCleared += OnLevelCleared;
             scoreSystem.OnLevelFailed += OnLevelFailed;
 
@@ -100,8 +105,16 @@ namespace Catch
             uIManager.OnRestartRequest += OnRestartRequest;
             uIManager.OnMenuExitRequest += OnMenuExitRequest;
             
-            shopManager.OnAmuletBuyRequest += OnAmuletBuyRequest;
+            shopManager.OnItemBuyRequest += OnItemBuyRequest;
             shopManager.OnCloseShopPanelRequest += OnCloseShopPanelRequest;
+            
+            addManager.OnAddWatched += OnAddWatched;
+        }
+
+        private void OnAddWatched()
+        {
+            _playerSaveSystem.AddMoneyAmount(moneyGainFromAdd);
+            shopManager.SetMoneyAmountText(_playerSaveSystem.GetMoneyAmount());
         }
 
         private void OnCloseShopPanelRequest()
@@ -111,12 +124,26 @@ namespace Catch
             uIManager.ShowOnWinPanel();
         }
 
-        private void OnAmuletBuyRequest()
+        private void OnItemBuyRequest(ShopItemType item)
+        {
+            switch (item)
+            {
+                case ShopItemType.Amulet:
+                    AmuletPurchaseAttempt();
+                    break;
+            }
+        }
+
+        private void AmuletPurchaseAttempt()
         {
             if (_playerSaveSystem.CheckForEnoughMoneyAmount(amuletPrice))
             {
                 _playerSaveSystem.TryAddAmuletToPocket();
                 shopManager.SetMoneyAmountText(_playerSaveSystem.GetMoneyAmount());
+            }
+            else
+            {
+                addManager.OpenAddOfferPanel();
             }
         }
 
@@ -142,7 +169,7 @@ namespace Catch
         private void OnLevelCleared()
         {
             StopGamePhase();
-            _playerSaveSystem.AddMoneyAmount((int)scoreSystem.PercentageOfCatchFood * 100);
+            _playerSaveSystem.AddMoneyAmount((int)(scoreSystem.PercentageOfCatchFood * 100));
             uIManager.SetCurrentMoneyAmount(_playerSaveSystem.GetMoneyAmount());
             uIManager.ShowOnWinPanel();
         }

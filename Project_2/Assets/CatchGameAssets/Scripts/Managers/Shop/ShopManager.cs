@@ -6,15 +6,16 @@ namespace Catch
 {
     public class ShopManager : MonoBehaviour
     {
-        public Action OnAmuletBuyRequest;
+        public Action<ShopItemType> OnItemBuyRequest;
         public Action OnCloseShopPanelRequest;
 
         [SerializeField] private GameObject shopPanel;
         [SerializeField] private TextMeshProUGUI moneyAmountText;
 
-        public void BuyAmuletRequest()
+        public void AmuletBuyRequest()
         {
-            OnAmuletBuyRequest?.Invoke();
+            ShopItemType amulet = ShopItemType.Amulet;
+            OnItemBuyRequest?.Invoke(amulet);
         }
 
         public void CloseShopPanelRequest()
