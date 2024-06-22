@@ -64,7 +64,6 @@ namespace Catch
 
         #endregion
         
-        
 
         #region ItemsManaging
         

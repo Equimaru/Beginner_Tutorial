@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using UnityEngine;
 
 namespace Catch
@@ -24,6 +23,8 @@ namespace Catch
             _minimalPercentageOfCatchFood = minimalPercentageOfCatchFood;
             fillUpSystemUI.SetUpMinFillUpMarker(_minimalPercentageOfCatchFood);
             _currentCatchFoodCount = 0;
+            FindPercentOfCatchFood();
+            fillUpSystemUI.SetCurrentFillUpMarker(PercentageOfCatchFood);
             _eatableToCatch = eatableToCatch;
         }
     

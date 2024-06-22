@@ -114,7 +114,7 @@ namespace Catch
         private void OnAddWatched()
         {
             _playerSaveSystem.AddMoneyAmount(moneyGainFromAdd);
-            shopManager.SetMoneyAmountText(_playerSaveSystem.GetMoneyAmount());
+            shopManager.RefreshShopPanel(_playerSaveSystem.GetMoneyAmount(), _playerSaveSystem.HasAmulet);
         }
 
         private void OnCloseShopPanelRequest()
@@ -139,7 +139,7 @@ namespace Catch
             if (_playerSaveSystem.CheckForEnoughMoneyAmount(amuletPrice))
             {
                 _playerSaveSystem.TryAddAmuletToPocket();
-                shopManager.SetMoneyAmountText(_playerSaveSystem.GetMoneyAmount());
+                shopManager.RefreshShopPanel(_playerSaveSystem.GetMoneyAmount(), _playerSaveSystem.HasAmulet);
             }
             else
             {
@@ -193,7 +193,7 @@ namespace Catch
         {
             uIManager.HideOnWinPanel();
             
-            shopManager.SetMoneyAmountText(_playerSaveSystem.GetMoneyAmount());
+            shopManager.RefreshShopPanel(_playerSaveSystem.GetMoneyAmount(), _playerSaveSystem.HasAmulet);
             shopManager.OpenShop();
         }
 

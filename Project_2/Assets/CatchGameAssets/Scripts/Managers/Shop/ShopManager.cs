@@ -1,6 +1,7 @@
 using System;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Catch
 {
@@ -10,6 +11,7 @@ namespace Catch
         public Action OnCloseShopPanelRequest;
 
         [SerializeField] private GameObject shopPanel;
+        [SerializeField] private Button amuletBuyButton;
         [SerializeField] private TextMeshProUGUI moneyAmountText;
 
         public void AmuletBuyRequest()
@@ -33,8 +35,9 @@ namespace Catch
             shopPanel.SetActive(false);
         }
 
-        public void SetMoneyAmountText(int moneyAmount)
+        public void RefreshShopPanel(int moneyAmount, bool hasAmulet)
         {
+            amuletBuyButton.interactable = !hasAmulet;
             moneyAmountText.text = "You have " + moneyAmount + " coins";
         }
     }

@@ -1762,7 +1762,7 @@ MonoBehaviour:
     m_Top: 0
     m_Bottom: 0
   m_ChildAlignment: 0
-  m_Spacing: 90
+  m_Spacing: 30
   m_ChildForceExpandWidth: 1
   m_ChildForceExpandHeight: 1
   m_ChildControlWidth: 0
@@ -3782,6 +3782,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shopPanel: {fileID: 736533646}
+  amuletBuyButton: {fileID: 2115487394}
   moneyAmountText: {fileID: 1099324670}
 --- !u!1 &1159326665
 GameObject:
