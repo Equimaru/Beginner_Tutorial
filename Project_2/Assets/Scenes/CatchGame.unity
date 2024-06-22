@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.17856255, g: 0.22358268, b: 0.30554968, a: 1}
+  m_IndirectSpecularColor: {r: 0.17856273, g: 0.2235831, b: 0.3055503, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -691,7 +691,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 220990673}
         m_TargetAssemblyTypeName: Catch.AddManager, Assembly-CSharp
-        m_MethodName: AcceptAddOffer
+        m_MethodName: AcceptAdOffer
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1010,8 +1010,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85fe87a0a8c3d7f4cbb5f00be6d5a027, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  addOfferPanel: {fileID: 48909160}
-  addConsumePanel: {fileID: 675018895}
+  adOfferPanel: {fileID: 48909160}
+  adConsumePanel: {fileID: 675018895}
 --- !u!1 &221342879
 GameObject:
   m_ObjectHideFlags: 0
@@ -2483,6 +2483,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   useCustomSettings: 1
   customLevel: 1
+  customCurrency: 0
   goodItemSpawnChance: 0.5
   badItemSpawnChance: 0.5
   playerSpeed: 10
@@ -2495,7 +2496,7 @@ MonoBehaviour:
   audioManager: {fileID: 1485613423}
   shopManager: {fileID: 1137692762}
   uIManager: {fileID: 529800666}
-  addManager: {fileID: 220990673}
+  adManager: {fileID: 220990673}
   spawnSystem: {fileID: 1244528138}
   scoreSystem: {fileID: 1159326666}
   healthSystem: {fileID: 467004309}
@@ -4532,7 +4533,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 220990673}
         m_TargetAssemblyTypeName: Catch.AddManager, Assembly-CSharp
-        m_MethodName: DeclineAddOffer
+        m_MethodName: DeclineAdOffer
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

@@ -9,6 +9,7 @@ namespace Catch
         [Header("Custom Settings")] 
         [SerializeField] private bool useCustomSettings;
         [SerializeField] private int customLevel;
+        [SerializeField] private int customCurrency;
 
         #region Config
 
@@ -37,7 +38,7 @@ namespace Catch
         [SerializeField] private AudioManager audioManager;
         [SerializeField] private ShopManager shopManager;
         [SerializeField] private UIManager uIManager;
-        [SerializeField] private AddManager addManager;
+        [SerializeField] private AdManager adManager;
 
         #endregion
 
@@ -52,7 +53,6 @@ namespace Catch
 
         #endregion
 
-
         private PlayerInputActions _playerInputActions;
     
         private void Start()
@@ -61,7 +61,7 @@ namespace Catch
             _playerInputActions.Player.Enable();
 
             _playerSaveSystem = new PlayerSaveSystem();
-            _playerSaveSystem.Init(useCustomSettings, customLevel);
+            _playerSaveSystem.Init(useCustomSettings, customLevel, customCurrency);
         
             InitAll();
             SignUpToAllEvents();
@@ -108,50 +108,24 @@ namespace Catch
             shopManager.OnItemBuyRequest += OnItemBuyRequest;
             shopManager.OnCloseShopPanelRequest += OnCloseShopPanelRequest;
             
-            addManager.OnAddWatched += OnAddWatched;
+            adManager.OnAdWatched += OnAdWatched;
         }
 
-        private void OnAddWatched()
-        {
-            _playerSaveSystem.AddMoneyAmount(moneyGainFromAdd);
-            shopManager.RefreshShopPanel(_playerSaveSystem.GetMoneyAmount(), _playerSaveSystem.HasAmulet);
-        }
-
-        private void OnCloseShopPanelRequest()
-        {
-            shopManager.CloseShop();
-            
-            uIManager.ShowOnWinPanel();
-        }
-
-        private void OnItemBuyRequest(ShopItemType item)
-        {
-            switch (item)
-            {
-                case ShopItemType.Amulet:
-                    AmuletPurchaseAttempt();
-                    break;
-            }
-        }
-
-        private void AmuletPurchaseAttempt()
-        {
-            if (_playerSaveSystem.CheckForEnoughMoneyAmount(amuletPrice))
-            {
-                _playerSaveSystem.TryAddAmuletToPocket();
-                shopManager.RefreshShopPanel(_playerSaveSystem.GetMoneyAmount(), _playerSaveSystem.HasAmulet);
-            }
-            else
-            {
-                addManager.OpenAddOfferPanel();
-            }
-        }
+        #region GameLoop
 
         private void OnAllObjectsSpawned()
         {
             scoreSystem.ShowLevelResults();
         }
-
+        
+        private void OnLevelCleared()
+        {
+            StopGamePhase();
+            _playerSaveSystem.AddMoneyAmount((int)(scoreSystem.PercentageOfCatchFood * 100));
+            uIManager.SetCurrentMoneyAmount(_playerSaveSystem.GetMoneyAmount());
+            uIManager.ShowOnWinPanel();
+        }
+        
         private void OnRanOutOfHealth()
         {
             if (_playerSaveSystem.TryUseAmuletFromPocket())
@@ -165,15 +139,13 @@ namespace Catch
                 uIManager.ShowOnLosePanel();
             }
         }
-
-        private void OnLevelCleared()
+        
+        private void OnLevelFailed()
         {
             StopGamePhase();
-            _playerSaveSystem.AddMoneyAmount((int)(scoreSystem.PercentageOfCatchFood * 100));
-            uIManager.SetCurrentMoneyAmount(_playerSaveSystem.GetMoneyAmount());
-            uIManager.ShowOnWinPanel();
+            uIManager.ShowOnLosePanel();
         }
-
+        
         private void OnRestartRequest()
         {
             uIManager.HideOnLosePanel();
@@ -181,22 +153,7 @@ namespace Catch
             StartGamePhase();
             levelController.RestartLevel();
         }
-
-        private void OnMenuExitRequest()
-        {
-            _playerSaveSystem.OnMenuExit();
-            
-            SceneManager.LoadScene("CatchGameMenu");
-        }
-
-        private void OnOpenShopRequest()
-        {
-            uIManager.HideOnWinPanel();
-            
-            shopManager.RefreshShopPanel(_playerSaveSystem.GetMoneyAmount(), _playerSaveSystem.HasAmulet);
-            shopManager.OpenShop();
-        }
-
+        
         private void OnNextLevelEnterRequest()
         {
             uIManager.HideOnWinPanel();
@@ -207,11 +164,70 @@ namespace Catch
             _playerSaveSystem.IncreaseCurrentLevel();
         }
 
-        private void OnLevelFailed()
+        #endregion
+
+        #region UIInteraction
+
+        private void OnOpenShopRequest()
         {
-            StopGamePhase();
-            uIManager.ShowOnLosePanel();
+            uIManager.HideOnWinPanel();
+            
+            shopManager.RefreshShopPanel(_playerSaveSystem.GetMoneyAmount(), _playerSaveSystem.HasAmulet);
+            shopManager.OpenShop();
         }
+        
+        private void OnCloseShopPanelRequest()
+        {
+            shopManager.CloseShop();
+            
+            uIManager.ShowOnWinPanel();
+        }
+        
+        private void OnMenuExitRequest()
+        {
+            _playerSaveSystem.OnMenuExit();
+            
+            SceneManager.LoadScene("CatchGameMenu");
+        }
+
+        #endregion
+
+        #region Shop
+
+        private void OnItemBuyRequest(ShopItemType item)
+        {
+            switch (item)
+            {
+                case ShopItemType.Amulet:
+                    AmuletPurchaseAttempt();
+                    break;
+            }
+        }
+        
+        private void AmuletPurchaseAttempt()
+        {
+            if (_playerSaveSystem.CheckForEnoughMoneyAmount(amuletPrice))
+            {
+                _playerSaveSystem.TryAddAmuletToPocket();
+                shopManager.RefreshShopPanel(_playerSaveSystem.GetMoneyAmount(), _playerSaveSystem.HasAmulet);
+            }
+            else
+            {
+                adManager.OpenAdOfferPanel();
+            }
+        }
+
+        #endregion
+
+        #region Ads
+
+        private void OnAdWatched()
+        {
+            _playerSaveSystem.AddMoneyAmount(moneyGainFromAdd);
+            shopManager.RefreshShopPanel(_playerSaveSystem.GetMoneyAmount(), _playerSaveSystem.HasAmulet);
+        }
+
+        #endregion
     }
 }
 

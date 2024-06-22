@@ -10,10 +10,10 @@ namespace Catch
         public bool HasAmulet { get; private set; }
 
 
-        public void Init(bool isCustomLevelInUse, int customLevel)
+        public void Init(bool isCustomSettingsInUse, int customLevel, int customCurrency)
         {
-            LoadCurrentLevel(isCustomLevelInUse, customLevel);
-            LoadMoneyAmount();
+            LoadCurrentLevel(isCustomSettingsInUse, customLevel);
+            LoadMoneyAmount(isCustomSettingsInUse, customCurrency);
             LoadItemsFromStash();
         }
 
@@ -92,9 +92,9 @@ namespace Catch
 
         #region PlayerPrefsLoading
 
-        private void LoadCurrentLevel(bool isCustomLevelInUse, int customLevel) // Is overload needed?
+        private void LoadCurrentLevel(bool isCustomSettingsInUse, int customLevel) // Is overload needed?
         {
-            if (isCustomLevelInUse)
+            if (isCustomSettingsInUse)
             {
                 CurrentLevel = customLevel;
             }
@@ -104,9 +104,16 @@ namespace Catch
             }
         }
 
-        private void LoadMoneyAmount()
+        private void LoadMoneyAmount(bool isCustomSettingsInUse, int customCurrency)
         {
-            MoneyAmount = PlayerPrefs.HasKey("moneyAmount") ? PlayerPrefs.GetInt("moneyAmount") : 0;
+            if (isCustomSettingsInUse)
+            {
+                MoneyAmount = customCurrency;
+            }
+            else
+            {
+                MoneyAmount = PlayerPrefs.HasKey("moneyAmount") ? PlayerPrefs.GetInt("moneyAmount") : 0;
+            }
         }
 
         private void LoadItemsFromStash()
