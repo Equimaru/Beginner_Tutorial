@@ -14,14 +14,11 @@ namespace Catch
 
         public void Exit()
         {
-            if (Application.isEditor)
-            {
-                EditorApplication.isPlaying = false;
-            }
-            else
-            {
-                Application.Quit();
-            }
+#if UNITY_ANDROID
+            Application.Quit();
+#elif UNITY_EDITOR
+            EditorApplication.isPlaying = false;
+#endif
         }
     }
 }
