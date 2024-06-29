@@ -11,7 +11,7 @@ namespace Catch
         public Action OnLevelFailed;
     
         private int _currentCatchFoodCount,
-             _eatableToCatch;
+             _goodItemToCatch;
 
         private float _percentageOfCatchFood,
             _minimalPercentageOfCatchFood;
@@ -22,10 +22,10 @@ namespace Catch
         {
             _minimalPercentageOfCatchFood = minimalPercentageOfCatchFood;
             fillUpSystemUI.SetUpMinFillUpMarker(_minimalPercentageOfCatchFood);
+            _goodItemToCatch = eatableToCatch;
             _currentCatchFoodCount = 0;
             FindPercentOfCatchFood();
             fillUpSystemUI.SetCurrentFillUpMarker(PercentageOfCatchFood);
-            _eatableToCatch = eatableToCatch;
         }
     
         public void OnGoodItemCatch()
@@ -41,7 +41,7 @@ namespace Catch
 
         private void FindPercentOfCatchFood()
         {
-            _percentageOfCatchFood = (float)_currentCatchFoodCount / _eatableToCatch;
+            _percentageOfCatchFood = (float)_currentCatchFoodCount / _goodItemToCatch;
             fillUpSystemUI.SetCurrentFillUpMarker(_percentageOfCatchFood);
         }
 
