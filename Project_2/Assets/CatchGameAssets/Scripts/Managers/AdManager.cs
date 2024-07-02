@@ -41,7 +41,8 @@ namespace Catch
         {
             adOfferPanel.SetActive(false);
             
-            _levelPlayAdsManager.ShowRewardedVideo();
+            IronSource.Agent.showRewardedVideo();
+            //_levelPlayAdsManager.ShowRewardedVideo();
             //ShowAd();
         }
 
