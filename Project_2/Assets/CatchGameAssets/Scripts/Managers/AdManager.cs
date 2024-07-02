@@ -10,7 +10,28 @@ namespace Catch
         
         [SerializeField] private GameObject adOfferPanel;
         [SerializeField] private GameObject adConsumePanel;
-        
+
+        private LevelPlayAdsManager _levelPlayAdsManager;
+
+        private void Start()
+        {
+            _levelPlayAdsManager = LevelPlayAdsManager.Instance;
+            
+            _levelPlayAdsManager.OnRewardedVideoWatched += OnRewardedVideoWatched;
+        }
+
+        private void OnRewardedVideoWatched(AdResultType obj)
+        {
+            if (obj == AdResultType.Successfully)
+            {
+                
+            }
+            else if (obj == AdResultType.Failed)
+            {
+                Debug.Log("RewardedVideo wasn't watched");
+            }
+        }
+
         public void OpenAdOfferPanel()
         {
             adOfferPanel.SetActive(true);
@@ -20,7 +41,8 @@ namespace Catch
         {
             adOfferPanel.SetActive(false);
             
-            ShowAd();
+            _levelPlayAdsManager.ShowRewardedVideo();
+            //ShowAd();
         }
 
         public void DeclineAdOffer()

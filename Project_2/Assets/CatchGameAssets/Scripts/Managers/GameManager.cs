@@ -39,6 +39,7 @@ namespace Catch
         [SerializeField] private ShopManager shopManager;
         [SerializeField] private UIManager uIManager;
         [SerializeField] private AdManager adManager;
+        private LevelPlayAdsManager _levelPlayAdsManager;
 
         #endregion
 
@@ -54,7 +55,12 @@ namespace Catch
         #endregion
 
         private PlayerInputActions _playerInputActions;
-    
+
+        private void Awake()
+        {
+            _levelPlayAdsManager = LevelPlayAdsManager.Instance;
+        }
+        
         private void Start()
         {
             _playerInputActions = new PlayerInputActions();

@@ -1,7 +1,5 @@
 using System;
-using TMPro;
 using UnityEngine;
-using UnityEngine.SocialPlatforms.Impl;
 
 namespace Runner
 {
@@ -19,7 +17,7 @@ namespace Runner
                 return _instance;
             }
         }
-
+    
         private static ScoreSystem _instance;
         
         public Action OnRecordBreak;

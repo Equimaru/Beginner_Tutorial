@@ -16,7 +16,21 @@ namespace Catch
 
         private void Update()
         {
+#if UNITY_ANDROID
+            if (Input.touchCount > 0)
+            {
+                Touch touch = Input.GetTouch(0);
+                if (touch.position.x > Screen.width / 2)
+                {
+                    _inputAxis = 1;
+                }
+                else _inputAxis = -1;
+            }
+            else _inputAxis = 0;
+#elif UNITY_EDITOR
             _inputAxis = _playerInputActions.Player.Movement.ReadValue<float>();
+#endif
+
         }
 
         private void FixedUpdate()
