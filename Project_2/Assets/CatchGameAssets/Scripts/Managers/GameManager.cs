@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
+using Zenject;
 
 namespace Catch
 {
@@ -39,7 +40,7 @@ namespace Catch
         [SerializeField] private ShopManager shopManager;
         [SerializeField] private UIManager uIManager;
         [SerializeField] private AdManager adManager;
-        private LevelPlayAdsManager _levelPlayAdsManager;
+        [Inject] private LevelPlayAdsManager _levelPlayAdsManager;
 
         #endregion
 
@@ -56,11 +57,6 @@ namespace Catch
 
         private PlayerInputActions _playerInputActions;
 
-        private void Awake()
-        {
-            _levelPlayAdsManager = LevelPlayAdsManager.Instance;
-        }
-        
         private void Start()
         {
             _playerInputActions = new PlayerInputActions();
@@ -82,7 +78,7 @@ namespace Catch
         
         private void StartGamePhase()
         {
-            healthSystem.SetHP();
+            healthSystem.SetHp();
             playerController.StartGamePhase();
             spawnSystem.gameOver = false;
         }
@@ -136,7 +132,7 @@ namespace Catch
         {
             if (_playerSaveSystem.TryUseAmuletFromPocket())
             {
-                healthSystem.SetHP();
+                healthSystem.SetHp();
                 Debug.Log("Amulet was used!");
             }
             else
@@ -236,4 +232,3 @@ namespace Catch
         #endregion
     }
 }
-

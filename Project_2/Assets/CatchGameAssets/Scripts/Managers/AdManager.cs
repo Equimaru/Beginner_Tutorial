@@ -1,6 +1,7 @@
 using System;
 using System.Threading.Tasks;
 using UnityEngine;
+using Zenject;
 
 namespace Catch
 {
@@ -11,12 +12,10 @@ namespace Catch
         [SerializeField] private GameObject adOfferPanel;
         [SerializeField] private GameObject adConsumePanel;
 
-        private LevelPlayAdsManager _levelPlayAdsManager;
+        [Inject] private LevelPlayAdsManager _levelPlayAdsManager;
 
         private void Start()
         {
-            _levelPlayAdsManager = LevelPlayAdsManager.Instance;
-            
             _levelPlayAdsManager.OnRewardedVideoWatched += OnRewardedVideoWatched;
         }
 
@@ -37,13 +36,12 @@ namespace Catch
             adOfferPanel.SetActive(true);
         }
 
-        public void AcceptAdOffer()
+        public async void AcceptAdOffer()
         {
             adOfferPanel.SetActive(false);
             
-            IronSource.Agent.showRewardedVideo();
-            //_levelPlayAdsManager.ShowRewardedVideo();
-            //ShowAd();
+            var result = await _levelPlayAdsManager.ShowRewardedVideo();
+            // Handle result result -> add coins 
         }
 
         public void DeclineAdOffer()
@@ -60,4 +58,3 @@ namespace Catch
         }
     }
 }
-
