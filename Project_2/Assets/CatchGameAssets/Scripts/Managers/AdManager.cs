@@ -24,7 +24,7 @@ namespace Catch
         {
             if (obj == AdResultType.Successfully)
             {
-                
+                OnAdWatched?.Invoke();
             }
             else if (obj == AdResultType.Failed)
             {
