@@ -1,11 +1,12 @@
 using System;
 using UnityEngine;
+using Zenject;
 
 namespace Catch
 {
     public class ScoreSystem : MonoBehaviour
     {
-        [SerializeField] private FillUpSystemUI fillUpSystemUI;
+        [Inject] private FillUpSystemUI _fillUpSystemUI;
         
         public Action OnLevelCleared;
         public Action OnLevelFailed;
@@ -21,11 +22,11 @@ namespace Catch
         public void SetParameters(int eatableToCatch, float minimalPercentageOfCatchFood)
         {
             _minimalPercentageOfCatchFood = minimalPercentageOfCatchFood;
-            fillUpSystemUI.SetUpMinFillUpMarker(_minimalPercentageOfCatchFood);
+            _fillUpSystemUI.SetUpMinFillUpMarker(_minimalPercentageOfCatchFood);
             _goodItemToCatch = eatableToCatch;
             _currentCatchFoodCount = 0;
             FindPercentOfCatchFood();
-            fillUpSystemUI.SetCurrentFillUpMarker(PercentageOfCatchFood);
+            _fillUpSystemUI.SetCurrentFillUpMarker(PercentageOfCatchFood);
         }
     
         public void OnGoodItemCatch()
@@ -42,7 +43,7 @@ namespace Catch
         private void FindPercentOfCatchFood()
         {
             _percentageOfCatchFood = (float)_currentCatchFoodCount / _goodItemToCatch;
-            fillUpSystemUI.SetCurrentFillUpMarker(_percentageOfCatchFood);
+            _fillUpSystemUI.SetCurrentFillUpMarker(_percentageOfCatchFood);
         }
 
         private bool CalcIfPassMinScore()

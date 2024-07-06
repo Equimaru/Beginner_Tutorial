@@ -6,11 +6,13 @@ namespace Installers
 {
     public class ProjectInstaller : MonoInstaller
     {
-        [SerializeField] private LevelPlayAdsManager _levelPlayAdsManager;
-        
+        [Header("Managers")] 
+        [SerializeField] private LevelPlayAdsManager levelPlayAdsManager;
+        [SerializeField] private AudioManager audioManager;
         public override void InstallBindings()
         {
-            Container.BindInstance(_levelPlayAdsManager);
+            Container.BindInstance(levelPlayAdsManager);
+            Container.BindInstance(audioManager);
         }
     }
 }

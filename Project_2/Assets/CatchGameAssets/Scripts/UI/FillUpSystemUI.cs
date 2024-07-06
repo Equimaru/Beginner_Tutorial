@@ -1,3 +1,4 @@
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,11 +9,11 @@ public class FillUpSystemUI : MonoBehaviour
 
     public void SetUpMinFillUpMarker(float minFillUpPercentage)
     {
-        minFillUpMarker.fillAmount = minFillUpPercentage;
+        minFillUpMarker.DOFillAmount(minFillUpPercentage, 1f);
     }
 
     public void SetCurrentFillUpMarker(float currentFillUpPercentage)
     {
-        currentFillUpMarker.fillAmount = currentFillUpPercentage;
+        currentFillUpMarker.DOFillAmount(currentFillUpPercentage, 1f);
     }
 }

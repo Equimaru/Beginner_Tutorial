@@ -1,6 +1,5 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.Serialization;
 using Zenject;
 
 namespace Catch
@@ -27,19 +26,19 @@ namespace Catch
         #region Controllers
 
         [Header("Controllers")]
-        [SerializeField] private PlayerController playerController;
-        [SerializeField] private LevelController levelController;
-        [SerializeField] private BackgroundController backgroundController;
+        [Inject] private PlayerController _playerController;
+        [Inject] private LevelController _levelController;
+        [Inject] private BackgroundController _backgroundController;
 
         #endregion
 
         #region Managers
 
         [Header("Managers")]
-        [SerializeField] private AudioManager audioManager;
-        [SerializeField] private ShopManager shopManager;
-        [SerializeField] private UIManager uIManager;
-        [SerializeField] private AdManager adManager;
+        [Inject] private AudioManager _audioManager;
+        [Inject] private ShopManager _shopManager;
+        [Inject] private UIManager _uIManager;
+        [Inject] private AdManager _adManager;
         [Inject] private LevelPlayAdsManager _levelPlayAdsManager;
 
         #endregion
@@ -47,16 +46,16 @@ namespace Catch
         #region Systems
 
         [Header("Systems")] 
-        [SerializeField] private SpawnSystem spawnSystem;
-        [SerializeField] private ScoreSystem scoreSystem;
-        [SerializeField] private HealthSystem healthSystem;
+        [Inject] private SpawnSystem _spawnSystem;
+        [Inject] private ScoreSystem _scoreSystem;
+        [Inject] private HealthSystem _healthSystem;
 
         private PlayerSaveSystem _playerSaveSystem;
 
         #endregion
 
         private PlayerInputActions _playerInputActions;
-
+        
         private void Start()
         {
             _playerInputActions = new PlayerInputActions();
@@ -71,126 +70,151 @@ namespace Catch
 
         private void StopGamePhase()
         {
-            healthSystem.ClearHealthBar();
-            playerController.EndGamePhase();
-            spawnSystem.gameOver = true;
+            _healthSystem.ClearHealthBar();
+            _playerController.EndGamePhase();
+            _spawnSystem.gameOver = true;
         }
         
         private void StartGamePhase()
         {
-            healthSystem.SetHp();
-            playerController.StartGamePhase();
-            spawnSystem.gameOver = false;
+            _healthSystem.SetHP();
+            _playerController.StartGamePhase();
+            _spawnSystem.gameOver = false;
         }
 
         private void InitAll()
         {
-            healthSystem.Init(health);
-            playerController.Init(_playerInputActions, playerSpeed);
-            spawnSystem.Init(healthSystem, scoreSystem, goodItemSpawnChance, badItemSpawnChance);
-            levelController.Init(spawnSystem, scoreSystem, _playerSaveSystem.GetCurrentLevel());
+            _healthSystem.Init(health);
+            _playerController.Init(_playerInputActions, playerSpeed);
+            _spawnSystem.Init(goodItemSpawnChance, badItemSpawnChance);
+            _levelController.Init(_playerSaveSystem.GetCurrentLevel());
             
-            backgroundController.ChangeBackground();
+            _backgroundController.ChangeBackground();
         }
 
         private void SignUpToAllEvents()
         {
-            healthSystem.OnNoHPLeft += OnRanOutOfHealth;
+            _healthSystem.OnNoHPLeft += OnRanOutOfHealth;
             
-            spawnSystem.OnAllSpawnedObjectsGone += OnAllObjectsSpawned;
+            _spawnSystem.OnAllSpawnedObjectsGone += OnAllObjectsSpawned;
             
-            scoreSystem.OnLevelCleared += OnLevelCleared;
-            scoreSystem.OnLevelFailed += OnLevelFailed;
+            _scoreSystem.OnLevelCleared += OnLevelCleared;
+            _scoreSystem.OnLevelFailed += OnLevelFailed;
 
-            uIManager.OnNextLevelRequest += OnNextLevelEnterRequest;
-            uIManager.OnOpenShopRequest += OnOpenShopRequest;
-            uIManager.OnRestartRequest += OnRestartRequest;
-            uIManager.OnMenuExitRequest += OnMenuExitRequest;
+            _uIManager.winPanel.OnNextLevelEnterRequest += NextLevelEnterFromWinPanel;
+            _uIManager.winPanel.OnShopVisitRequest += ShopVisitFromWinPanel;
+            _uIManager.winPanel.OnRestartRequest += RestartFromWinPanel;
+            _uIManager.winPanel.OnMenuExitRequest += MenuExitFromWinPanel;
+
+            _uIManager.losePanel.OnShopVisitRequest += ShopVisitFromLosePanel;
+            _uIManager.losePanel.OnRestartRequest += RestartFromLosePanel;
+            _uIManager.losePanel.OnMenuExitRequest += MenuExitFromLosePanel;
+
+            _shopManager.OnItemBuyRequest += OnItemBuyRequest;
             
-            shopManager.OnItemBuyRequest += OnItemBuyRequest;
-            shopManager.OnCloseShopPanelRequest += OnCloseShopPanelRequest;
-            
-            adManager.OnAdWatched += OnAdWatched;
+            _adManager.OnAdWatched += OnAdWatched;
         }
 
         #region GameLoop
 
         private void OnAllObjectsSpawned()
         {
-            scoreSystem.ShowLevelResults();
+            _scoreSystem.ShowLevelResults();
         }
         
         private void OnLevelCleared()
         {
             StopGamePhase();
-            _playerSaveSystem.AddMoneyAmount((int)(scoreSystem.PercentageOfCatchFood * 100));
-            uIManager.SetCurrentMoneyAmount(_playerSaveSystem.GetMoneyAmount());
-            uIManager.ShowOnWinPanel();
+            _playerSaveSystem.AddMoneyAmount((int)(_scoreSystem.PercentageOfCatchFood * 100));
+            _uIManager.winPanel.SetMoneyAmount(_playerSaveSystem.GetMoneyAmount());
+            _uIManager.winPanel.Show();
         }
         
         private void OnRanOutOfHealth()
         {
             if (_playerSaveSystem.TryUseAmuletFromPocket())
             {
-                healthSystem.SetHp();
+                _healthSystem.SetHP();
                 Debug.Log("Amulet was used!");
             }
             else
             {
                 StopGamePhase();
-                uIManager.ShowOnLosePanel();
+                _uIManager.losePanel.Show();
             }
         }
         
         private void OnLevelFailed()
         {
             StopGamePhase();
-            uIManager.ShowOnLosePanel();
+            _uIManager.losePanel.Show();
         }
         
-        private void OnRestartRequest()
-        {
-            uIManager.HideOnLosePanel();
-            uIManager.HideOnWinPanel();
-            StartGamePhase();
-            levelController.RestartLevel();
-        }
-        
-        private void OnNextLevelEnterRequest()
-        {
-            uIManager.HideOnWinPanel();
-            StartGamePhase();
-            levelController.LevelUpAndStart();
-            backgroundController.ChangeBackground();
-            
-            _playerSaveSystem.IncreaseCurrentLevel();
-        }
-
         #endregion
 
         #region UIInteraction
 
-        private void OnOpenShopRequest()
+        #region WinPanel
+
+        private void NextLevelEnterFromWinPanel()
         {
-            uIManager.HideOnWinPanel();
+            _uIManager.winPanel.Hide();
+            StartGamePhase();
+            _levelController.LevelUpAndStart();
+            _backgroundController.ChangeBackground();
             
-            shopManager.RefreshShopPanel(_playerSaveSystem.GetMoneyAmount(), _playerSaveSystem.HasAmulet);
-            shopManager.OpenShop();
+            _playerSaveSystem.IncreaseCurrentLevel();
         }
         
-        private void OnCloseShopPanelRequest()
+        private async void ShopVisitFromWinPanel()
         {
-            shopManager.CloseShop();
-            
-            uIManager.ShowOnWinPanel();
+            _uIManager.winPanel.Hide();
+            _shopManager.RefreshShopPanel(_playerSaveSystem.GetMoneyAmount(), _playerSaveSystem.HasAmulet);
+            await _shopManager.VisitShop();
+            _uIManager.winPanel.Show();
         }
         
-        private void OnMenuExitRequest()
+        private void RestartFromWinPanel()
+        {
+            _uIManager.winPanel.Hide();
+            StartGamePhase();
+            _levelController.RestartLevel();
+        }
+
+        private void MenuExitFromWinPanel()
         {
             _playerSaveSystem.OnMenuExit();
             
             SceneManager.LoadScene("CatchGameMenu");
         }
+        
+        #endregion
+
+        #region LosePanel
+
+        private async void ShopVisitFromLosePanel()
+        {
+            _uIManager.losePanel.Hide();
+            _shopManager.RefreshShopPanel(_playerSaveSystem.GetMoneyAmount(), _playerSaveSystem.HasAmulet);
+            await _shopManager.VisitShop();
+            _uIManager.losePanel.Show();
+        }
+        
+        private void RestartFromLosePanel()
+        {
+            _uIManager.losePanel.Hide();
+            StartGamePhase();
+            _levelController.RestartLevel();
+        }
+
+        private void MenuExitFromLosePanel()
+        {
+            _playerSaveSystem.OnMenuExit();
+            
+            SceneManager.LoadScene("CatchGameMenu");
+        }
+
+        #endregion
 
         #endregion
 
@@ -211,11 +235,11 @@ namespace Catch
             if (_playerSaveSystem.CheckForEnoughMoneyAmount(amuletPrice))
             {
                 _playerSaveSystem.TryAddAmuletToPocket();
-                shopManager.RefreshShopPanel(_playerSaveSystem.GetMoneyAmount(), _playerSaveSystem.HasAmulet);
+                _shopManager.RefreshShopPanel(_playerSaveSystem.GetMoneyAmount(), _playerSaveSystem.HasAmulet);
             }
             else
             {
-                adManager.OpenAdOfferPanel();
+                _adManager.OpenAdOfferPanel();
             }
         }
 
@@ -226,7 +250,7 @@ namespace Catch
         private void OnAdWatched()
         {
             _playerSaveSystem.AddMoneyAmount(moneyGainFromAdd);
-            shopManager.RefreshShopPanel(_playerSaveSystem.GetMoneyAmount(), _playerSaveSystem.HasAmulet);
+            _shopManager.RefreshShopPanel(_playerSaveSystem.GetMoneyAmount(), _playerSaveSystem.HasAmulet);
         }
 
         #endregion

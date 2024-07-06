@@ -1,44 +1,11 @@
 using System;
+using System.Threading.Tasks;
 using UnityEngine;
 
 namespace Catch
 {
     public class LevelPlayAdsManager : MonoBehaviour
     {
-        #region Instance+Boostrap
-
-        public static LevelPlayAdsManager Instance
-        {
-            get
-            {
-                if (_instance == null)
-                {
-                    _instance = FindExistingInstances() ?? CreateNewInstance();
-                }
-                
-                return _instance;
-            }
-        }
-
-        private static LevelPlayAdsManager _instance;
-
-        private static LevelPlayAdsManager FindExistingInstances()
-        {
-            LevelPlayAdsManager[] existingInstances = FindObjectsOfType<LevelPlayAdsManager>();
-
-            if (existingInstances == null || existingInstances.Length == 0) return null;
-
-            return existingInstances[0];
-        }
-
-        private static LevelPlayAdsManager CreateNewInstance()
-        {
-            GameObject newLevelPlayAdsManager = new GameObject("LevelPlayAdsManager");
-            return newLevelPlayAdsManager.AddComponent<LevelPlayAdsManager>();
-        }
-
-        #endregion
-
         public Action<AdResultType> OnRewardedVideoWatched;
 
         private void Start()
@@ -181,18 +148,28 @@ namespace Catch
 
         #region RewardedVideo
 
-        bool _rewardedVideoAvailable = IronSource.Agent.isRewardedVideoAvailable();
+        bool _rewardedVideoAvailable => IronSource.Agent.isRewardedVideoAvailable();
 
-        public void ShowRewardedVideo()
+        private TaskCompletionSource<bool> _showRewardedVideoCompletionSource;
+
+        public async Task<AdResultType> ShowRewardedVideo()
         {
-            if (_rewardedVideoAvailable)
+            if (!_rewardedVideoAvailable)
             {
-                IronSource.Agent.showRewardedVideo();
+                return AdResultType.Failed;
             }
-            else
+
+            _showRewardedVideoCompletionSource = new TaskCompletionSource<bool>();
+            IronSource.Agent.showRewardedVideo();
+            var result = await _showRewardedVideoCompletionSource.Task;
+            
+            if (result)
             {
-                Debug.Log("RewardedVideoIsNotReady");
+                return AdResultType.Successfully;
             }
+            
+            Debug.Log("RewardedVideoIsNotReady");
+            return AdResultType.Failed;
         }
         
         private void SubscribeToRewardedVideoEvents()
@@ -227,11 +204,21 @@ namespace Catch
         // When using server-to-server callbacks, you may ignore this event and wait for the ironSource server callback.
         void RewardedVideoOnAdRewardedEvent(IronSourcePlacement placement, IronSourceAdInfo adInfo)
         {
+            if (_showRewardedVideoCompletionSource != null)
+            {
+                _showRewardedVideoCompletionSource.SetResult(true);
+            }
+            
             OnRewardedVideoWatched?.Invoke(AdResultType.Successfully);
         }
         // The rewarded video ad was failed to show.
         void RewardedVideoOnAdShowFailedEvent(IronSourceError error, IronSourceAdInfo adInfo)
         {
+            if (_showRewardedVideoCompletionSource != null)
+            {
+                _showRewardedVideoCompletionSource.SetResult(false);
+            }
+            
             OnRewardedVideoWatched?.Invoke(AdResultType.Failed);
         }
         // Invoked when the video ad was clicked.

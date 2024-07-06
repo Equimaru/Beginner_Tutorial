@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
+using Zenject;
 using Random = UnityEngine.Random;
 
 namespace Catch
@@ -17,9 +18,9 @@ namespace Catch
 
         private Vector2 _screenSize;
         
-        private LevelController _levelController;
-        private HealthSystem _healthSystem;
-        private ScoreSystem _scoreSystem;
+        [Inject] private LevelController _levelController;
+        [Inject] private HealthSystem _healthSystem;
+        [Inject] private ScoreSystem _scoreSystem;
 
         public bool gameOver;
 
@@ -34,11 +35,8 @@ namespace Catch
         private Coroutine _spawnCoroutine;
 
 
-        public void Init(HealthSystem healthSystem, ScoreSystem scoreSystem, float goodItemSpawnChance, float badItemSpawnChance)
+        public void Init(float goodItemSpawnChance, float badItemSpawnChance)
         {
-            _healthSystem = healthSystem;
-            _scoreSystem = scoreSystem;
-            
             _randomGenerator = new RandomGenerator(new int[] {0, 1}, new float[] {goodItemSpawnChance, badItemSpawnChance});
         }
 

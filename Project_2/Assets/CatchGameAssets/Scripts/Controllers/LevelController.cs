@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using Zenject;
 
 namespace Catch
 {
@@ -9,8 +10,8 @@ namespace Catch
 
         private LevelSettings _currentLevelSettings;
         
-        private SpawnSystem _spawnSystem;
-        private ScoreSystem _scoreSystem;
+        [Inject] private SpawnSystem _spawnSystem;
+        [Inject] private ScoreSystem _scoreSystem;
         
         private int _currentLevel;
 
@@ -20,10 +21,8 @@ namespace Catch
             _minSpawnTime,
             _maxSpawnTime;
 
-        public void Init(SpawnSystem spawnSystem, ScoreSystem scoreSystem, int currentLevel)
+        public void Init(int currentLevel)
         {
-            _spawnSystem = spawnSystem;
-            _scoreSystem = scoreSystem;
             _currentLevel = currentLevel;
 
             SetLevelParameters();
