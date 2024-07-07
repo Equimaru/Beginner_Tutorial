@@ -220,7 +220,7 @@ namespace Catch
 
         #region Shop
 
-        private void OnItemBuyRequest(ShopItemType item)
+        private void OnItemBuyRequest(ShopItemType item) //Rework to ID system
         {
             switch (item)
             {

@@ -135,7 +135,7 @@ GameObject:
   - component: {fileID: 48909163}
   - component: {fileID: 48909162}
   m_Layer: 5
-  m_Name: AddOfferPanel
+  m_Name: AdOfferPanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -971,7 +971,7 @@ GameObject:
   - component: {fileID: 220990672}
   - component: {fileID: 220990673}
   m_Layer: 5
-  m_Name: AddManager
+  m_Name: AdManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1012,6 +1012,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   adOfferPanel: {fileID: 48909160}
   adConsumePanel: {fileID: 675018895}
+  adTimer: {fileID: 2111672922}
 --- !u!1 &221342879
 GameObject:
   m_ObjectHideFlags: 0
@@ -2181,7 +2182,7 @@ GameObject:
   - component: {fileID: 675018898}
   - component: {fileID: 675018897}
   m_Layer: 5
-  m_Name: AddConsumePanel
+  m_Name: AdConsumePanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6015,8 +6016,8 @@ RectTransform:
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 529800665}
   - {fileID: 624792910}
+  - {fileID: 529800665}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -6222,7 +6223,7 @@ GameObject:
   - component: {fileID: 2111672923}
   - component: {fileID: 2111672922}
   m_Layer: 5
-  m_Name: AddTimer
+  m_Name: AdTimer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6657,7 +6658,7 @@ GameObject:
   - component: {fileID: 2129116495}
   - component: {fileID: 2129116494}
   m_Layer: 5
-  m_Name: AddTimerBackground
+  m_Name: AdTimerBackground
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
