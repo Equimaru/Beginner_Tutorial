@@ -1,6 +1,8 @@
 using System;
 using System.Threading.Tasks;
+using DG.Tweening;
 using UnityEngine;
+using UnityEngine.UI;
 using Zenject;
 
 namespace Catch
@@ -11,6 +13,7 @@ namespace Catch
         
         [SerializeField] private GameObject adOfferPanel;
         [SerializeField] private GameObject adConsumePanel;
+        [SerializeField] private Image adTimer;
 
         [Inject] private LevelPlayAdsManager _levelPlayAdsManager;
 
@@ -39,9 +42,13 @@ namespace Catch
         public async void AcceptAdOffer()
         {
             adOfferPanel.SetActive(false);
-            
+#if UNITY_ANDROID && !UNITY_EDITOR
             var result = await _levelPlayAdsManager.ShowRewardedVideo();
             // Handle result result -> add coins 
+#elif UNITY_EDITOR
+            ShowAd();
+#endif
+            
         }
 
         public void DeclineAdOffer()
@@ -52,6 +59,7 @@ namespace Catch
         private async void ShowAd()
         {
             adConsumePanel.SetActive(true);
+            adTimer.DOFillAmount(1, 3f);
             await Task.Delay(3000);
             OnAdWatched?.Invoke();
             adConsumePanel.SetActive(false);
