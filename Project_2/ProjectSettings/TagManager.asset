@@ -46,3 +46,6 @@ TagManager:
   - name: UI
     uniqueID: 4137593503
     locked: 0
+  - name: ShopPanel
+    uniqueID: 13401413
+    locked: 0
