@@ -536,7 +536,7 @@ GameObject:
   - component: {fileID: 180960727}
   - component: {fileID: 180960726}
   m_Layer: 5
-  m_Name: Panel_Shop
+  m_Name: Panel_Shop_Coins
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1838,7 +1838,7 @@ GameObject:
   - component: {fileID: 687698988}
   - component: {fileID: 687698987}
   m_Layer: 5
-  m_Name: ItemsTab(Button)
+  m_Name: Tab_Shop_Coins
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3100,7 +3100,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1164373995
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3332,12 +3332,12 @@ GameObject:
   - component: {fileID: 1247585072}
   - component: {fileID: 1247585071}
   m_Layer: 5
-  m_Name: Panel_Store
+  m_Name: Panel_Store_InApp
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1247585070
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3563,7 +3563,7 @@ GameObject:
   - component: {fileID: 1388557508}
   - component: {fileID: 1388557507}
   m_Layer: 5
-  m_Name: In-app_PurchaseTab(Button)
+  m_Name: Tab_Purchase_InApp
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4603,7 +4603,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1791714313
 RectTransform:
   m_ObjectHideFlags: 0
