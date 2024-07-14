@@ -1,6 +1,4 @@
 using System;
-using System.Threading.Tasks;
-using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,41 +6,50 @@ namespace Catch
 {
     public class ShopManager : MonoBehaviour
     {
-        public Action<ShopItemType> OnItemBuyRequest;
+        public Action OnShopCloseRequest;
 
-        [SerializeField] private GameObject shopPanel;
-        [SerializeField] private Button amuletBuyButton;
-        [SerializeField] private TextMeshProUGUI moneyAmountText;
+        [SerializeField] private GameObject shop;
+        
+        public CoinShop coinShop;
+        public PremiumShop premiumShop;
 
-        public void AmuletBuyRequest()
+        [SerializeField] private Button coinShopTab;
+        [SerializeField] private Button premiumShopTab;
+
+        public void OpenShop()
         {
-            ShopItemType amulet = ShopItemType.Amulet;
-            OnItemBuyRequest?.Invoke(amulet);
+            shop.SetActive(true);
+            coinShopTab.interactable = false;
+            coinShop.Show();
+        }
+
+        public void OpenPremiumShopTab()
+        {
+            premiumShop.Show();
+            coinShop.Hide();
+            premiumShopTab.interactable = false;
+            coinShopTab.interactable = true;
+        }
+
+        public void OpenCoinsShopTab()
+        {
+            coinShop.Show();
+            premiumShop.Hide();
+            coinShopTab.interactable = false;
+            premiumShopTab.interactable = true;
+        }
+        
+        public void ShopCloseRequest()
+        {
+            OnShopCloseRequest?.Invoke();
         }
 
         public void CloseShop()
         {
-            if (_shopVisitCompletionSource != null)
-            {
-                _shopVisitCompletionSource.SetResult(true);
-            }
+            shop.SetActive(false);
         }
 
-        private TaskCompletionSource<bool> _shopVisitCompletionSource;
-        
-        public async Task VisitShop()
-        {
-            _shopVisitCompletionSource = new TaskCompletionSource<bool>();
-            shopPanel.SetActive(true);
-            await _shopVisitCompletionSource.Task;
-            shopPanel.SetActive(false);
-        }
 
-        public void RefreshShopPanel(int moneyAmount, bool hasAmulet)
-        {
-             amuletBuyButton.interactable = !hasAmulet;
-            moneyAmountText.text = "You have " + moneyAmount + " coins";
-        }
     }
 }
 

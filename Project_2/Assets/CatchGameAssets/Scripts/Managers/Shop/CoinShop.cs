@@ -1,9 +1,38 @@
-﻿using TMPro;
+﻿using System;
+using TMPro;
+using UnityEngine;
+using UnityEngine.UI;
 
 namespace Catch
 {
-    public class CoinShop
+    public class CoinShop : MonoBehaviour
     {
-        private TextMeshProUGUI _currentCoinsAmount;
+        public Action<ShopItemType> OnItemBuyRequest;
+        
+        [SerializeField] private GameObject coinShopPanel;
+        [SerializeField] private Button amuletBuyButton;
+        [SerializeField] private TextMeshProUGUI currentCoinsAmountText;
+
+        public void Show()
+        {
+            coinShopPanel.SetActive(true);
+        }
+
+        public void Hide()
+        {
+            coinShopPanel.SetActive(false);
+        }
+        
+        public void AmuletBuyRequest()
+        {
+            ShopItemType amulet = ShopItemType.Amulet;
+            OnItemBuyRequest?.Invoke(amulet);
+        }
+        
+        public void RefreshShopPanel(int moneyAmount, bool hasAmulet)
+        {
+            amuletBuyButton.interactable = !hasAmulet;
+            currentCoinsAmountText.text = "You have " + moneyAmount;
+        }
     }
 }

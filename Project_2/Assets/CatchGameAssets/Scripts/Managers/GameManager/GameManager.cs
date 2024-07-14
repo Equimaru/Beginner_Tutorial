@@ -104,11 +104,17 @@ namespace Catch
             _scoreSystem.OnLevelFailed += OnLevelFailed;
 
             _inGameMenuManager.OnNextLevelEnterRequest += NextLevelEnterFromWinPanel;
-            _inGameMenuManager.OnShopVisitRequest += ShopVisitFromWinPanel;
+            _inGameMenuManager.OnShopVisitRequest += ShopVisit;
             _inGameMenuManager.OnRestartRequest += RestartFromWinPanel;
             _inGameMenuManager.OnMenuExitRequest += MenuExitFromWinPanel;
 
-            _shopManager.OnItemBuyRequest += OnItemBuyRequest;
+            _shopManager.OnShopCloseRequest += OnShopCloseRequest;
+            
+            _shopManager.coinShop.OnItemBuyRequest += OnItemBuyRequest;
+            
+            _shopManager.premiumShop.OnCoinsPurchased += OnCoinsPurchased;
+            _shopManager.premiumShop.OnNoAdsPurchased += OnNoAdsPurchased;
+            _shopManager.premiumShop.OnVipPassPurchased += OnVipPassPurchased;
             
             _adManager.OnAdWatched += OnAdWatched;
         }
@@ -162,11 +168,16 @@ namespace Catch
             _playerSaveSystem.IncreaseCurrentLevel();
         }
         
-        private async void ShopVisitFromWinPanel()
+        private void ShopVisit()
         {
             _inGameMenuManager.Hide();
-            _shopManager.RefreshShopPanel(_playerSaveSystem.GetMoneyAmount(), _playerSaveSystem.HasAmulet);
-            await _shopManager.VisitShop();
+            _shopManager.coinShop.RefreshShopPanel(_playerSaveSystem.GetMoneyAmount(), _playerSaveSystem.HasAmulet);
+            _shopManager.OpenShop();
+        }
+        
+        private void OnShopCloseRequest()
+        {
+            _shopManager.CloseShop();
             _inGameMenuManager.Show(LevelStateType.Cleared);
         }
         
@@ -203,7 +214,7 @@ namespace Catch
             if (_playerSaveSystem.CheckForEnoughMoneyAmount(amuletPrice))
             {
                 _playerSaveSystem.TryAddAmuletToPocket();
-                _shopManager.RefreshShopPanel(_playerSaveSystem.GetMoneyAmount(), _playerSaveSystem.HasAmulet);
+                _shopManager.coinShop.RefreshShopPanel(_playerSaveSystem.GetMoneyAmount(), _playerSaveSystem.HasAmulet);
             }
             else
             {
@@ -211,6 +222,25 @@ namespace Catch
             }
         }
 
+        #region PremiumShop
+
+        private void OnVipPassPurchased()
+        {
+            Debug.Log("VipPassPurchased");
+        }
+
+        private void OnNoAdsPurchased()
+        {
+            Debug.Log("NoAdsPurchased");
+        }
+
+        private void OnCoinsPurchased()
+        {
+            Debug.Log("CoinsPurchased");
+        }
+
+        #endregion
+        
         #endregion
 
         #region Ads
@@ -218,7 +248,7 @@ namespace Catch
         private void OnAdWatched()
         {
             _playerSaveSystem.AddMoneyAmount(moneyGainFromAdd);
-            _shopManager.RefreshShopPanel(_playerSaveSystem.GetMoneyAmount(), _playerSaveSystem.HasAmulet);
+            _shopManager.coinShop.RefreshShopPanel(_playerSaveSystem.GetMoneyAmount(), _playerSaveSystem.HasAmulet);
         }
 
         #endregion

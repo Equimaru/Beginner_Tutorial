@@ -46,7 +46,11 @@ namespace Catch
             var result = await _levelPlayAdsManager.ShowRewardedVideo();
             // Handle result result -> add coins 
 #elif UNITY_EDITOR
-            ShowAd();
+            adConsumePanel.SetActive(true);
+            adTimer.DOFillAmount(1, 3f);
+            await Task.Delay(3000);
+            OnAdWatched?.Invoke();
+            adConsumePanel.SetActive(false);
 #endif
             
         }
@@ -54,15 +58,6 @@ namespace Catch
         public void DeclineAdOffer()
         {
             adOfferPanel.SetActive(false);
-        }
-
-        private async void ShowAd()
-        {
-            adConsumePanel.SetActive(true);
-            adTimer.DOFillAmount(1, 3f);
-            await Task.Delay(3000);
-            OnAdWatched?.Invoke();
-            adConsumePanel.SetActive(false);
         }
     }
 }
