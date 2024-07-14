@@ -37,7 +37,7 @@ namespace Catch
         [Header("Managers")]
         [Inject] private AudioManager _audioManager;
         [Inject] private ShopManager _shopManager;
-        [Inject] private UIManager _uIManager;
+        [Inject] private InGameMenuManager _inGameMenuManager;
         [Inject] private AdManager _adManager;
         [Inject] private LevelPlayAdsManager _levelPlayAdsManager;
 
@@ -55,6 +55,8 @@ namespace Catch
         #endregion
 
         private PlayerInputActions _playerInputActions;
+        
+        private LevelStateType _currentLevelStateType; // Make state change
         
         private void Start()
         {
@@ -101,14 +103,10 @@ namespace Catch
             _scoreSystem.OnLevelCleared += OnLevelCleared;
             _scoreSystem.OnLevelFailed += OnLevelFailed;
 
-            _uIManager.winPanel.OnNextLevelEnterRequest += NextLevelEnterFromWinPanel;
-            _uIManager.winPanel.OnShopVisitRequest += ShopVisitFromWinPanel;
-            _uIManager.winPanel.OnRestartRequest += RestartFromWinPanel;
-            _uIManager.winPanel.OnMenuExitRequest += MenuExitFromWinPanel;
-
-            _uIManager.losePanel.OnShopVisitRequest += ShopVisitFromLosePanel;
-            _uIManager.losePanel.OnRestartRequest += RestartFromLosePanel;
-            _uIManager.losePanel.OnMenuExitRequest += MenuExitFromLosePanel;
+            _inGameMenuManager.OnNextLevelEnterRequest += NextLevelEnterFromWinPanel;
+            _inGameMenuManager.OnShopVisitRequest += ShopVisitFromWinPanel;
+            _inGameMenuManager.OnRestartRequest += RestartFromWinPanel;
+            _inGameMenuManager.OnMenuExitRequest += MenuExitFromWinPanel;
 
             _shopManager.OnItemBuyRequest += OnItemBuyRequest;
             
@@ -126,8 +124,8 @@ namespace Catch
         {
             StopGamePhase();
             _playerSaveSystem.AddMoneyAmount((int)(_scoreSystem.PercentageOfCatchFood * 100));
-            _uIManager.winPanel.SetMoneyAmount(_playerSaveSystem.GetMoneyAmount());
-            _uIManager.winPanel.Show();
+            _inGameMenuManager.SetMoneyAmount(_playerSaveSystem.GetMoneyAmount());
+            _inGameMenuManager.Show(LevelStateType.Cleared);
         }
         
         private void OnRanOutOfHealth()
@@ -140,25 +138,23 @@ namespace Catch
             else
             {
                 StopGamePhase();
-                _uIManager.losePanel.Show();
+                _inGameMenuManager.Show(LevelStateType.Failed);
             }
         }
         
         private void OnLevelFailed()
         {
             StopGamePhase();
-            _uIManager.losePanel.Show();
+            _inGameMenuManager.Show(LevelStateType.Failed);
         }
         
         #endregion
 
         #region UIInteraction
 
-        #region WinPanel
-
         private void NextLevelEnterFromWinPanel()
         {
-            _uIManager.winPanel.Hide();
+            _inGameMenuManager.Hide();
             StartGamePhase();
             _levelController.LevelUpAndStart();
             _backgroundController.ChangeBackground();
@@ -168,15 +164,15 @@ namespace Catch
         
         private async void ShopVisitFromWinPanel()
         {
-            _uIManager.winPanel.Hide();
+            _inGameMenuManager.Hide();
             _shopManager.RefreshShopPanel(_playerSaveSystem.GetMoneyAmount(), _playerSaveSystem.HasAmulet);
             await _shopManager.VisitShop();
-            _uIManager.winPanel.Show();
+            _inGameMenuManager.Show(LevelStateType.Cleared);
         }
         
         private void RestartFromWinPanel()
         {
-            _uIManager.winPanel.Hide();
+            _inGameMenuManager.Hide();
             StartGamePhase();
             _levelController.RestartLevel();
         }
@@ -185,37 +181,9 @@ namespace Catch
         {
             _playerSaveSystem.OnMenuExit();
             
-            SceneManager.LoadScene("CatchGameMenu");
+            SceneManager.LoadScene("CatchGame_Menu");
         }
         
-        #endregion
-
-        #region LosePanel
-
-        private async void ShopVisitFromLosePanel()
-        {
-            _uIManager.losePanel.Hide();
-            _shopManager.RefreshShopPanel(_playerSaveSystem.GetMoneyAmount(), _playerSaveSystem.HasAmulet);
-            await _shopManager.VisitShop();
-            _uIManager.losePanel.Show();
-        }
-        
-        private void RestartFromLosePanel()
-        {
-            _uIManager.losePanel.Hide();
-            StartGamePhase();
-            _levelController.RestartLevel();
-        }
-
-        private void MenuExitFromLosePanel()
-        {
-            _playerSaveSystem.OnMenuExit();
-            
-            SceneManager.LoadScene("CatchGameMenu");
-        }
-
-        #endregion
-
         #endregion
 
         #region Shop

@@ -8,7 +8,7 @@ namespace Installers
     {
         [Header("Managers")] 
         [SerializeField] private ShopManager shopManager;
-        [SerializeField] private UIManager uIManager;
+        [SerializeField] private InGameMenuManager uIManager;
         [SerializeField] private AdManager adManager;
         
         [Header("Systems")] 
