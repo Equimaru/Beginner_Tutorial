@@ -19,6 +19,7 @@ namespace Catch
         public void OpenShop()
         {
             shop.SetActive(true);
+            premiumShopTab.interactable = true;
             coinShopTab.interactable = false;
             coinShop.Show();
         }
