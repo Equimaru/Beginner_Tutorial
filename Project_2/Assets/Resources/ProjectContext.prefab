@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 327692908475304653}
   - component: {fileID: 5339072199817733373}
   m_Layer: 0
-  m_Name: LevelPlayAdManager
+  m_Name: LevelPlayAds
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -121,9 +121,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 19e5187cd3fd485c984948301948b3cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  levelPlayAdsManager: {fileID: 5339072199817733373}
+  levelPlayAds: {fileID: 5339072199817733373}
   audioManager: {fileID: 0}
-  initializeUgs: {fileID: 3773468272630860616}
 --- !u!1 &3493573831546392500
 GameObject:
   m_ObjectHideFlags: 0

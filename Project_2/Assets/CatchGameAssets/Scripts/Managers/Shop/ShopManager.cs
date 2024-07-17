@@ -48,6 +48,7 @@ namespace Catch
         public void CloseShop()
         {
             shop.SetActive(false);
+            Debug.Log("Close shop");
         }
 
 

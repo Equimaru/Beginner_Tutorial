@@ -7,19 +7,21 @@ using Zenject;
 
 namespace Catch
 {
-    public class AdManager : MonoBehaviour
+    public class InMenuAdsManager : MonoBehaviour
     {
         public Action OnAdWatched;
         
         [SerializeField] private GameObject adOfferPanel;
         [SerializeField] private GameObject adConsumePanel;
         [SerializeField] private Image adTimer;
+        
+        [Inject] private LevelPlayAds _levelPlayAds;
 
-        [Inject] private LevelPlayAdsManager _levelPlayAdsManager;
+        private bool _isNoAdsPurchased;
 
         private void Start()
         {
-            _levelPlayAdsManager.OnRewardedVideoWatched += OnRewardedVideoWatched;
+            _levelPlayAds.OnRewardedVideoWatched += OnRewardedVideoWatched;
         }
 
         private void OnRewardedVideoWatched(AdResultType obj)
@@ -39,9 +41,14 @@ namespace Catch
             adOfferPanel.SetActive(true);
         }
 
-        public async void AcceptAdOffer()
+        public void AcceptAdOffer()
         {
             adOfferPanel.SetActive(false);
+            ShowAd();
+        }
+
+        private async void ShowAd()
+        {
 #if UNITY_ANDROID && !UNITY_EDITOR
             var result = await _levelPlayAdsManager.ShowRewardedVideo();
             // Handle result result -> add coins 
@@ -52,12 +59,16 @@ namespace Catch
             OnAdWatched?.Invoke();
             adConsumePanel.SetActive(false);
 #endif
-            
         }
-
+        
         public void DeclineAdOffer()
         {
             adOfferPanel.SetActive(false);
+        }
+        
+        public void ShowBanner()
+        {
+            _levelPlayAds.LoadBanner();
         }
     }
 }

@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Catch
 {
-    public class LevelPlayAdsManager : MonoBehaviour
+    public class LevelPlayAds : MonoBehaviour
     {
         public Action<AdResultType> OnRewardedVideoWatched;
 

@@ -37,6 +37,7 @@ namespace Catch
     {
         public Action OnCoinsPurchased;
         public Action OnNoAdsPurchased;
+        public Action OnNoAdsIsActive;
         public Action OnVipPassPurchased;
         
         [SerializeField] private GameObject premiumShopPanel;
@@ -89,7 +90,7 @@ namespace Catch
                 if (product.hasReceipt)
                 {
                     Debug.Log("NoAds is active");
-                    //Remove ads
+                    OnNoAdsIsActive?.Invoke();
                 }
                 else
                 {

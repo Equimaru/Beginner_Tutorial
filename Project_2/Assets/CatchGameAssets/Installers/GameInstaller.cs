@@ -9,7 +9,7 @@ namespace Installers
         [Header("Managers")] 
         [SerializeField] private ShopManager shopManager;
         [SerializeField] private InGameMenuManager uIManager;
-        [SerializeField] private AdManager adManager;
+        [SerializeField] private InGameAdsManager inGameAdsManager;
         
         [Header("Systems")] 
         [SerializeField] private SpawnSystem spawnSystem;
@@ -25,7 +25,7 @@ namespace Installers
         {
             Container.BindInstance(shopManager);
             Container.BindInstance(uIManager);
-            Container.BindInstance(adManager);
+            Container.BindInstance(inGameAdsManager);
 
             Container.BindInstance(spawnSystem);
             Container.BindInstance(scoreSystem);

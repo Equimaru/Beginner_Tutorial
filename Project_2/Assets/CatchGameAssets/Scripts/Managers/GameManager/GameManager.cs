@@ -38,8 +38,8 @@ namespace Catch
         [Inject] private AudioManager _audioManager;
         [Inject] private ShopManager _shopManager;
         [Inject] private InGameMenuManager _inGameMenuManager;
-        [Inject] private AdManager _adManager;
-        [Inject] private LevelPlayAdsManager _levelPlayAdsManager;
+        [Inject] private InGameAdsManager _inGameAdsManager;
+        [Inject] private LevelPlayAds _levelPlayAds;
 
         #endregion
 
@@ -55,6 +55,8 @@ namespace Catch
         #endregion
 
         private PlayerInputActions _playerInputActions;
+
+        private bool _isNoAdsActive;
         
         private LevelStateType _currentLevelStateType; // Make state change
         
@@ -104,7 +106,7 @@ namespace Catch
             _scoreSystem.OnLevelFailed += OnLevelFailed;
 
             _inGameMenuManager.OnNextLevelEnterRequest += NextLevelEnterFromWinPanel;
-            _inGameMenuManager.OnShopVisitRequest += ShopVisit;
+            _inGameMenuManager.OnShopVisitRequest += VisitShop;
             _inGameMenuManager.OnRestartRequest += RestartFromWinPanel;
             _inGameMenuManager.OnMenuExitRequest += MenuExitFromWinPanel;
 
@@ -114,9 +116,10 @@ namespace Catch
             
             _shopManager.premiumShop.OnCoinsPurchased += OnCoinsPurchased;
             _shopManager.premiumShop.OnNoAdsPurchased += OnNoAdsPurchased;
+            _shopManager.premiumShop.OnNoAdsIsActive += OnNoAdsIsActive;
             _shopManager.premiumShop.OnVipPassPurchased += OnVipPassPurchased;
             
-            _adManager.OnAdWatched += OnAdWatched;
+            _inGameAdsManager.OnAdWatched += OnAdWatched;
         }
 
         #region GameLoop
@@ -168,7 +171,7 @@ namespace Catch
             _playerSaveSystem.IncreaseCurrentLevel();
         }
         
-        private void ShopVisit()
+        private void VisitShop()
         {
             _inGameMenuManager.Hide();
             _shopManager.coinShop.RefreshShopPanel(_playerSaveSystem.GetMoneyAmount(), _playerSaveSystem.HasAmulet);
@@ -218,7 +221,7 @@ namespace Catch
             }
             else
             {
-                _adManager.OpenAdOfferPanel();
+                _inGameAdsManager.OpenAdOfferPanel();
             }
         }
 
@@ -226,17 +229,24 @@ namespace Catch
 
         private void OnVipPassPurchased()
         {
-            Debug.Log("VipPassPurchased");
+            Debug.Log("VipPass purchased");
         }
 
         private void OnNoAdsPurchased()
         {
-            Debug.Log("NoAdsPurchased");
+            Debug.Log("NoAds purchased");
+            _isNoAdsActive = true;
+        }
+
+        private void OnNoAdsIsActive()
+        {
+            Debug.Log("NoAds is active");
+            _isNoAdsActive = true;
         }
 
         private void OnCoinsPurchased()
         {
-            Debug.Log("CoinsPurchased");
+            Debug.Log("Coins purchased");
         }
 
         #endregion
