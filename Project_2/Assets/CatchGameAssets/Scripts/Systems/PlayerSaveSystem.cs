@@ -17,7 +17,7 @@ namespace Catch
             LoadItemsFromStash();
         }
 
-        public void OnMenuExit()
+        public void SaveParameters()
         {
             SaveCurrentLevel();
             SaveMoneyAmount();

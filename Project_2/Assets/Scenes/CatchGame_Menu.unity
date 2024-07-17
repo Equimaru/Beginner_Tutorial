@@ -1985,7 +1985,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   menuPanel: {fileID: 1164373994}
-  Check: 0
 --- !u!1 &1485613422
 GameObject:
   m_ObjectHideFlags: 0
@@ -3021,7 +3020,7 @@ PrefabInstance:
     - target: {fileID: 660241627626895665, guid: 1b51147b4e7dd5c4684b9792794a3e9f,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: CloseShop
+      value: ShopCloseRequest
       objectReference: {fileID: 0}
     - target: {fileID: 1156130817760643327, guid: 1b51147b4e7dd5c4684b9792794a3e9f,
         type: 3}
@@ -3031,7 +3030,7 @@ PrefabInstance:
     - target: {fileID: 1156130817760643327, guid: 1b51147b4e7dd5c4684b9792794a3e9f,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: CloseShop
+      value: ShopCloseRequest
       objectReference: {fileID: 0}
     - target: {fileID: 3066387733297911952, guid: 1b51147b4e7dd5c4684b9792794a3e9f,
         type: 3}

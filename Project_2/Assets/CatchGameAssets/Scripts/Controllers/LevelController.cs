@@ -4,9 +4,9 @@ using Zenject;
 
 namespace Catch
 {
-    public class LevelController : MonoBehaviour
+    public class LevelController
     {
-        [SerializeField] private List<LevelSettings> levelSettings;
+        [Inject] private List<LevelSettings> _levelSettings;
 
         private LevelSettings _currentLevelSettings;
         
@@ -46,7 +46,7 @@ namespace Catch
 
         private void SetLevelParameters()
         {
-            _currentLevelSettings = levelSettings[_currentLevel - 1]; //Adjusting int for proper index usage
+            _currentLevelSettings = _levelSettings[_currentLevel - 1]; //Adjusting int for proper index usage
             
             _eatableToSpawn = _currentLevelSettings.FoodToSpawn;
             _minSpawnTime = _currentLevelSettings.MinSpawnTime;

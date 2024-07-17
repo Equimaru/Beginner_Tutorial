@@ -418,56 +418,6 @@ MonoBehaviour:
     mipBias: 0
     varianceClampScale: 0.9
     contrastAdaptiveSharpening: 0
---- !u!1 &381665091
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 381665092}
-  - component: {fileID: 381665093}
-  m_Layer: 0
-  m_Name: LevelController
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &381665092
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 381665091}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 425063243}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &381665093
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 381665091}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 666415b7a85b97a43abb261e24855728, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  levelSettings:
-  - {fileID: 11400000, guid: 82d64f19db6cf444499d4476fe02b8d3, type: 2}
-  - {fileID: 11400000, guid: d00b497b1d683db4caedcdbc271615bb, type: 2}
-  - {fileID: 11400000, guid: 84c9e4eeac91a0047bdf30ba61761e44, type: 2}
-  - {fileID: 11400000, guid: ed5e54e7c0ec4ae49826be34b9e5dd02, type: 2}
-  - {fileID: 11400000, guid: e8453da8235d95e4083007f3d65f0bc9, type: 2}
 --- !u!1 &409198871 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 160584241032231419, guid: 1b51147b4e7dd5c4684b9792794a3e9f,
@@ -655,10 +605,9 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 381665092}
   - {fileID: 1555071415}
   - {fileID: 1244528137}
-  - {fileID: 1159326667}
+  - {fileID: 467004308}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &425063244
@@ -674,15 +623,25 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shopManager: {fileID: 1137692762}
-  uIManager: {fileID: 529800666}
   inGameAdsManager: {fileID: 220990673}
   spawnSystem: {fileID: 1244528138}
-  scoreSystem: {fileID: 1159326666}
   healthSystem: {fileID: 467004309}
-  fillUpSystemUI: {fileID: 624792909}
   playerController: {fileID: 1876522489}
-  levelController: {fileID: 381665093}
   backgroundController: {fileID: 1555071416}
+  minFillUpMarker: {fileID: 1081572258}
+  currentFillUpMarker: {fileID: 732595451}
+  levelSettings:
+  - {fileID: 11400000, guid: 82d64f19db6cf444499d4476fe02b8d3, type: 2}
+  - {fileID: 11400000, guid: d00b497b1d683db4caedcdbc271615bb, type: 2}
+  - {fileID: 11400000, guid: 84c9e4eeac91a0047bdf30ba61761e44, type: 2}
+  - {fileID: 11400000, guid: ed5e54e7c0ec4ae49826be34b9e5dd02, type: 2}
+  - {fileID: 11400000, guid: e8453da8235d95e4083007f3d65f0bc9, type: 2}
+  nextLevelButton: {fileID: 1374334996}
+  retryButton: {fileID: 1059017002}
+  menuButton: {fileID: 1645390879}
+  shopButton: {fileID: 1552969012}
+  inGameMenuPanel: {fileID: 1986229002}
+  moneyAmountText: {fileID: 1871724846}
 --- !u!114 &427448743 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2650986132387706829, guid: 1b51147b4e7dd5c4684b9792794a3e9f,
@@ -705,7 +664,6 @@ GameObject:
   m_Component:
   - component: {fileID: 467004308}
   - component: {fileID: 467004309}
-  - component: {fileID: 467004310}
   m_Layer: 5
   m_Name: HealthSystem
   m_TagString: HealthSystem
@@ -725,11 +683,11 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 529800665}
+  m_Father: {fileID: 425063243}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: -850.00006, y: 439.99997}
+  m_AnchoredPosition: {x: 59.99994, y: 1007}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &467004309
@@ -745,32 +703,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hPIcon: {fileID: 2396530787465940345, guid: 6e7fa0f1aeed4f5439fa90a9ec0dd682, type: 3}
---- !u!114 &467004310
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 467004307}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 30649d3a9faa99c48a7b1166b86bf2a0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Padding:
-    m_Left: 0
-    m_Right: 0
-    m_Top: 0
-    m_Bottom: 0
-  m_ChildAlignment: 0
-  m_Spacing: 30
-  m_ChildForceExpandWidth: 1
-  m_ChildForceExpandHeight: 1
-  m_ChildControlWidth: 0
-  m_ChildControlHeight: 0
-  m_ChildScaleWidth: 0
-  m_ChildScaleHeight: 0
-  m_ReverseArrangement: 0
+  displaySpotTransform: {fileID: 757784106}
 --- !u!1 &529800664
 GameObject:
   m_ObjectHideFlags: 0
@@ -780,7 +713,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 529800665}
-  - component: {fileID: 529800666}
   m_Layer: 5
   m_Name: InGameMenuManager
   m_TagString: Untagged
@@ -801,7 +733,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1986229003}
-  - {fileID: 467004308}
   - {fileID: 1137692760}
   - {fileID: 220990672}
   m_Father: {fileID: 2001393675}
@@ -811,22 +742,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: -23}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &529800666
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 529800664}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa8704214a923794793855749b3bd541, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  inGameMenuPanel: {fileID: 1986229002}
-  moneyAmountText: {fileID: 1871724846}
-  nextLevelButton: {fileID: 1374334996}
-  shopButton: {fileID: 1552969012}
 --- !u!1 &541805015
 GameObject:
   m_ObjectHideFlags: 0
@@ -983,7 +898,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 624792910}
-  - component: {fileID: 624792909}
   m_Layer: 5
   m_Name: FillUpSystem
   m_TagString: Untagged
@@ -991,20 +905,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &624792909
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 624792908}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 19a159636d577374ab81939579067b84, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  minFillUpMarker: {fileID: 1081572258}
-  currentFillUpMarker: {fileID: 732595451}
 --- !u!224 &624792910
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1349,6 +1249,7 @@ MonoBehaviour:
   health: 3
   amuletPrice: 100
   moneyGainFromAdd: 100
+  moneyAmountInPremiumShop: 100
 --- !u!4 &746475469
 Transform:
   m_ObjectHideFlags: 0
@@ -1364,6 +1265,68 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &757784105
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 757784106}
+  - component: {fileID: 757784107}
+  m_Layer: 5
+  m_Name: HealthSystem_DisplaySpot
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &757784106
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 757784105}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2001393675}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -850.0001, y: 440}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &757784107
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 757784105}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 30649d3a9faa99c48a7b1166b86bf2a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Padding:
+    m_Left: 0
+    m_Right: 0
+    m_Top: 0
+    m_Bottom: 0
+  m_ChildAlignment: 0
+  m_Spacing: 40
+  m_ChildForceExpandWidth: 1
+  m_ChildForceExpandHeight: 1
+  m_ChildControlWidth: 0
+  m_ChildControlHeight: 0
+  m_ChildScaleWidth: 0
+  m_ChildScaleHeight: 0
+  m_ReverseArrangement: 0
 --- !u!1 &832575517
 GameObject:
   m_ObjectHideFlags: 0
@@ -1843,7 +1806,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 529800666}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: Catch.InGameMenuManager, Assembly-CSharp
         m_MethodName: RequestRestart
         m_Mode: 1
@@ -2144,50 +2107,6 @@ MonoBehaviour:
   premiumShop: {fileID: 2138969335}
   coinShopTab: {fileID: 549004892}
   premiumShopTab: {fileID: 151929980}
---- !u!1 &1159326665
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1159326667}
-  - component: {fileID: 1159326666}
-  m_Layer: 0
-  m_Name: ScoreSystem
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1159326666
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1159326665}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3f13c7c5297f2a14784a2600c21d58a8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!4 &1159326667
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1159326665}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 425063243}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1207123130
 GameObject:
   m_ObjectHideFlags: 0
@@ -2829,19 +2748,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1374334997}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 529800666}
-        m_TargetAssemblyTypeName: Catch.InGameMenuManager, Assembly-CSharp
-        m_MethodName: RequestNextLevelEnter
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &1374334997
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3158,7 +3065,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 529800666}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: Catch.InGameMenuManager, Assembly-CSharp
         m_MethodName: RequestShopVisit
         m_Mode: 1
@@ -3336,7 +3243,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 529800666}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: Catch.InGameMenuManager, Assembly-CSharp
         m_MethodName: RequestMenuExit
         m_Mode: 1
@@ -4103,6 +4010,7 @@ RectTransform:
   - {fileID: 1488704439}
   - {fileID: 624792910}
   - {fileID: 529800665}
+  - {fileID: 757784106}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}

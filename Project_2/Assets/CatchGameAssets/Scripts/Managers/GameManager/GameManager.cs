@@ -20,6 +20,7 @@ namespace Catch
         [SerializeField] private int health;
         [SerializeField] private int amuletPrice;
         [SerializeField] private int moneyGainFromAdd;
+        [SerializeField] private int moneyAmountInPremiumShop;
 
         #endregion
 
@@ -68,6 +69,8 @@ namespace Catch
             _playerSaveSystem = new PlayerSaveSystem();
             _playerSaveSystem.Init(useCustomSettings, customLevel, customCurrency);
         
+            _inGameMenuManager.InitButtons();
+            
             InitAll();
             SignUpToAllEvents();
         }
@@ -193,7 +196,7 @@ namespace Catch
 
         private void MenuExitFromWinPanel()
         {
-            _playerSaveSystem.OnMenuExit();
+            _playerSaveSystem.SaveParameters();
             
             SceneManager.LoadScene("CatchGame_Menu");
         }
@@ -246,6 +249,8 @@ namespace Catch
 
         private void OnCoinsPurchased()
         {
+            _playerSaveSystem.AddMoneyAmount(moneyAmountInPremiumShop);
+            _shopManager.coinShop.RefreshShopPanel(_playerSaveSystem.GetMoneyAmount(), _playerSaveSystem.HasAmulet);
             Debug.Log("Coins purchased");
         }
 

@@ -1,19 +1,19 @@
 using DG.Tweening;
-using UnityEngine;
 using UnityEngine.UI;
+using Zenject;
 
-public class FillUpSystemUI : MonoBehaviour
+public class FillUpSystemUI
 {
-    [SerializeField] private Image minFillUpMarker;
-    [SerializeField] private Image currentFillUpMarker;
+    [Inject] private Image _minFillUpMarker;
+    [Inject] private Image _currentFillUpMarker;
 
     public void SetUpMinFillUpMarker(float minFillUpPercentage)
     {
-        minFillUpMarker.DOFillAmount(minFillUpPercentage, 1f);
+        _minFillUpMarker.DOFillAmount(minFillUpPercentage, 1f);
     }
 
     public void SetCurrentFillUpMarker(float currentFillUpPercentage)
     {
-        currentFillUpMarker.DOFillAmount(currentFillUpPercentage, 1f);
+        _currentFillUpMarker.DOFillAmount(currentFillUpPercentage, 1f);
     }
 }

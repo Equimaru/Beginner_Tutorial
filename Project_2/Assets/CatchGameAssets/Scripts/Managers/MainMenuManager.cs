@@ -11,16 +11,6 @@ namespace Catch
         
         [SerializeField] private GameObject menuPanel;
 
-        public bool Check;
-        
-        private void Update()
-        {
-            if (Check)
-            {
-                Show();
-            }
-        }
-
         public void Show()
         {
             menuPanel.SetActive(true);

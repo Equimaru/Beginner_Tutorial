@@ -1,10 +1,9 @@
 using System;
-using UnityEngine;
 using Zenject;
 
 namespace Catch
 {
-    public class ScoreSystem : MonoBehaviour
+    public class ScoreSystem
     {
         [Inject] private FillUpSystemUI _fillUpSystemUI;
         

@@ -19,11 +19,11 @@ namespace Catch
         
         [SerializeField] private int moneyGainFromAdd;
         [SerializeField] private int amuletPrice;
+        [SerializeField] private int moneyAmountInPremiumShop;
 
         private PlayerSaveSystem _playerSaveSystem;
         
         private bool _isNoAdsActive;
-        public bool Check;
         
         private void Start()
         {
@@ -31,16 +31,8 @@ namespace Catch
             _playerSaveSystem.Init(useCustomSettings, customLevel, customCurrency);
             
             SignUpToAllEvents();
-            
-            _inMenuAdsManager.ShowBanner();
-        }
 
-        private void Update()
-        {
-            if (Check)
-            {
-                _mainMenuManager.Show();
-            }
+            
         }
 
         private void SignUpToAllEvents()
@@ -63,6 +55,7 @@ namespace Catch
 
         private void Play()
         {
+            _playerSaveSystem.SaveParameters();
             SceneManager.LoadScene("CatchGame");
         }
 
@@ -72,13 +65,25 @@ namespace Catch
             _shopManager.coinShop.RefreshShopPanel(_playerSaveSystem.GetMoneyAmount(), _playerSaveSystem.HasAmulet);
             _shopManager.OpenShop();
         }
-        
+
+        private void Exit()
+        {
+            _playerSaveSystem.SaveParameters();
+#if UNITY_ANDROID && !UNITY_EDITOR
+            Application.Quit();
+#elif UNITY_EDITOR
+            EditorApplication.isPlaying = false;
+#endif
+        }
+
+        #region CoinShop
+
         private void OnShopCloseRequest()
         {
             _shopManager.CloseShop();
             _mainMenuManager.Show();
         }
-        
+
         private void OnItemBuyRequest(ShopItemType item) //Rework to ID system
         {
             switch (item)
@@ -88,7 +93,7 @@ namespace Catch
                     break;
             }
         }
-        
+
         private void AmuletPurchaseAttempt()
         {
             if (_playerSaveSystem.CheckForEnoughMoneyAmount(amuletPrice))
@@ -101,7 +106,11 @@ namespace Catch
                 _inMenuAdsManager.OpenAdOfferPanel();
             }
         }
-        
+
+        #endregion
+
+        #region PremiumShop
+
         private void OnVipPassPurchased()
         {
             Debug.Log("VipPass purchased");
@@ -121,16 +130,18 @@ namespace Catch
 
         private void OnCoinsPurchased()
         {
+            _playerSaveSystem.AddMoneyAmount(moneyAmountInPremiumShop);
+            _shopManager.coinShop.RefreshShopPanel(_playerSaveSystem.GetMoneyAmount(), _playerSaveSystem.HasAmulet);
             Debug.Log("Coins purchased");
         }
-        
-        public void Exit()
+
+        #endregion
+
+        #region Ads
+
+        private void ShowBanner()
         {
-#if UNITY_ANDROID && !UNITY_EDITOR
-            Application.Quit();
-#elif UNITY_EDITOR
-            EditorApplication.isPlaying = false;
-#endif
+            
         }
         
         private void OnAdWatched()
@@ -138,5 +149,8 @@ namespace Catch
             _playerSaveSystem.AddMoneyAmount(moneyGainFromAdd);
             _shopManager.coinShop.RefreshShopPanel(_playerSaveSystem.GetMoneyAmount(), _playerSaveSystem.HasAmulet);
         }
+
+        #endregion
+        
     }
 }

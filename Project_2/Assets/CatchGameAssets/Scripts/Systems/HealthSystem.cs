@@ -9,6 +9,7 @@ namespace Catch
         public Action OnNoHPLeft;
 
         [SerializeField] private GameObject hPIcon;
+        [SerializeField] private Transform displaySpotTransform;
         private List<GameObject> _hP;
         private int _hPToSet;
         private int _health;
@@ -22,12 +23,12 @@ namespace Catch
         public void SetHP()
         {
             _hP = new List<GameObject>();
-            Vector3 heartPos = transform.position;
+            Vector3 heartPos = displaySpotTransform.position;
 
             for (int i = 0; i < _hPToSet; i++)
             {
                 GameObject newHeart = Instantiate(hPIcon, heartPos, Quaternion.identity);
-                newHeart.transform.SetParent(GameObject.FindGameObjectWithTag("HealthSystem").transform, true);
+                newHeart.transform.SetParent(displaySpotTransform, true);
                 _hP.Add(newHeart);
             }
         }

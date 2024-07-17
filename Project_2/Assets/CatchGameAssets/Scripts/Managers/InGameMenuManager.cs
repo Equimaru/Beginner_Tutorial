@@ -2,25 +2,37 @@ using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using Zenject;
 
 namespace Catch
 {
-    public class InGameMenuManager : MonoBehaviour
+    public class InGameMenuManager
     {
         public Action OnRestartRequest;
         public Action OnShopVisitRequest;
         public Action OnNextLevelEnterRequest;
         public Action OnMenuExitRequest;
 
-        [SerializeField] private GameObject inGameMenuPanel;
+        [Inject] private GameObject _inGameMenuPanel;
         
-        [SerializeField] private TextMeshProUGUI moneyAmountText;
-        [SerializeField] private Button nextLevelButton;
-        [SerializeField] private Button shopButton;
+        [Inject] private TextMeshProUGUI _moneyAmountText;
+        
+        [Inject] private Button _nextLevelButton;
+        [Inject] private Button _retryButton;
+        [Inject] private Button _menuButton;
+        [Inject] private Button _shopButton;
 
+        public void InitButtons()
+        {
+            _retryButton.onClick.AddListener(RequestRestart);
+            _nextLevelButton.onClick.AddListener(RequestNextLevelEnter);
+            _menuButton.onClick.AddListener(RequestMenuExit);
+            _shopButton.onClick.AddListener(RequestShopVisit);
+        }
+        
         public void SetMoneyAmount(int moneyAmount)
         {
-            moneyAmountText.text = "You  have " + moneyAmount;
+            _moneyAmountText.text = "You  have " + moneyAmount;
         }
 
         public void Show(LevelStateType currentLevelStateType)
@@ -28,28 +40,28 @@ namespace Catch
             switch (currentLevelStateType)
             {
                 case LevelStateType.InProgress:
-                    nextLevelButton.interactable = false;
-                    shopButton.interactable = false;
+                    _nextLevelButton.interactable = false;
+                    _shopButton.interactable = false;
                     break;
                 case LevelStateType.Cleared:
-                    nextLevelButton.interactable = true;
-                    shopButton.interactable = true;
+                    _nextLevelButton.interactable = true;
+                    _shopButton.interactable = true;
                     break;
                 case LevelStateType.Failed:
-                    nextLevelButton.interactable = false;
-                    shopButton.interactable = true;
+                    _nextLevelButton.interactable = false;
+                    _shopButton.interactable = true;
                     break;
                 default:
                     Debug.Log("Unknown type of level state.");
                     break;
             }
             
-            inGameMenuPanel.SetActive(true);
+            _inGameMenuPanel.SetActive(true);
         }
 
         public void Hide()
         {
-            inGameMenuPanel.SetActive(false);
+            _inGameMenuPanel.SetActive(false);
         }
         
         public void RequestRestart()
