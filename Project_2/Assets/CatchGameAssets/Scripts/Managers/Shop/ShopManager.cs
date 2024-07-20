@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 namespace Catch
 {
-    public class ShopManager : MonoBehaviour
+    public class ShopManager
     {
         public Action OnShopCloseRequest;
 
