@@ -69,7 +69,7 @@ namespace Catch
             _playerSaveSystem = new PlayerSaveSystem();
             _playerSaveSystem.Init(useCustomSettings, customLevel, customCurrency);
         
-            _inGameMenuManager.InitButtons();
+            //_inGameMenuManager.InitButtons();
             
             InitAll();
             SignUpToAllEvents();

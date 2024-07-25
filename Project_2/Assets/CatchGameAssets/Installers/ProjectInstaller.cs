@@ -11,14 +11,18 @@ namespace Installers
         [SerializeField] private AudioManager audioManager;
         
         [Header("Boot Menu")]
-        [SerializeField] private ShopManagerBoot shopManagerBoot;
+        [SerializeField] private ShopManagerView shopManagerView;
+        
         public override void InstallBindings()
         {
-            Container.BindInstance(levelPlayAds);
-            Container.BindInstance(audioManager);
+            Container.BindInstance(shopManagerView);
             Container.Bind<ShopManager>()
                 .AsSingle()
-                .WithArguments(shopManagerBoot);
+                .WithArguments(shopManagerView);
+            Container.Bind<PremiumShop>().AsSingle();
+            Container.Bind<CoinShop>().AsSingle();
+            Container.BindInstance(levelPlayAds);
+            Container.BindInstance(audioManager);
         }
     }
 }

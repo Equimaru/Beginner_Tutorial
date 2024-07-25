@@ -1,43 +1,52 @@
 using System;
 using UnityEngine;
-using UnityEngine.UI;
+using Zenject;
 
 namespace Catch
 {
     public class ShopManager
     {
         public Action OnShopCloseRequest;
-
-        [SerializeField] private GameObject shop;
         
-        public CoinShop coinShop;
-        public PremiumShop premiumShop;
+        [Inject] ShopManagerView _shopManagerView;
+        [Inject] public PremiumShop premiumShop;
+        [Inject] public CoinShop coinShop;
 
-        [SerializeField] private Button coinShopTab;
-        [SerializeField] private Button premiumShopTab;
+        [Inject]
+        private void Inject(ShopManagerView shopManagerView)
+        {
+            Debug.Log("ShopManager created");
+            _shopManagerView = shopManagerView;
+            
+            _shopManagerView.OnCoinShopTabPressed += OpenCoinsShopTab;
+            _shopManagerView.OnPremiumShopTabPressed += OpenPremiumShopTab;
 
+            _shopManagerView.OnShopCloseButtonPressed += ShopCloseRequest;
+        }
+        
+        
         public void OpenShop()
         {
-            shop.SetActive(true);
-            premiumShopTab.interactable = true;
-            coinShopTab.interactable = false;
-            coinShop.Show();
+            _shopManagerView.gameObject.SetActive(true);
+            _shopManagerView.premiumShopTab.interactable = true;
+            _shopManagerView.coinShopTab.interactable = false;
+            _shopManagerView.coinShop.Show();
         }
 
         public void OpenPremiumShopTab()
         {
-            premiumShop.Show();
-            coinShop.Hide();
-            premiumShopTab.interactable = false;
-            coinShopTab.interactable = true;
+            _shopManagerView.premiumShop.Show();
+            _shopManagerView.coinShop.Hide();
+            _shopManagerView.premiumShopTab.interactable = false;
+            _shopManagerView.coinShopTab.interactable = true;
         }
 
         public void OpenCoinsShopTab()
         {
-            coinShop.Show();
-            premiumShop.Hide();
-            coinShopTab.interactable = false;
-            premiumShopTab.interactable = true;
+            _shopManagerView.coinShop.Show();
+            _shopManagerView.premiumShop.Hide();
+            _shopManagerView.coinShopTab.interactable = false;
+            _shopManagerView.premiumShopTab.interactable = true;
         }
         
         public void ShopCloseRequest()
@@ -47,11 +56,9 @@ namespace Catch
 
         public void CloseShop()
         {
-            shop.SetActive(false);
+            _shopManagerView.gameObject.SetActive(false);
             Debug.Log("Close shop");
         }
-
-
     }
 }
 

@@ -2,17 +2,29 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using Zenject;
 
 namespace Catch
 {
-    public class CoinShop : MonoBehaviour
+    public class CoinShop
     {
         public Action<ShopItemType> OnItemBuyRequest;
-        
-        [SerializeField] private GameObject coinShopPanel;
-        [SerializeField] private Button amuletBuyButton;
-        [SerializeField] private TextMeshProUGUI currentCoinsAmountText;
 
+        private ShopManagerView _shopManagerView;
+        
+        private GameObject coinShopPanel;
+        private Button amuletBuyButton;
+        private TextMeshProUGUI currentCoinsAmountText;
+
+        [Inject]
+        private void Inject(ShopManagerView shopManagerView)
+        {
+            _shopManagerView = shopManagerView;
+            coinShopPanel = _shopManagerView.coinShopPanel;
+            amuletBuyButton = _shopManagerView.amuletPurchaseButton;
+            currentCoinsAmountText = _shopManagerView.currentCoinsAmountText;
+        }
+        
         public void Show()
         {
             coinShopPanel.SetActive(true);

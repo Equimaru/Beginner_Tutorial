@@ -2,6 +2,7 @@
 using UnityEngine;
 using UnityEngine.Purchasing;
 using UnityEngine.Purchasing.Extension;
+using Zenject;
 
 namespace Catch
 {
@@ -33,14 +34,15 @@ namespace Catch
         public int duration; //In days
     }
     
-    public class PremiumShop : MonoBehaviour, IDetailedStoreListener
+    public class PremiumShop : IDetailedStoreListener
     {
         public Action OnCoinsPurchased;
         public Action OnNoAdsPurchased;
         public Action OnNoAdsIsActive;
         public Action OnVipPassPurchased;
-        
-        [SerializeField] private GameObject premiumShopPanel;
+
+        private ShopManagerView _shopManagerView;
+        private GameObject _premiumShopPanel;
 
         private IStoreController _storeController;
         
@@ -48,8 +50,16 @@ namespace Catch
         public NonConsumableItem nConsItem;
         public SubscriptionItem subItem;
 
-        private void Start()
+        [Inject]
+        private void Inject(ShopManagerView shopManagerView)
         {
+            _shopManagerView = shopManagerView;
+            _premiumShopPanel = _shopManagerView.premiumShopPanel;
+
+            _shopManagerView.OnCoinsPurchaseButtonPressed += PurchaseCoins;
+            _shopManagerView.OnNoAdsPurchaseButtonPressed += PurchaseNoAds;
+            _shopManagerView.OnVipPassButtonPressed += PurchaseSubscription;
+            
             SetupBuilder();
         }
 
@@ -142,12 +152,12 @@ namespace Catch
         
         public void Show()
         {
-            premiumShopPanel.SetActive(true);
+            _premiumShopPanel.SetActive(true);
         }
 
         public void Hide()
         {
-            premiumShopPanel.SetActive(false);
+            _premiumShopPanel.SetActive(false);
         }
 
         #region IDetailedStoreListener methods

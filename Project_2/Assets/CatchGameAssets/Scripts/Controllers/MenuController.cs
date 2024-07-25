@@ -1,4 +1,3 @@
-using System;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -31,8 +30,6 @@ namespace Catch
             _playerSaveSystem.Init(useCustomSettings, customLevel, customCurrency);
             
             SignUpToAllEvents();
-
-            
         }
 
         private void SignUpToAllEvents()

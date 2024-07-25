@@ -10,7 +10,6 @@ namespace Installers
     public class GameInstaller : MonoInstaller
     {
         [Header("Managers")] 
-        [SerializeField] private ShopManager shopManager;
         [SerializeField] private InGameAdsManager inGameAdsManager;
         
         [Header("Systems")] 
@@ -27,21 +26,15 @@ namespace Installers
 
         [Header("LevelController Attributes")]
         [SerializeField] private List<LevelSettings> levelSettings;
-        
-        [Header("InGameMenuManager Attributes")]
-        [SerializeField] private Button nextLevelButton;
-        [SerializeField] private Button retryButton;
-        [SerializeField] private Button menuButton;
-        [SerializeField] private Button shopButton;
-        [SerializeField] private GameObject inGameMenuPanel;
-        [SerializeField] private TextMeshProUGUI moneyAmountText;
+
+        [Header("View")] 
+        [SerializeField] private InGameMenuManagerView inGameMenuManagerView;
         
         public override void InstallBindings()
         {
-            Container.BindInstance(shopManager);
             Container.Bind<InGameMenuManager>()
                 .AsSingle()
-                .WithArguments(nextLevelButton, retryButton, menuButton, shopButton, inGameMenuPanel, moneyAmountText);
+                .WithArguments(inGameMenuManagerView);
             Container.BindInstance(inGameAdsManager);
 
             Container.BindInstance(spawnSystem);
