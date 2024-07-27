@@ -8,12 +8,14 @@ namespace Installers
     {
         [Header("Managers")] 
         [SerializeField] private InMenuAdsManager inMenuAdsManager;
-        [SerializeField] private MainMenuManager mainMenuManager;
+        [SerializeField] private MainMenuView mainMenuView;
 
         public override void InstallBindings()
         {
             Container.BindInstance(inMenuAdsManager);
-            Container.BindInstance(mainMenuManager);
+            Container.Bind<MainMenuManager>()
+                .AsSingle()
+                .WithArguments(mainMenuView);
         }
     }
 }

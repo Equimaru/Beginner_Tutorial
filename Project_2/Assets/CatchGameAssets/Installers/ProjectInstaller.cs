@@ -16,11 +16,12 @@ namespace Installers
         public override void InstallBindings()
         {
             Container.BindInstance(shopManagerView);
+            Container.Bind<PremiumShop>()
+                .AsSingle();
+            Container.Bind<CoinShop>()
+                .AsSingle();
             Container.Bind<ShopManager>()
-                .AsSingle()
-                .WithArguments(shopManagerView);
-            Container.Bind<PremiumShop>().AsSingle();
-            Container.Bind<CoinShop>().AsSingle();
+                .AsSingle();
             Container.BindInstance(levelPlayAds);
             Container.BindInstance(audioManager);
         }

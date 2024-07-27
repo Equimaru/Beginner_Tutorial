@@ -1,39 +1,56 @@
 using System;
 using UnityEngine;
+using Zenject;
 
 namespace Catch
 {
-    public class MainMenuManager : MonoBehaviour
+    public class MainMenuManager : IInitializable
     {
         public Action OnPlayRequest;
         public Action OnShopVisitRequest;
         public Action OnApplicationExitRequest;
-        
-        [SerializeField] private GameObject menuPanel;
+
+        private MainMenuView _mainMenuView;
+        private GameObject _menuPanel;
+
+        [Inject]
+        public void Inject(MainMenuView mainMenuView)
+        {
+            _mainMenuView = mainMenuView;
+            _menuPanel = _mainMenuView.mainMenuPanel;
+        }
+
+        [Inject]
+        public void Initialize()
+        {
+            _mainMenuView.OnPlayButtonPressed += RequestPlay;
+            _mainMenuView.OnShopButtonPressed += RequestShopVisit;
+            _mainMenuView.OnExitButtonPressed += RequestApplicationExit;
+        }
 
         public void Show()
         {
-            menuPanel.SetActive(true);
+            _menuPanel.SetActive(true);
             Debug.Log("Show");
         }
 
         public void Hide()
         {
-            menuPanel.SetActive(false);
+            _menuPanel.SetActive(false);
             Debug.Log("Hide");
         }
 
-        public void RequestPlay()
+        private void RequestPlay()
         {
             OnPlayRequest?.Invoke();
         }
 
-        public void RequestShopVisit()
+        private void RequestShopVisit()
         {
             OnShopVisitRequest?.Invoke();
         }
-        
-        public void RequestApplicationExit()
+
+        private void RequestApplicationExit()
         {
             OnApplicationExitRequest?.Invoke();
         }

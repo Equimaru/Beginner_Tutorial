@@ -34,7 +34,7 @@ namespace Catch
         public int duration; //In days
     }
     
-    public class PremiumShop : IDetailedStoreListener
+    public class PremiumShop : IDetailedStoreListener, IInitializable
     {
         public Action OnCoinsPurchased;
         public Action OnNoAdsPurchased;
@@ -51,16 +51,21 @@ namespace Catch
         public SubscriptionItem subItem;
 
         [Inject]
-        private void Inject(ShopManagerView shopManagerView)
+        public void Inject(ShopManagerView shopManagerView)
         {
             _shopManagerView = shopManagerView;
             _premiumShopPanel = _shopManagerView.premiumShopPanel;
+        }
 
+        [Inject]
+        public void Initialize()
+        {
             _shopManagerView.OnCoinsPurchaseButtonPressed += PurchaseCoins;
             _shopManagerView.OnNoAdsPurchaseButtonPressed += PurchaseNoAds;
             _shopManagerView.OnVipPassButtonPressed += PurchaseSubscription;
+            Debug.Log("Initialize");
             
-            SetupBuilder();
+            //SetupBuilder();
         }
 
         private void SetupBuilder()
@@ -74,17 +79,17 @@ namespace Catch
             UnityPurchasing.Initialize(this, builder);
         }
 
-        public void PurchaseCoins()
+        private void PurchaseCoins()
         {
             _storeController.InitiatePurchase(consItem.id);
         }
 
-        public void PurchaseNoAds()
+        private void PurchaseNoAds()
         {
             _storeController.InitiatePurchase(nConsItem.id);
         }
 
-        public void PurchaseSubscription()
+        private void PurchaseSubscription()
         {
             _storeController.InitiatePurchase(subItem.id);
         }
@@ -149,7 +154,7 @@ namespace Catch
                 Debug.Log("Product not found");
             }
         }
-        
+
         public void Show()
         {
             _premiumShopPanel.SetActive(true);

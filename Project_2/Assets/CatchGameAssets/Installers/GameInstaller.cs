@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using Catch;
-using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using Zenject;

@@ -4,7 +4,7 @@ using Zenject;
 
 namespace Catch
 {
-    public class ShopManager
+    public class ShopManager : IInitializable
     {
         public Action OnShopCloseRequest;
         
@@ -13,18 +13,22 @@ namespace Catch
         [Inject] public CoinShop coinShop;
 
         [Inject]
-        private void Inject(ShopManagerView shopManagerView)
+        public void Inject(ShopManagerView shopManagerView)
         {
-            Debug.Log("ShopManager created");
             _shopManagerView = shopManagerView;
-            
+        }
+
+
+        [Inject]
+        public void Initialize()
+        {
+            Debug.Log("Init");
             _shopManagerView.OnCoinShopTabPressed += OpenCoinsShopTab;
             _shopManagerView.OnPremiumShopTabPressed += OpenPremiumShopTab;
 
             _shopManagerView.OnShopCloseButtonPressed += ShopCloseRequest;
         }
-        
-        
+
         public void OpenShop()
         {
             _shopManagerView.gameObject.SetActive(true);
@@ -48,9 +52,10 @@ namespace Catch
             _shopManagerView.coinShopTab.interactable = false;
             _shopManagerView.premiumShopTab.interactable = true;
         }
-        
+
         public void ShopCloseRequest()
         {
+            Debug.Log("Request");
             OnShopCloseRequest?.Invoke();
         }
 

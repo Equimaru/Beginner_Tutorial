@@ -2,6 +2,7 @@ using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using Zenject;
 
 namespace Catch
 {
@@ -23,11 +24,13 @@ namespace Catch
         public Button premiumShopTab;
         public Button coinShopTab;
 
+        public Button shopCloseButton;
+
         public GameObject premiumShopPanel;
         public GameObject coinShopPanel;
         
-        public CoinShop coinShop;
-        public PremiumShop premiumShop;
+        [Inject] public CoinShop coinShop;
+        [Inject] public PremiumShop premiumShop;
 
         [Header("Premium panel")] 
         public Button coinsPurchaseButton;
@@ -39,13 +42,18 @@ namespace Catch
 
         public TextMeshProUGUI currentCoinsAmountText;
         
-        private void Awake()
+        private void Start()
         {
             premiumShopTab.onClick.AddListener(PremiumShopTabPressed);
             coinShopTab.onClick.AddListener(CoinShopTabPressed);
             
+            shopCloseButton.onClick.AddListener(ShopCloseButtonPressed);
             
+            coinsPurchaseButton.onClick.AddListener(CoinPurchaseButtonPressed);
+            noAdsPurchaseButton.onClick.AddListener(NoAdsPurchaseButtonPressed);
+            vipPassPurchaseButton.onClick.AddListener(VipPassPurchaseButtonPressed);
             
+            amuletPurchaseButton.onClick.AddListener(AmuletPurchaseButtonPressed);
         }
 
         private void PremiumShopTabPressed()
@@ -80,6 +88,7 @@ namespace Catch
 
         private void ShopCloseButtonPressed()
         {
+            Debug.Log("Close pressed");
             OnShopCloseButtonPressed?.Invoke();
         }
     }
