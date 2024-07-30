@@ -13,11 +13,17 @@ namespace Installers
         [Header("Boot Menu")]
         [SerializeField] private ShopManagerView shopManagerView;
         
+        [Header("Shop Items")]
+        public ConsumableItem consItem;
+        public NonConsumableItem nConsItem;
+        public SubscriptionItem subItem;
+        
         public override void InstallBindings()
         {
             Container.BindInstance(shopManagerView);
-            Container.Bind<PremiumShop>()
-                .AsSingle();
+            Container.BindInterfacesAndSelfTo<PremiumShop>()
+                .AsSingle()
+                .WithArguments(consItem, nConsItem, subItem);
             Container.Bind<CoinShop>()
                 .AsSingle();
             Container.Bind<ShopManager>()

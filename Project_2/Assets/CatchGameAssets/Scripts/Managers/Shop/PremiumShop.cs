@@ -45,19 +45,22 @@ namespace Catch
         private GameObject _premiumShopPanel;
 
         private IStoreController _storeController;
-        
-        public ConsumableItem consItem;
-        public NonConsumableItem nConsItem;
-        public SubscriptionItem subItem;
+
+        private ConsumableItem _consItem;
+        private NonConsumableItem _nConsItem;
+        private SubscriptionItem _subItem;
 
         [Inject]
-        public void Inject(ShopManagerView shopManagerView)
+        public void Inject(ShopManagerView shopManagerView, ConsumableItem consItem, NonConsumableItem nConsItem,
+            SubscriptionItem subItem)
         {
+            _consItem = consItem;
+            _nConsItem = nConsItem;
+            _subItem = subItem;
             _shopManagerView = shopManagerView;
             _premiumShopPanel = _shopManagerView.premiumShopPanel;
         }
 
-        [Inject]
         public void Initialize()
         {
             _shopManagerView.OnCoinsPurchaseButtonPressed += PurchaseCoins;
@@ -65,33 +68,33 @@ namespace Catch
             _shopManagerView.OnVipPassButtonPressed += PurchaseSubscription;
             Debug.Log("Initialize");
             
-            //SetupBuilder();
+            SetupBuilder();
         }
 
         private void SetupBuilder()
         {
             var builder = ConfigurationBuilder.Instance(StandardPurchasingModule.Instance());
 
-            builder.AddProduct(consItem.id, ProductType.Consumable);
-            builder.AddProduct(nConsItem.id, ProductType.NonConsumable);
-            builder.AddProduct(subItem.id, ProductType.Subscription);
+            builder.AddProduct(_consItem.id, ProductType.Consumable);
+            builder.AddProduct(_nConsItem.id, ProductType.NonConsumable);
+            builder.AddProduct(_subItem.id, ProductType.Subscription);
             
             UnityPurchasing.Initialize(this, builder);
         }
 
         private void PurchaseCoins()
         {
-            _storeController.InitiatePurchase(consItem.id);
+            _storeController.InitiatePurchase(_consItem.id);
         }
 
         private void PurchaseNoAds()
         {
-            _storeController.InitiatePurchase(nConsItem.id);
+            _storeController.InitiatePurchase(_nConsItem.id);
         }
 
         private void PurchaseSubscription()
         {
-            _storeController.InitiatePurchase(subItem.id);
+            _storeController.InitiatePurchase(_subItem.id);
         }
 
         private void CheckNonConsumable(string id)
@@ -116,7 +119,7 @@ namespace Catch
 
         private void CheckSubscription(string id)
         {
-            var subProduct = _storeController.products.WithID(subItem.id);
+            var subProduct = _storeController.products.WithID(_subItem.id);
             if (subProduct != null)
             {
                 try
@@ -183,15 +186,15 @@ namespace Catch
             
             Debug.Log("Purchase complete + " + product.definition.id);
 
-            if (product.definition.id == consItem.id)
+            if (product.definition.id == _consItem.id)
             {
                 OnCoinsPurchased?.Invoke();
             }
-            else if (product.definition.id == nConsItem.id)
+            else if (product.definition.id == _nConsItem.id)
             {
                 OnNoAdsPurchased?.Invoke();
             }
-            else if (product.definition.id == subItem.id)
+            else if (product.definition.id == _subItem.id)
             {
                 OnVipPassPurchased?.Invoke();
             }
@@ -208,8 +211,8 @@ namespace Catch
         {
             _storeController = controller;
             Debug.Log("IAP initialized");
-            CheckNonConsumable(nConsItem.id);
-            CheckSubscription(subItem.id);
+            CheckNonConsumable(_nConsItem.id);
+            CheckSubscription(_subItem.id);
         }
 
         public void OnPurchaseFailed(Product product, PurchaseFailureDescription failureDescription)
