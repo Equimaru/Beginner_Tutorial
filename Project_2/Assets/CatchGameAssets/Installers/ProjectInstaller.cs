@@ -26,7 +26,7 @@ namespace Installers
                 .WithArguments(consItem, nConsItem, subItem);
             Container.Bind<CoinShop>()
                 .AsSingle();
-            Container.Bind<ShopManager>()
+            Container.BindInterfacesAndSelfTo<ShopManager>()
                 .AsSingle();
             Container.BindInstance(levelPlayAds);
             Container.BindInstance(audioManager);

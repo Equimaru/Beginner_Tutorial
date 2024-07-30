@@ -8,18 +8,18 @@ namespace Catch
     {
         public Action OnShopCloseRequest;
         
-        [Inject] ShopManagerView _shopManagerView;
-        [Inject] public PremiumShop premiumShop;
-        [Inject] public CoinShop coinShop;
+        private ShopManagerView _shopManagerView;
+        public PremiumShop premiumShop;
+        public CoinShop coinShop;
 
-        [Inject]
-        public void Inject(ShopManagerView shopManagerView)
+        public ShopManager(ShopManagerView shopManagerView, PremiumShop premiumShop, CoinShop coinShop)
         {
             _shopManagerView = shopManagerView;
+            this.premiumShop = premiumShop;
+            this.coinShop = coinShop;
         }
 
 
-        [Inject]
         public void Initialize()
         {
             Debug.Log("Init");
@@ -34,21 +34,21 @@ namespace Catch
             _shopManagerView.gameObject.SetActive(true);
             _shopManagerView.premiumShopTab.interactable = true;
             _shopManagerView.coinShopTab.interactable = false;
-            _shopManagerView.coinShop.Show();
+            coinShop.Show();
         }
 
         public void OpenPremiumShopTab()
         {
-            _shopManagerView.premiumShop.Show();
-            _shopManagerView.coinShop.Hide();
+            premiumShop.Show();
+            coinShop.Hide();
             _shopManagerView.premiumShopTab.interactable = false;
             _shopManagerView.coinShopTab.interactable = true;
         }
 
         public void OpenCoinsShopTab()
         {
-            _shopManagerView.coinShop.Show();
-            _shopManagerView.premiumShop.Hide();
+            coinShop.Show();
+            premiumShop.Hide();
             _shopManagerView.coinShopTab.interactable = false;
             _shopManagerView.premiumShopTab.interactable = true;
         }

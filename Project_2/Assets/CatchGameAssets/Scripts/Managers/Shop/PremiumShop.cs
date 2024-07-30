@@ -50,8 +50,7 @@ namespace Catch
         private NonConsumableItem _nConsItem;
         private SubscriptionItem _subItem;
 
-        [Inject]
-        public void Inject(ShopManagerView shopManagerView, ConsumableItem consItem, NonConsumableItem nConsItem,
+        public PremiumShop(ShopManagerView shopManagerView, ConsumableItem consItem, NonConsumableItem nConsItem,
             SubscriptionItem subItem)
         {
             _consItem = consItem;

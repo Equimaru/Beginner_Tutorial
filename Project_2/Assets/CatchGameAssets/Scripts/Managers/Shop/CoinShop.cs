@@ -18,8 +18,7 @@ namespace Catch
 
         private TextMeshProUGUI currentCoinsAmountText;
 
-        [Inject]
-        public void Inject(ShopManagerView shopManagerView)
+        public CoinShop(ShopManagerView shopManagerView)
         {
             _shopManagerView = shopManagerView;
             coinShopPanel = _shopManagerView.coinShopPanel;

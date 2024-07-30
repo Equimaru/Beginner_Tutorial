@@ -29,9 +29,6 @@ namespace Catch
         public GameObject premiumShopPanel;
         public GameObject coinShopPanel;
         
-        [Inject] public CoinShop coinShop;
-        [Inject] public PremiumShop premiumShop;
-
         [Header("Premium panel")] 
         public Button coinsPurchaseButton;
         public Button noAdsPurchaseButton;
