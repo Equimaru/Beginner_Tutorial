@@ -14,7 +14,7 @@ namespace Catch
         public Action OnPremiumShopTabPressed;
         public Action OnCoinsPurchaseButtonPressed;
         public Action OnNoAdsPurchaseButtonPressed;
-        public Action OnVipPassButtonPressed;
+        public Action OnVipPassPurchaseButtonPressed;
         public Action OnAmuletPurchaseButtonPressed;
         public Action OnShopCloseButtonPressed;
 
@@ -75,7 +75,7 @@ namespace Catch
 
         private void VipPassPurchaseButtonPressed()
         {
-            OnVipPassButtonPressed?.Invoke();
+            OnVipPassPurchaseButtonPressed?.Invoke();
         }
 
         private void AmuletPurchaseButtonPressed()

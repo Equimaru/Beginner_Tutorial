@@ -10,43 +10,18 @@ namespace Catch
     {
         public Action<ShopItemType> OnItemBuyRequest;
 
-        private ShopManagerView _shopManagerView;
+        private ShopManager _shopManager;
 
-        private GameObject coinShopPanel;
-
-        private Button amuletBuyButton;
-
-        private TextMeshProUGUI currentCoinsAmountText;
-
-        public CoinShop(ShopManagerView shopManagerView)
+        public CoinShop(ShopManager shopManager)
         {
-            _shopManagerView = shopManagerView;
-            coinShopPanel = _shopManagerView.coinShopPanel;
-            amuletBuyButton = _shopManagerView.amuletPurchaseButton;
-            currentCoinsAmountText = _shopManagerView.currentCoinsAmountText;
-        }
-
-
-        public void Show()
-        {
-            coinShopPanel.SetActive(true);
-        }
-
-        public void Hide()
-        {
-            coinShopPanel.SetActive(false);
+            _shopManager = shopManager;
+            _shopManager.OnAmuletPurchaseRequested += AmuletBuyRequest;
         }
 
         public void AmuletBuyRequest()
         {
             ShopItemType amulet = ShopItemType.Amulet;
             OnItemBuyRequest?.Invoke(amulet);
-        }
-
-        public void RefreshShopPanel(int moneyAmount, bool hasAmulet)
-        {
-            amuletBuyButton.interactable = !hasAmulet;
-            currentCoinsAmountText.text = "You have " + moneyAmount;
         }
     }
 }

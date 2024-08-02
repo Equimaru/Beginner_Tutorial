@@ -41,7 +41,7 @@ namespace Catch
         public Action OnNoAdsIsActive;
         public Action OnVipPassPurchased;
 
-        private ShopManagerView _shopManagerView;
+        private ShopManager _shopManager;
         private GameObject _premiumShopPanel;
 
         private IStoreController _storeController;
@@ -50,22 +50,21 @@ namespace Catch
         private NonConsumableItem _nConsItem;
         private SubscriptionItem _subItem;
 
-        public PremiumShop(ShopManagerView shopManagerView, ConsumableItem consItem, NonConsumableItem nConsItem,
+        public PremiumShop(ShopManager shopManager, ConsumableItem consItem, NonConsumableItem nConsItem,
             SubscriptionItem subItem)
         {
             _consItem = consItem;
             _nConsItem = nConsItem;
             _subItem = subItem;
-            _shopManagerView = shopManagerView;
-            _premiumShopPanel = _shopManagerView.premiumShopPanel;
+            _shopManager = shopManager;
+            _premiumShopPanel = _shopManager.premiumShopPanel;
         }
 
         public void Initialize()
         {
-            _shopManagerView.OnCoinsPurchaseButtonPressed += PurchaseCoins;
-            _shopManagerView.OnNoAdsPurchaseButtonPressed += PurchaseNoAds;
-            _shopManagerView.OnVipPassButtonPressed += PurchaseSubscription;
-            Debug.Log("Initialize");
+            _shopManager.OnCoinsPurchaseRequested += PurchaseCoins;
+            _shopManager.OnNoAdsPurchaseRequested += PurchaseNoAds;
+            _shopManager.OnVipPassPurchaseRequested += PurchaseSubscription;
             
             SetupBuilder();
         }
@@ -155,16 +154,6 @@ namespace Catch
             {
                 Debug.Log("Product not found");
             }
-        }
-
-        public void Show()
-        {
-            _premiumShopPanel.SetActive(true);
-        }
-
-        public void Hide()
-        {
-            _premiumShopPanel.SetActive(false);
         }
 
         #region IDetailedStoreListener methods

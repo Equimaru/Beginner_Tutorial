@@ -15,6 +15,8 @@ namespace Catch
         [Inject] private InMenuAdsManager _inMenuAdsManager;
         [Inject] private MainMenuManager _mainMenuManager;
         [Inject] private ShopManager _shopManager;
+        [Inject] private PremiumShop _premiumShop;
+        [Inject] private CoinShop _coinShop;
         
         [SerializeField] private int moneyGainFromAdd;
         [SerializeField] private int amuletPrice;
@@ -40,12 +42,12 @@ namespace Catch
 
             _shopManager.OnShopCloseRequest += OnShopCloseRequest;
             
-            _shopManager.coinShop.OnItemBuyRequest += OnItemBuyRequest;
+            _coinShop.OnItemBuyRequest += OnItemBuyRequest;
             
-            _shopManager.premiumShop.OnCoinsPurchased += OnCoinsPurchased;
-            _shopManager.premiumShop.OnNoAdsPurchased += OnNoAdsPurchased;
-            _shopManager.premiumShop.OnNoAdsIsActive += OnNoAdsIsActive;
-            _shopManager.premiumShop.OnVipPassPurchased += OnVipPassPurchased;
+            _premiumShop.OnCoinsPurchased += OnCoinsPurchased;
+            _premiumShop.OnNoAdsPurchased += OnNoAdsPurchased;
+            _premiumShop.OnNoAdsIsActive += OnNoAdsIsActive;
+            _premiumShop.OnVipPassPurchased += OnVipPassPurchased;
             
             _inMenuAdsManager.OnAdWatched += OnAdWatched;
         }
@@ -59,7 +61,7 @@ namespace Catch
         private void VisitShop()
         {
             _mainMenuManager.Hide();
-            _shopManager.coinShop.RefreshShopPanel(_playerSaveSystem.GetMoneyAmount(), _playerSaveSystem.HasAmulet);
+            _shopManager.RefreshShopPanel(_playerSaveSystem.GetMoneyAmount(), _playerSaveSystem.HasAmulet);
             _shopManager.OpenShop();
         }
 
@@ -96,7 +98,7 @@ namespace Catch
             if (_playerSaveSystem.CheckForEnoughMoneyAmount(amuletPrice))
             {
                 _playerSaveSystem.TryAddAmuletToPocket();
-                _shopManager.coinShop.RefreshShopPanel(_playerSaveSystem.GetMoneyAmount(), _playerSaveSystem.HasAmulet);
+                _shopManager.RefreshShopPanel(_playerSaveSystem.GetMoneyAmount(), _playerSaveSystem.HasAmulet);
             }
             else
             {
@@ -128,7 +130,7 @@ namespace Catch
         private void OnCoinsPurchased()
         {
             _playerSaveSystem.AddMoneyAmount(moneyAmountInPremiumShop);
-            _shopManager.coinShop.RefreshShopPanel(_playerSaveSystem.GetMoneyAmount(), _playerSaveSystem.HasAmulet);
+            _shopManager.RefreshShopPanel(_playerSaveSystem.GetMoneyAmount(), _playerSaveSystem.HasAmulet);
             Debug.Log("Coins purchased");
         }
 
@@ -144,7 +146,7 @@ namespace Catch
         private void OnAdWatched()
         {
             _playerSaveSystem.AddMoneyAmount(moneyGainFromAdd);
-            _shopManager.coinShop.RefreshShopPanel(_playerSaveSystem.GetMoneyAmount(), _playerSaveSystem.HasAmulet);
+            _shopManager.RefreshShopPanel(_playerSaveSystem.GetMoneyAmount(), _playerSaveSystem.HasAmulet);
         }
 
         #endregion
