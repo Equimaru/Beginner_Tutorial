@@ -8,9 +8,9 @@ namespace Catch
     public class MenuController : MonoBehaviour
     {
         [Header("Custom Settings")] 
-        [SerializeField] private bool useCustomSettings;
-        [SerializeField] private int customLevel;
-        [SerializeField] private int customCurrency;
+        [SerializeField] private bool _useCustomSettings;
+        [SerializeField] private int _customLevel;
+        [SerializeField] private int _customCurrency;
         
         [Inject] private InMenuAdsManager _inMenuAdsManager;
         [Inject] private MainMenuManager _mainMenuManager;
@@ -18,9 +18,9 @@ namespace Catch
         [Inject] private PremiumShop _premiumShop;
         [Inject] private CoinShop _coinShop;
         
-        [SerializeField] private int moneyGainFromAdd;
-        [SerializeField] private int amuletPrice;
-        [SerializeField] private int moneyAmountInPremiumShop;
+        [SerializeField] private int _moneyGainFromAdd;
+        [SerializeField] private int _amuletPrice;
+        [SerializeField] private int _moneyAmountInPremiumShop;
 
         private PlayerSaveSystem _playerSaveSystem;
         
@@ -29,20 +29,20 @@ namespace Catch
         private void Start()
         {
             _playerSaveSystem = new PlayerSaveSystem();
-            _playerSaveSystem.Init(useCustomSettings, customLevel, customCurrency);
+            _playerSaveSystem.Init(_useCustomSettings, _customLevel, _customCurrency);
             
             SignUpToAllEvents();
         }
 
         private void SignUpToAllEvents()
         {
-            _mainMenuManager.OnPlayRequest += Play;
-            _mainMenuManager.OnShopVisitRequest += VisitShop;
-            _mainMenuManager.OnApplicationExitRequest += Exit;
+            _mainMenuManager.PlayRequest += Play;
+            _mainMenuManager.ShopVisitRequest += VisitShop;
+            _mainMenuManager.ApplicationExitRequest += Exit;
 
-            _shopManager.OnShopCloseRequest += OnShopCloseRequest;
+            _shopManager.ShopCloseRequest += OnShopCloseRequest;
             
-            _coinShop.OnItemBuyRequest += OnItemBuyRequest;
+            _coinShop.ItemBuyRequest += OnItemBuyRequest;
             
             _premiumShop.OnCoinsPurchased += OnCoinsPurchased;
             _premiumShop.OnNoAdsPurchased += OnNoAdsPurchased;
@@ -95,7 +95,7 @@ namespace Catch
 
         private void AmuletPurchaseAttempt()
         {
-            if (_playerSaveSystem.CheckForEnoughMoneyAmount(amuletPrice))
+            if (_playerSaveSystem.CheckForEnoughMoneyAmount(_amuletPrice))
             {
                 _playerSaveSystem.TryAddAmuletToPocket();
                 _shopManager.RefreshShopPanel(_playerSaveSystem.GetMoneyAmount(), _playerSaveSystem.HasAmulet);
@@ -129,7 +129,7 @@ namespace Catch
 
         private void OnCoinsPurchased()
         {
-            _playerSaveSystem.AddMoneyAmount(moneyAmountInPremiumShop);
+            _playerSaveSystem.AddMoneyAmount(_moneyAmountInPremiumShop);
             _shopManager.RefreshShopPanel(_playerSaveSystem.GetMoneyAmount(), _playerSaveSystem.HasAmulet);
             Debug.Log("Coins purchased");
         }
@@ -145,7 +145,7 @@ namespace Catch
         
         private void OnAdWatched()
         {
-            _playerSaveSystem.AddMoneyAmount(moneyGainFromAdd);
+            _playerSaveSystem.AddMoneyAmount(_moneyGainFromAdd);
             _shopManager.RefreshShopPanel(_playerSaveSystem.GetMoneyAmount(), _playerSaveSystem.HasAmulet);
         }
 

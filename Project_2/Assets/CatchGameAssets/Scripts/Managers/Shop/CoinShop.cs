@@ -8,20 +8,20 @@ namespace Catch
 {
     public class CoinShop
     {
-        public Action<ShopItemType> OnItemBuyRequest;
+        public Action<ShopItemType> ItemBuyRequest;
 
         private ShopManager _shopManager;
 
         public CoinShop(ShopManager shopManager)
         {
             _shopManager = shopManager;
-            _shopManager.OnAmuletPurchaseRequested += AmuletBuyRequest;
+            _shopManager.AmuletPurchaseRequest += AmuletBuyRequest;
         }
 
         public void AmuletBuyRequest()
         {
             ShopItemType amulet = ShopItemType.Amulet;
-            OnItemBuyRequest?.Invoke(amulet);
+            ItemBuyRequest?.Invoke(amulet);
         }
     }
 }

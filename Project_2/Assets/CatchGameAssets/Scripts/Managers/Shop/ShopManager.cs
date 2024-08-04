@@ -8,11 +8,11 @@ namespace Catch
 {
     public class ShopManager : IInitializable
     {
-        public Action OnCoinsPurchaseRequested;
-        public Action OnNoAdsPurchaseRequested;
-        public Action OnVipPassPurchaseRequested;
-        public Action OnAmuletPurchaseRequested;
-        public Action OnShopCloseRequest;
+        public Action CoinsPurchaseRequest;
+        public Action NoAdsPurchaseRequest;
+        public Action VipPassPurchaseRequest;
+        public Action AmuletPurchaseRequest;
+        public Action ShopCloseRequest;
         
         private ShopManagerView _shopManagerView;
         public GameObject premiumShopPanel;
@@ -41,7 +41,7 @@ namespace Catch
 
             _shopManagerView.OnAmuletPurchaseButtonPressed += RequestAmuletPurchase;
 
-            _shopManagerView.OnShopCloseButtonPressed += ShopCloseRequest;
+            _shopManagerView.OnShopCloseButtonPressed += RequestShopClose;
         }
 
         public void OpenShop()
@@ -57,17 +57,17 @@ namespace Catch
 
         private void RequestCoinsPurchase()
         {
-            OnCoinsPurchaseRequested?.Invoke();
+            CoinsPurchaseRequest?.Invoke();
         }
 
         private void RequestNoAdsPurchase()
         {
-            OnNoAdsPurchaseRequested?.Invoke();
+            NoAdsPurchaseRequest?.Invoke();
         }
 
         private void RequestVipPassPurchase()
         {
-            OnVipPassPurchaseRequested?.Invoke();
+            VipPassPurchaseRequest?.Invoke();
         }
 
         #endregion
@@ -76,7 +76,7 @@ namespace Catch
 
         private void RequestAmuletPurchase()
         {
-            OnAmuletPurchaseRequested?.Invoke();
+            AmuletPurchaseRequest?.Invoke();
         }
 
         #endregion
@@ -98,10 +98,10 @@ namespace Catch
             _shopManagerView.premiumShopTab.interactable = true;
         }
 
-        public void ShopCloseRequest()
+        public void RequestShopClose()
         {
             Debug.Log("Request");
-            OnShopCloseRequest?.Invoke();
+            ShopCloseRequest?.Invoke();
         }
 
         public void CloseShop()

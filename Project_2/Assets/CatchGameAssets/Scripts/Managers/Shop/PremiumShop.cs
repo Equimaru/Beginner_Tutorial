@@ -62,9 +62,9 @@ namespace Catch
 
         public void Initialize()
         {
-            _shopManager.OnCoinsPurchaseRequested += PurchaseCoins;
-            _shopManager.OnNoAdsPurchaseRequested += PurchaseNoAds;
-            _shopManager.OnVipPassPurchaseRequested += PurchaseSubscription;
+            _shopManager.CoinsPurchaseRequest += PurchaseCoins;
+            _shopManager.NoAdsPurchaseRequest += PurchaseNoAds;
+            _shopManager.VipPassPurchaseRequest += PurchaseSubscription;
             
             SetupBuilder();
         }

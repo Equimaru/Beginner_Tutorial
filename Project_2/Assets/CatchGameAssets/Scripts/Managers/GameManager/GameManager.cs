@@ -115,9 +115,9 @@ namespace Catch
             _inGameMenuManager.OnRestartRequest += RestartFromWinPanel;
             _inGameMenuManager.OnMenuExitRequest += MenuExitFromWinPanel;
 
-            _shopManager.OnShopCloseRequest += OnShopCloseRequest;
+            _shopManager.ShopCloseRequest += OnShopCloseRequest;
             
-            _coinShop.OnItemBuyRequest += OnItemBuyRequest;
+            _coinShop.ItemBuyRequest += OnItemBuyRequest;
             
             _premiumShop.OnCoinsPurchased += OnCoinsPurchased;
             _premiumShop.OnNoAdsPurchased += OnNoAdsPurchased;

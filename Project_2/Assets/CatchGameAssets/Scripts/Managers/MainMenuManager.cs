@@ -6,9 +6,9 @@ namespace Catch
 {
     public class MainMenuManager : IInitializable
     {
-        public Action OnPlayRequest;
-        public Action OnShopVisitRequest;
-        public Action OnApplicationExitRequest;
+        public Action PlayRequest;
+        public Action ShopVisitRequest;
+        public Action ApplicationExitRequest;
 
         private MainMenuView _mainMenuView;
         private GameObject _menuPanel;
@@ -42,17 +42,17 @@ namespace Catch
 
         private void RequestPlay()
         {
-            OnPlayRequest?.Invoke();
+            PlayRequest?.Invoke();
         }
 
         private void RequestShopVisit()
         {
-            OnShopVisitRequest?.Invoke();
+            ShopVisitRequest?.Invoke();
         }
 
         private void RequestApplicationExit()
         {
-            OnApplicationExitRequest?.Invoke();
+            ApplicationExitRequest?.Invoke();
         }
     }
 }
