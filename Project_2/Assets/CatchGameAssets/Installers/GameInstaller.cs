@@ -31,7 +31,7 @@ namespace Installers
         
         public override void InstallBindings()
         {
-            Container.Bind<InGameMenuManager>()
+            Container.BindInterfacesAndSelfTo<InGameMenuManager>()
                 .AsSingle()
                 .WithArguments(inGameMenuManagerView);
             Container.BindInstance(inGameAdsManager);

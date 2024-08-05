@@ -1,12 +1,10 @@
 using System;
-using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 using Zenject;
 
 namespace Catch
 {
-    public class InGameMenuManager
+    public class InGameMenuManager: IInitializable
     {
         public Action OnRestartRequest;
         public Action OnShopVisitRequest;
@@ -14,17 +12,20 @@ namespace Catch
         public Action OnMenuExitRequest;
 
         private InGameMenuManagerView _inGameMenuManagerView;
-        
-        [Inject]
-        public void Inject(InGameMenuManagerView inGameMenuManagerView)
+
+        public InGameMenuManager(InGameMenuManagerView inGameMenuManagerView)
         {
             _inGameMenuManagerView = inGameMenuManagerView;
-            inGameMenuManagerView.OnMenuButtonPressed += RequestMenuExit;
-            inGameMenuManagerView.OnRestartButtonPressed += RequestRestart;
-            inGameMenuManagerView.OnShopButtonPressed += RequestShopVisit;
-            inGameMenuManagerView.OnNextLevelButtonPressed += RequestNextLevelEnter;
         }
-        
+
+        public void Initialize()
+        {
+            _inGameMenuManagerView.OnMenuButtonPressed += RequestMenuExit;
+            _inGameMenuManagerView.OnRestartButtonPressed += RequestRestart;
+            _inGameMenuManagerView.OnShopButtonPressed += RequestShopVisit;
+            _inGameMenuManagerView.OnNextLevelButtonPressed += RequestNextLevelEnter;
+        }
+
         public void SetMoneyAmount(int moneyAmount)
         {
             _inGameMenuManagerView.moneyAmountText.text = "You  have " + moneyAmount;
@@ -58,7 +59,7 @@ namespace Catch
         {
             _inGameMenuManagerView.inGameMenuPanel.SetActive(false);
         }
-        
+
         public void RequestRestart()
         {
             OnRestartRequest?.Invoke();

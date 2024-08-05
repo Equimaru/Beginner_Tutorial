@@ -185,6 +185,7 @@ namespace Catch
         
         private void OnShopCloseRequest()
         {
+            _inGameMenuManager.SetMoneyAmount(_playerSaveSystem.GetMoneyAmount());
             _shopManager.CloseShop();
             _inGameMenuManager.Show(LevelStateType.Cleared);
         }

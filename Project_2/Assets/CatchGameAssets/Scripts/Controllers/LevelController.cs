@@ -6,12 +6,12 @@ namespace Catch
 {
     public class LevelController
     {
-        [Inject] private List<LevelSettings> _levelSettings;
+        private List<LevelSettings> _levelSettings;
 
         private LevelSettings _currentLevelSettings;
         
-        [Inject] private SpawnSystem _spawnSystem;
-        [Inject] private ScoreSystem _scoreSystem;
+        private SpawnSystem _spawnSystem;
+        private ScoreSystem _scoreSystem;
         
         private int _currentLevel;
 
@@ -21,6 +21,13 @@ namespace Catch
             _minSpawnTime,
             _maxSpawnTime;
 
+        public LevelController(List<LevelSettings> levelSettings, SpawnSystem spawnSystem, ScoreSystem scoreSystem)
+        {
+            _levelSettings = levelSettings;
+            _scoreSystem = scoreSystem;
+            _spawnSystem = spawnSystem;
+        }
+        
         public void Init(int currentLevel)
         {
             _currentLevel = currentLevel;

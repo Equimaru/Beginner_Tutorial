@@ -617,7 +617,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 84c9e4eeac91a0047bdf30ba61761e44, type: 2}
   - {fileID: 11400000, guid: ed5e54e7c0ec4ae49826be34b9e5dd02, type: 2}
   - {fileID: 11400000, guid: e8453da8235d95e4083007f3d65f0bc9, type: 2}
-  inGameMenuManagerView: {fileID: 0}
+  inGameMenuManagerView: {fileID: 1986229006}
 --- !u!1 &467004307
 GameObject:
   m_ObjectHideFlags: 0
@@ -3608,12 +3608,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a148d62c0870954e85a0389fe0a613b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  retryButton: {fileID: 0}
-  menuButton: {fileID: 0}
-  nextLevelButton: {fileID: 0}
-  shopButton: {fileID: 0}
-  inGameMenuPanel: {fileID: 0}
-  moneyAmountText: {fileID: 0}
+  retryButton: {fileID: 1059017002}
+  menuButton: {fileID: 1645390879}
+  nextLevelButton: {fileID: 1374334996}
+  shopButton: {fileID: 1552969012}
+  inGameMenuPanel: {fileID: 1986229002}
+  moneyAmountText: {fileID: 1871724846}
 --- !u!1 &2001393671
 GameObject:
   m_ObjectHideFlags: 0

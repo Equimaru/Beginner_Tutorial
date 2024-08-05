@@ -13,14 +13,12 @@ namespace Catch
         private MainMenuView _mainMenuView;
         private GameObject _menuPanel;
 
-        [Inject]
-        public void Inject(MainMenuView mainMenuView)
+        public MainMenuManager(MainMenuView mainMenuView)
         {
             _mainMenuView = mainMenuView;
             _menuPanel = _mainMenuView.mainMenuPanel;
         }
 
-        [Inject]
         public void Initialize()
         {
             _mainMenuView.OnPlayButtonPressed += RequestPlay;
