@@ -52,6 +52,7 @@ namespace Catch
         [Inject] private SpawnSystem _spawnSystem;
         [Inject] private ScoreSystem _scoreSystem;
         [Inject] private HealthSystem _healthSystem;
+        [Inject] private PauseSystem _pauseSystem;
 
         private PlayerSaveSystem _playerSaveSystem;
 
@@ -114,6 +115,7 @@ namespace Catch
             _inGameMenuManager.OnShopVisitRequest += VisitShop;
             _inGameMenuManager.OnRestartRequest += RestartFromWinPanel;
             _inGameMenuManager.OnMenuExitRequest += MenuExitFromWinPanel;
+            _inGameMenuManager.OnPauseResumeRequest += PauseResume;
 
             _shopManager.ShopCloseRequest += OnShopCloseRequest;
             
@@ -128,7 +130,7 @@ namespace Catch
         }
 
         #region GameLoop
-
+        
         private void OnAllObjectsSpawned()
         {
             _scoreSystem.ShowLevelResults();
@@ -165,6 +167,20 @@ namespace Catch
         #endregion
 
         #region UIInteraction
+
+        private void PauseResume()
+        {
+            if (_pauseSystem.isPaused)
+            {
+                _inGameMenuManager.Hide();
+                _pauseSystem.Resume();
+            }
+            else
+            {
+                _pauseSystem.Pause();
+                _inGameMenuManager.Show(LevelStateType.InProgress);
+            }
+        }
 
         private void NextLevelEnterFromWinPanel()
         {

@@ -11,15 +11,18 @@ namespace Catch
         public Action OnRestartButtonPressed;
         public Action OnMenuButtonPressed;
         public Action OnShopButtonPressed;
+        public Action OnPauseResumeButtonPressed;
         
         [Header("InGameMenuManager Attributes")]
         [SerializeField] private Button retryButton;
         [SerializeField] private Button menuButton;
+        [SerializeField] private Button pauseResumeButton;
         public Button nextLevelButton;
         public Button shopButton;
 
         private void Awake()
         {
+            pauseResumeButton.onClick.AddListener(PauseResumeButtonPressed);
             retryButton.onClick.AddListener(RestartButtonPressed);
             menuButton.onClick.AddListener(MenuButtonPressed);
             nextLevelButton.onClick.AddListener(NextLevelButtonPressed);
@@ -30,6 +33,11 @@ namespace Catch
         
         public TextMeshProUGUI moneyAmountText;
 
+        public void PauseResumeButtonPressed()
+        {
+            OnPauseResumeButtonPressed?.Invoke();
+        }
+        
         public void NextLevelButtonPressed()
         {
             OnNextLevelButtonPressed?.Invoke();

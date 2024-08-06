@@ -10,6 +10,7 @@ namespace Catch
         public Action OnShopVisitRequest;
         public Action OnNextLevelEnterRequest;
         public Action OnMenuExitRequest;
+        public Action OnPauseResumeRequest;
 
         private InGameMenuManagerView _inGameMenuManagerView;
 
@@ -24,6 +25,7 @@ namespace Catch
             _inGameMenuManagerView.OnRestartButtonPressed += RequestRestart;
             _inGameMenuManagerView.OnShopButtonPressed += RequestShopVisit;
             _inGameMenuManagerView.OnNextLevelButtonPressed += RequestNextLevelEnter;
+            _inGameMenuManagerView.OnPauseResumeButtonPressed += RequestPauseResume;
         }
 
         public void SetMoneyAmount(int moneyAmount)
@@ -60,6 +62,12 @@ namespace Catch
             _inGameMenuManagerView.inGameMenuPanel.SetActive(false);
         }
 
+        public void RequestPauseResume()
+        {
+            Debug.Log("Hihihihi");
+            OnPauseResumeRequest?.Invoke();
+        }
+        
         public void RequestRestart()
         {
             OnRestartRequest?.Invoke();

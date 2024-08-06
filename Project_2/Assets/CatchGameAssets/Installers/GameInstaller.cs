@@ -39,6 +39,7 @@ namespace Installers
                 .WithArguments(inGameMenuManagerView);
             Container.BindInstance(inGameAdsManager);
 
+            Container.Bind<PauseSystem>().AsSingle();
             Container.BindInstance(spawnSystem);
             Container.Bind<ScoreSystem>().AsSingle();
             Container.BindInstance(healthSystem);
