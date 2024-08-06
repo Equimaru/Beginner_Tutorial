@@ -18,6 +18,7 @@ namespace Catch
         private RandomGenerator _randomGenerator;
 
         [SerializeField] private List<FallingItemFactory> fallingItemFactory;
+        private List<GameObject> _fallingItemList = new List<GameObject>();
 
         private Vector2 _screenSize;
         
@@ -68,7 +69,7 @@ namespace Catch
             }
         }
         
-        IEnumerator Spawn()
+        private IEnumerator Spawn()
         {
             float waitTime = 1f;
 
@@ -85,10 +86,15 @@ namespace Catch
                 }
                 else
                 {
-                    StopCoroutine(_spawnCoroutine);
+                    StopSpawn();
                     yield return null;
                 }
             }
+        }
+
+        public void StopSpawn()
+        {
+            StopCoroutine(_spawnCoroutine);
         }
 
         public void SetParameters(float minSpawnTime, float maxSpawnTime, int objectsToSpawn)
@@ -102,6 +108,7 @@ namespace Catch
 
             gameOver = false;
             _spawnCoroutine = StartCoroutine(Spawn());
+            
             //AsyncSpawn();
         }
 
@@ -112,6 +119,7 @@ namespace Catch
 
             var fallingItem = _goodItemFactory.Create();
             fallingItem.transform.position = new Vector3(GetRandomXPos(), defaultSpawnHeight, 0);
+            _fallingItemList.Add(fallingItem.gameObject);
             //var fallingItem = fallingItemFactory[factoryInUse].CreateFallingItem();
             if (fallingItem.Type == ObjectType.Eatable)
             {
@@ -119,6 +127,14 @@ namespace Catch
             }
             fallingItem.OnCaught += ObjectOnCaught;
             fallingItem.OnDropped += ObjectOnDrop;
+        }
+
+        public void ClearFallingItems()
+        {
+            foreach (var item in _fallingItemList)
+            {
+                Destroy(item);
+            }
         }
 
         private void ObjectOnCaught(FallingItem fallingItem)

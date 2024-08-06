@@ -617,7 +617,9 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 84c9e4eeac91a0047bdf30ba61761e44, type: 2}
   - {fileID: 11400000, guid: ed5e54e7c0ec4ae49826be34b9e5dd02, type: 2}
   - {fileID: 11400000, guid: e8453da8235d95e4083007f3d65f0bc9, type: 2}
-  inGameMenuManagerView: {fileID: 1986229006}
+  inGameMenuManagerView: {fileID: 529800666}
+  goodItemPrefab: {fileID: 6310172772446202864, guid: eec7392979c65124e94dd5640c02871a,
+    type: 3}
 --- !u!1 &467004307
 GameObject:
   m_ObjectHideFlags: 0
@@ -677,6 +679,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 529800665}
+  - component: {fileID: 529800666}
   m_Layer: 5
   m_Name: InGameMenuManager
   m_TagString: Untagged
@@ -705,6 +708,25 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: -23}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &529800666
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 529800664}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a148d62c0870954e85a0389fe0a613b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  retryButton: {fileID: 1059017002}
+  menuButton: {fileID: 1645390879}
+  pauseResumeButton: {fileID: 1488704440}
+  nextLevelButton: {fileID: 1374334996}
+  shopButton: {fileID: 1552969012}
+  inGameMenuPanel: {fileID: 1986229002}
+  moneyAmountText: {fileID: 1871724846}
 --- !u!1 &541805015
 GameObject:
   m_ObjectHideFlags: 0
@@ -3528,7 +3550,6 @@ GameObject:
   - component: {fileID: 1986229003}
   - component: {fileID: 1986229005}
   - component: {fileID: 1986229004}
-  - component: {fileID: 1986229006}
   m_Layer: 5
   m_Name: ' MenuPanelView'
   m_TagString: Untagged
@@ -3596,24 +3617,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1986229002}
   m_CullTransparentMesh: 1
---- !u!114 &1986229006
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1986229002}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8a148d62c0870954e85a0389fe0a613b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  retryButton: {fileID: 1059017002}
-  menuButton: {fileID: 1645390879}
-  nextLevelButton: {fileID: 1374334996}
-  shopButton: {fileID: 1552969012}
-  inGameMenuPanel: {fileID: 1986229002}
-  moneyAmountText: {fileID: 1871724846}
 --- !u!1 &2001393671
 GameObject:
   m_ObjectHideFlags: 0

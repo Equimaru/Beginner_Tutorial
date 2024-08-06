@@ -62,7 +62,7 @@ namespace Catch
 
         private bool _isNoAdsActive;
         
-        private LevelStateType _currentLevelStateType; // Make state change
+        private LevelStateType _currentLevelStateType;
         
         private void Start()
         {
@@ -71,8 +71,8 @@ namespace Catch
 
             _playerSaveSystem = new PlayerSaveSystem();
             _playerSaveSystem.Init(useCustomSettings, customLevel, customCurrency);
-        
-            //_inGameMenuManager.InitButtons();
+
+            _currentLevelStateType = LevelStateType.InProgress;
             
             InitAll();
             SignUpToAllEvents();
@@ -111,10 +111,10 @@ namespace Catch
             _scoreSystem.OnLevelCleared += OnLevelCleared;
             _scoreSystem.OnLevelFailed += OnLevelFailed;
 
-            _inGameMenuManager.OnNextLevelEnterRequest += NextLevelEnterFromWinPanel;
+            _inGameMenuManager.OnNextLevelEnterRequest += NextLevelEnterFromMenuPanel;
             _inGameMenuManager.OnShopVisitRequest += VisitShop;
-            _inGameMenuManager.OnRestartRequest += RestartFromWinPanel;
-            _inGameMenuManager.OnMenuExitRequest += MenuExitFromWinPanel;
+            _inGameMenuManager.OnRestartRequest += RestartFromMenuPanel;
+            _inGameMenuManager.OnMenuExitRequest += MenuExitFromMenuPanel;
             _inGameMenuManager.OnPauseResumeRequest += PauseResume;
 
             _shopManager.ShopCloseRequest += OnShopCloseRequest;
@@ -141,7 +141,8 @@ namespace Catch
             StopGamePhase();
             _playerSaveSystem.AddMoneyAmount((int)(_scoreSystem.PercentageOfCatchFood * 100));
             _inGameMenuManager.SetMoneyAmount(_playerSaveSystem.GetMoneyAmount());
-            _inGameMenuManager.Show(LevelStateType.Cleared);
+            _currentLevelStateType = LevelStateType.Cleared;
+            _inGameMenuManager.Show(_currentLevelStateType);
         }
         
         private void OnRanOutOfHealth()
@@ -154,14 +155,16 @@ namespace Catch
             else
             {
                 StopGamePhase();
-                _inGameMenuManager.Show(LevelStateType.Failed);
+                _currentLevelStateType = LevelStateType.Failed;
+                _inGameMenuManager.Show(_currentLevelStateType);
             }
         }
         
         private void OnLevelFailed()
         {
             StopGamePhase();
-            _inGameMenuManager.Show(LevelStateType.Failed);
+            _currentLevelStateType = LevelStateType.Failed;
+            _inGameMenuManager.Show(_currentLevelStateType);
         }
         
         #endregion
@@ -170,21 +173,25 @@ namespace Catch
 
         private void PauseResume()
         {
-            if (_pauseSystem.isPaused)
+            if (_currentLevelStateType == LevelStateType.InProgress)
             {
-                _inGameMenuManager.Hide();
-                _pauseSystem.Resume();
-            }
-            else
-            {
-                _pauseSystem.Pause();
-                _inGameMenuManager.Show(LevelStateType.InProgress);
+                if (_pauseSystem.isPaused)
+                {
+                    _inGameMenuManager.Hide();
+                    _pauseSystem.Resume();
+                }
+                else
+                {
+                    _pauseSystem.Pause();
+                    _inGameMenuManager.Show(_currentLevelStateType);
+                }
             }
         }
 
-        private void NextLevelEnterFromWinPanel()
+        private void NextLevelEnterFromMenuPanel()
         {
             _inGameMenuManager.Hide();
+            _currentLevelStateType = LevelStateType.InProgress;
             StartGamePhase();
             _levelController.LevelUpAndStart();
             _backgroundController.ChangeBackground();
@@ -206,15 +213,27 @@ namespace Catch
             _inGameMenuManager.Show(LevelStateType.Cleared);
         }
         
-        private void RestartFromWinPanel()
+        private void RestartFromMenuPanel()
         {
+            if (_pauseSystem.isPaused)
+            {
+                StopGamePhase();
+                _spawnSystem.ClearFallingItems();
+                _spawnSystem.StopSpawn();
+                _pauseSystem.Resume();
+            }
             _inGameMenuManager.Hide();
+            _currentLevelStateType = LevelStateType.InProgress;
             StartGamePhase();
             _levelController.RestartLevel();
         }
 
-        private void MenuExitFromWinPanel()
+        private void MenuExitFromMenuPanel()
         {
+            if (_pauseSystem.isPaused)
+            {
+                _pauseSystem.Resume();
+            }
             _playerSaveSystem.SaveParameters();
             
             SceneManager.LoadScene("CatchGame_Menu");
