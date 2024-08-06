@@ -1,10 +1,13 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Numerics;
 using System.Threading.Tasks;
 using UnityEngine;
 using Zenject;
 using Random = UnityEngine.Random;
+using Vector2 = UnityEngine.Vector2;
+using Vector3 = UnityEngine.Vector3;
 
 namespace Catch
 {
@@ -34,6 +37,13 @@ namespace Catch
 
         private Coroutine _spawnCoroutine;
 
+        private GoodItem.Factory _goodItemFactory;
+
+        [Inject]
+        public void Inject(GoodItem.Factory goodItemFactory)
+        {
+            _goodItemFactory = goodItemFactory;
+        }
 
         public void Init(float goodItemSpawnChance, float badItemSpawnChance)
         {
@@ -97,9 +107,12 @@ namespace Catch
 
         private void SpawnDroppable()
         {
+            float defaultSpawnHeight = 7f;
             int factoryInUse = _randomGenerator.GetRandomResult();
 
-            var fallingItem = fallingItemFactory[factoryInUse].CreateFallingItem();
+            var fallingItem = _goodItemFactory.Create();
+            fallingItem.transform.position = new Vector3(GetRandomXPos(), defaultSpawnHeight, 0);
+            //var fallingItem = fallingItemFactory[factoryInUse].CreateFallingItem();
             if (fallingItem.Type == ObjectType.Eatable)
             {
                 _goodItemsSpawned++;
@@ -142,6 +155,19 @@ namespace Catch
             {
                 OnAllSpawnedObjectsGone?.Invoke();
             }
+        }
+        
+        protected float GetRandomXPos()
+        {
+            float gapAtBorder = 1f;
+            if (Camera.main != null)
+            {
+                Vector2 screenSize = Camera.main.ScreenToWorldPoint(new Vector2(Screen.width, Screen.height));
+                float randomX = Random.Range(screenSize.x * -1 + gapAtBorder, screenSize.x - gapAtBorder);
+                return randomX;
+            }
+            Debug.LogError("There is no camera in scene.");
+            return 0f;
         }
     }
 }

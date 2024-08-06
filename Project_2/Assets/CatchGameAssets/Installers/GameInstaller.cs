@@ -28,6 +28,9 @@ namespace Installers
 
         [Header("View")] 
         [SerializeField] private InGameMenuManagerView inGameMenuManagerView;
+
+        [Header("Factories")] 
+        [SerializeField] private GameObject goodItemPrefab;
         
         public override void InstallBindings()
         {
@@ -48,6 +51,8 @@ namespace Installers
                 .AsSingle()
                 .WithArguments(levelSettings);
             Container.BindInstance(backgroundController);
+
+            Container.BindFactory<GoodItem, GoodItem.Factory>().FromComponentInNewPrefab(goodItemPrefab);
         }
     }
 }
