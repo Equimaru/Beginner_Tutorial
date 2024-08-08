@@ -17,7 +17,7 @@ namespace Catch
 
         private RandomGenerator _randomGenerator;
 
-        [SerializeField] private List<FallingItemFactory> fallingItemFactory;
+        [SerializeField] private List<FallingItemFactoryOld> fallingItemFactory;
         private List<GameObject> _fallingItemList = new List<GameObject>();
 
         private Vector2 _screenSize;
@@ -38,17 +38,12 @@ namespace Catch
 
         private Coroutine _spawnCoroutine;
 
-        private GoodItem.Factory _goodItemFactory;
+        private FactoriesController _factoriesController;
 
         [Inject]
-        public void Inject(GoodItem.Factory goodItemFactory)
+        public void Inject(FactoriesController factoriesController)
         {
-            _goodItemFactory = goodItemFactory;
-        }
-
-        public void Init(float goodItemSpawnChance, float badItemSpawnChance)
-        {
-            _randomGenerator = new RandomGenerator(new int[] {0, 1}, new float[] {goodItemSpawnChance, badItemSpawnChance});
+            _factoriesController = factoriesController;
         }
 
         private async void AsyncSpawn()
@@ -114,13 +109,8 @@ namespace Catch
 
         private void SpawnDroppable()
         {
-            float defaultSpawnHeight = 7f;
-            int factoryInUse = _randomGenerator.GetRandomResult();
-
-            var fallingItem = _goodItemFactory.Create();
-            fallingItem.transform.position = new Vector3(GetRandomXPos(), defaultSpawnHeight, 0);
+            var fallingItem = _factoriesController.CreateFallingItem();
             _fallingItemList.Add(fallingItem.gameObject);
-            //var fallingItem = fallingItemFactory[factoryInUse].CreateFallingItem();
             if (fallingItem.Type == ObjectType.Eatable)
             {
                 _goodItemsSpawned++;
@@ -171,19 +161,6 @@ namespace Catch
             {
                 OnAllSpawnedObjectsGone?.Invoke();
             }
-        }
-        
-        protected float GetRandomXPos()
-        {
-            float gapAtBorder = 1f;
-            if (Camera.main != null)
-            {
-                Vector2 screenSize = Camera.main.ScreenToWorldPoint(new Vector2(Screen.width, Screen.height));
-                float randomX = Random.Range(screenSize.x * -1 + gapAtBorder, screenSize.x - gapAtBorder);
-                return randomX;
-            }
-            Debug.LogError("There is no camera in scene.");
-            return 0f;
         }
     }
 }

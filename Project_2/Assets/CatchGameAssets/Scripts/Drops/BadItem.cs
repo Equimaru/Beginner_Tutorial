@@ -1,4 +1,6 @@
-﻿namespace Catch
+﻿using Zenject;
+
+namespace Catch
 {
     public class BadItem : FallingItem
     {
@@ -12,6 +14,11 @@
         protected override void OnDrop()
         {
             OnDropped?.Invoke(this);
+        }
+        
+        public class Factory : PlaceholderFactory<UnityEngine.Object, BadItem>
+        {
+            
         }
     }
 }

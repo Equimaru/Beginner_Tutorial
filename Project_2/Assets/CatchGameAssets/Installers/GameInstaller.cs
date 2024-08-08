@@ -30,7 +30,8 @@ namespace Installers
         [SerializeField] private InGameMenuManagerView inGameMenuManagerView;
 
         [Header("Factories")] 
-        [SerializeField] private GameObject goodItemPrefab;
+        [SerializeField] private List<GameObject> goodItemPrefabs;
+        [SerializeField] private List<GameObject> badItemPrefabs;
         
         public override void InstallBindings()
         {
@@ -53,7 +54,15 @@ namespace Installers
                 .WithArguments(levelSettings);
             Container.BindInstance(backgroundController);
 
-            Container.BindFactory<GoodItem, GoodItem.Factory>().FromComponentInNewPrefab(goodItemPrefab);
+            Container.BindFactory<UnityEngine.Object, GoodItem, GoodItem.Factory>().FromFactory<GoodItemFactory>();
+            Container.BindFactory<UnityEngine.Object, BadItem, BadItem.Factory>().FromFactory<BadItemFactory>();
+            Container.Bind<GoodItemFactorySettings>()
+                .AsSingle()
+                .WithArguments(goodItemPrefabs);
+            Container.Bind<BadItemFactorySettings>()
+                .AsSingle()
+                .WithArguments(badItemPrefabs);
+            Container.BindInterfacesAndSelfTo<FactoriesController>().AsSingle();
         }
     }
 }

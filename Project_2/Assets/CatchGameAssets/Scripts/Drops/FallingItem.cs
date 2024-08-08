@@ -1,6 +1,7 @@
 using System;
 using DG.Tweening;
 using UnityEngine;
+using Zenject;
 
 namespace Catch
 {
@@ -10,6 +11,11 @@ namespace Catch
         public Action<FallingItem> OnDropped;
 
         public abstract ObjectType Type { get; }
+
+        public class Factory : PlaceholderFactory<UnityEngine.Object, FallingItem>
+        {
+            
+        }
 
         protected virtual void Start()
         {

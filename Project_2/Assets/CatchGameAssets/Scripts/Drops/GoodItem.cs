@@ -24,7 +24,7 @@ namespace Catch
             OnDropped?.Invoke(this);
         }
 
-        public class Factory : PlaceholderFactory<GoodItem>
+        public class Factory : PlaceholderFactory<UnityEngine.Object, GoodItem>
         {
             
         }

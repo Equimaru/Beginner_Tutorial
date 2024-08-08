@@ -96,7 +96,6 @@ namespace Catch
         {
             _healthSystem.Init(health);
             _playerController.Init(_playerInputActions, playerSpeed);
-            _spawnSystem.Init(goodItemSpawnChance, badItemSpawnChance);
             _levelController.Init(_playerSaveSystem.GetCurrentLevel());
             
             _backgroundController.ChangeBackground();

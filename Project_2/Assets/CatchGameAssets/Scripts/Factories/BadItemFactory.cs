@@ -1,16 +1,27 @@
-using System.Collections.Generic;
-using Catch;
 using UnityEngine;
+using Zenject;
 
-public class BadItemFactory : FallingItemFactory
+namespace Catch
 {
-    [SerializeField] private List<FallingItem> badItemsPrefabs;
-        
-    public override FallingItem CreateFallingItem()
+    public class BadItemFactory : FallingItemFactory, IFactory<UnityEngine.Object, BadItem>
     {
-        int prefabInUse = Random.Range(0, badItemsPrefabs.Count);
-        Vector3 pos = transform.position;
-        var newItem = Instantiate(badItemsPrefabs[prefabInUse], new Vector3(GetRandomXPos(), pos.y, pos.z), Quaternion.identity);
-        return newItem;
+        private BadItemFactorySettings _badItemFactorySettings;
+        
+        private DiContainer _container;
+
+        public BadItemFactory(DiContainer container, BadItemFactorySettings badItemFactorySettings)
+        {
+            _container = container;
+            _badItemFactorySettings = badItemFactorySettings;
+        }
+        
+        public BadItem Create(UnityEngine.Object prefab)
+        {
+            float defaultSpawnHeight = 7f;
+            
+            var newItem = _container.InstantiatePrefabForComponent<BadItem>(prefab);
+            newItem.gameObject.transform.position = new Vector3(GetRandomXPos(), defaultSpawnHeight, 0);
+            return newItem;
+        }
     }
 }

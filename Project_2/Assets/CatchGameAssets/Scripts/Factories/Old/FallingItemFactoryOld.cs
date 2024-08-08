@@ -2,10 +2,13 @@ using UnityEngine;
 
 namespace Catch
 {
-    public abstract class FallingItemFactory
+    public abstract class FallingItemFactoryOld : MonoBehaviour
     {
-        protected virtual float GetRandomXPos()
+        public abstract FallingItem CreateFallingItem();
+
+        protected float GetRandomXPos()
         {
+            Vector3 position = transform.position;
             float gapAtBorder = 1f;
             if (Camera.main != null)
             {
