@@ -32,6 +32,9 @@ namespace Installers
         [Header("Factories")] 
         [SerializeField] private List<GameObject> goodItemPrefabs;
         [SerializeField] private List<GameObject> badItemPrefabs;
+
+        [Header("ItemDB")] 
+        [SerializeField] private List<InventoryItem> itemDB;
         
         public override void InstallBindings()
         {
@@ -62,6 +65,9 @@ namespace Installers
             Container.Bind<BadItemFactorySettings>()
                 .AsSingle()
                 .WithArguments(badItemPrefabs);
+            Container.Bind<ItemSystem>()
+                .AsSingle()
+                .WithArguments(itemDB);
         }
     }
 }

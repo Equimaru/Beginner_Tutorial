@@ -8,6 +8,16 @@ namespace Catch
         public int CurrentLevel { get; private set; }
         public int MoneyAmount { get; private set; }
         public bool HasAmulet { get; private set; }
+        
+        private string _coinID = "coin";
+        private string _amuletID = "amulet";
+
+        private ItemSystem _itemSystem;
+
+        public PlayerSaveSystem(ItemSystem itemSystem)
+        {
+            _itemSystem = itemSystem;
+        }
 
 
         public void Init(bool isCustomSettingsInUse, int customLevel, int customCurrency)
@@ -42,24 +52,18 @@ namespace Catch
 
         public void AddMoneyAmount(int moneyAmountToAdd)
         {
-            MoneyAmount += moneyAmountToAdd;
+            
+            _itemSystem.AddItemInInventory(_coinID, moneyAmountToAdd);
         }
 
         public bool CheckForEnoughMoneyAmount(int moneyInNeed)
         {
-            if (MoneyAmount >= moneyInNeed)
-            {
-                MoneyAmount -= moneyInNeed;
-                return true;
-            }
-            
-            Debug.Log("Not enough money!");
-            return false;
+            return _itemSystem.TryUseItem(_coinID, moneyInNeed);
         }
 
         public int GetMoneyAmount()
         {
-            return MoneyAmount;
+            return _itemSystem.GetItemQuantity(_coinID);
         }
 
         #endregion
@@ -69,22 +73,18 @@ namespace Catch
         
         public bool TryAddAmuletToPocket()
         {
-            if (HasAmulet) return false;
-            else
+            if (_itemSystem.GetItemQuantity(_amuletID) < 1)
             {
-                HasAmulet = true;
+                _itemSystem.AddItemInInventory(_amuletID);
                 return true;
             }
+            
+            return false;
         }
 
         public bool TryUseAmuletFromPocket()
         {
-            if (HasAmulet)
-            {
-                HasAmulet = false;
-                return true;
-            }
-            else return false;
+            return _itemSystem.TryUseItem(_amuletID, 1);
         }
         
         #endregion
