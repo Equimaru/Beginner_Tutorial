@@ -3,11 +3,11 @@ using Zenject;
 
 namespace Catch
 {
-    public class BadItemFactory : FallingItemFactory, IFactory<UnityEngine.Object, BadItem>
+    public class BadItemFactory : IFactory<Transform, Vector3, BadItem>
     {
-        private BadItemFactorySettings _badItemFactorySettings;
+        private readonly BadItemFactorySettings _badItemFactorySettings;
         
-        private DiContainer _container;
+        private readonly DiContainer _container;
 
         public BadItemFactory(DiContainer container, BadItemFactorySettings badItemFactorySettings)
         {
@@ -15,13 +15,10 @@ namespace Catch
             _badItemFactorySettings = badItemFactorySettings;
         }
         
-        public BadItem Create(UnityEngine.Object prefab)
+        public BadItem Create(Transform parentTransform, Vector3 pos)
         {
-            float defaultSpawnHeight = 7f;
-            
-            var newItem = _container.InstantiatePrefabForComponent<BadItem>(prefab);
-            newItem.gameObject.transform.position = new Vector3(GetRandomXPos(), defaultSpawnHeight, 0);
-            return newItem;
+            int badItemPrefabInUse = Random.Range(0, _badItemFactorySettings.badItemPrefabs.Count);
+            return _container.InstantiatePrefabForComponent<BadItem>(_badItemFactorySettings.badItemPrefabs[badItemPrefabInUse], pos, Quaternion.identity, parentTransform);
         }
     }
 }

@@ -54,15 +54,14 @@ namespace Installers
                 .WithArguments(levelSettings);
             Container.BindInstance(backgroundController);
 
-            Container.BindFactory<UnityEngine.Object, GoodItem, GoodItem.Factory>().FromFactory<GoodItemFactory>();
-            Container.BindFactory<UnityEngine.Object, BadItem, BadItem.Factory>().FromFactory<BadItemFactory>();
+            Container.BindFactory<Transform, Vector3, GoodItem, GoodItem.Factory>().FromFactory<GoodItemFactory>();
+            Container.BindFactory<Transform, Vector3, BadItem, BadItem.Factory>().FromFactory<BadItemFactory>();
             Container.Bind<GoodItemFactorySettings>()
                 .AsSingle()
                 .WithArguments(goodItemPrefabs);
             Container.Bind<BadItemFactorySettings>()
                 .AsSingle()
                 .WithArguments(badItemPrefabs);
-            Container.BindInterfacesAndSelfTo<FactoriesController>().AsSingle();
         }
     }
 }

@@ -1,8 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Numerics;
-using System.Threading.Tasks;
 using UnityEngine;
 using Zenject;
 using Random = UnityEngine.Random;
@@ -16,8 +14,9 @@ namespace Catch
         public Action OnAllSpawnedObjectsGone;
 
         private RandomGenerator _randomGenerator;
+        [Inject] private readonly GoodItem.Factory _goodItemFactory;
+        [Inject] private readonly BadItem.Factory _badItemFactory;
 
-        [SerializeField] private List<FallingItemFactoryOld> fallingItemFactory;
         private List<GameObject> _fallingItemList = new List<GameObject>();
 
         private Vector2 _screenSize;
@@ -38,32 +37,11 @@ namespace Catch
 
         private Coroutine _spawnCoroutine;
 
-        private FactoriesController _factoriesController;
-
-        [Inject]
-        public void Inject(FactoriesController factoriesController)
+        public void Init(float goodItemSpawnChance, float badItemSpawnChance)
         {
-            _factoriesController = factoriesController;
+            _randomGenerator = new RandomGenerator(new int[] {0, 1}, new float[] {goodItemSpawnChance, badItemSpawnChance});
         }
 
-        private async void AsyncSpawn()
-        {
-            while (!gameOver)
-            {
-                await Task.Delay(2000);
-
-                if (_goodItemsSpawned < _goodItemsToSpawn)
-                {
-                    SpawnDroppable();
-                    
-                    var timeToWait = Random.Range(_minSpawnTime, _maxSpawnTime);
-                    await Task.Delay((int) (timeToWait * 1000f));
-                }
-
-                await Task.Yield();
-            }
-        }
-        
         private IEnumerator Spawn()
         {
             float waitTime = 1f;
@@ -103,13 +81,23 @@ namespace Catch
 
             gameOver = false;
             _spawnCoroutine = StartCoroutine(Spawn());
-            
-            //AsyncSpawn();
         }
 
         private void SpawnDroppable()
         {
-            var fallingItem = _factoriesController.CreateFallingItem();
+            int factoryInUse = _randomGenerator.GetRandomResult();
+            float defaultSpawnHeight = 7f;
+            FallingItem fallingItem;
+            
+            if (factoryInUse == 0)
+            {
+                fallingItem = _goodItemFactory.Create(transform, new Vector3(GetRandomXPos(), defaultSpawnHeight, 0));
+            }
+            else
+            {
+                fallingItem = _badItemFactory.Create(transform, new Vector3(GetRandomXPos(), defaultSpawnHeight, 0));
+            }
+            
             _fallingItemList.Add(fallingItem.gameObject);
             if (fallingItem.Type == ObjectType.Eatable)
             {
@@ -153,6 +141,19 @@ namespace Catch
                 _goodItemsCatchOrDropped++;
                 CheckForAllItemsGone();
             }
+        }
+        
+        private float GetRandomXPos()
+        {
+            float gapAtBorder = 1f;
+            if (Camera.main != null)
+            {
+                Vector2 screenSize = Camera.main.ScreenToWorldPoint(new Vector2(Screen.width, Screen.height));
+                float randomX = Random.Range(screenSize.x * -1 + gapAtBorder, screenSize.x - gapAtBorder);
+                return randomX;
+            }
+            Debug.LogError("There is no camera in scene.");
+            return 0f;
         }
 
         private void CheckForAllItemsGone()

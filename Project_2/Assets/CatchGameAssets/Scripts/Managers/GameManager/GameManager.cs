@@ -95,6 +95,7 @@ namespace Catch
         private void InitAll()
         {
             _healthSystem.Init(health);
+            _spawnSystem.Init(goodItemSpawnChance, badItemSpawnChance);
             _playerController.Init(_playerInputActions, playerSpeed);
             _levelController.Init(_playerSaveSystem.GetCurrentLevel());
             

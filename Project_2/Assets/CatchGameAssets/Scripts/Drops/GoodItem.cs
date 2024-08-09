@@ -5,15 +5,8 @@ namespace Catch
 {
     public class GoodItem : FallingItem
     {
-        private Vector3 _startPos;
-        
         public override ObjectType Type => ObjectType.Eatable;
 
-        public void Awake()
-        {
-            transform.position = _startPos;
-        }
-        
         protected override void OnCatch()
         {
             OnCaught?.Invoke(this);
@@ -24,7 +17,7 @@ namespace Catch
             OnDropped?.Invoke(this);
         }
 
-        public class Factory : PlaceholderFactory<UnityEngine.Object, GoodItem>
+        public class Factory : PlaceholderFactory<Transform, Vector3, GoodItem>
         {
             
         }

@@ -1,4 +1,5 @@
-﻿using Zenject;
+﻿using UnityEngine;
+using Zenject;
 
 namespace Catch
 {
@@ -16,7 +17,7 @@ namespace Catch
             OnDropped?.Invoke(this);
         }
         
-        public class Factory : PlaceholderFactory<UnityEngine.Object, BadItem>
+        public class Factory : PlaceholderFactory<Transform, Vector3, BadItem>
         {
             
         }

@@ -618,8 +618,13 @@ MonoBehaviour:
   - {fileID: 11400000, guid: ed5e54e7c0ec4ae49826be34b9e5dd02, type: 2}
   - {fileID: 11400000, guid: e8453da8235d95e4083007f3d65f0bc9, type: 2}
   inGameMenuManagerView: {fileID: 529800666}
-  goodItemPrefab: {fileID: 6310172772446202864, guid: eec7392979c65124e94dd5640c02871a,
-    type: 3}
+  goodItemPrefabs:
+  - {fileID: 6310172772446202864, guid: eec7392979c65124e94dd5640c02871a, type: 3}
+  - {fileID: 1804949551093140491, guid: a18b00fa724c9fe4e99666a5cd86f9d1, type: 3}
+  - {fileID: 1676867823990645749, guid: 4048d5e9da3045341a964ae2b287b25f, type: 3}
+  - {fileID: 8651174735817193894, guid: 6b590f5cf3d0ea0468a97f41bd74079c, type: 3}
+  badItemPrefabs:
+  - {fileID: 3292691234626318383, guid: 657571b103b39c544b0921b6239a8c79, type: 3}
 --- !u!1 &467004307
 GameObject:
   m_ObjectHideFlags: 0
@@ -2239,9 +2244,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18537a5d4b79be14fbc1dfcb8226ff4f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fallingItemFactory:
-  - {fileID: 1790549694}
-  - {fileID: 1790549691}
   gameOver: 0
 --- !u!1 &1312435032
 GameObject:
